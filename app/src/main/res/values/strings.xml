@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Jobify</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello login fragment</string>
+    <string name="title_activity_map">MapActivity</string>
+</resources>
