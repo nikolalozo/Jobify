@@ -99,11 +99,9 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-                            db.child("users").child(currentUser.getUid()).setValue(user);
-                            db.child("users").child(currentUser.getUid()).child("connections").child("bla").setValue("blu");
+                            db.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).setValue(user);
                             Toast.makeText(RegisterActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
+                            Intent i = new Intent(RegisterActivity.this, MapActivity.class);
                             startActivity(i);
                         } else {
                             Toast.makeText(RegisterActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UsersData {
-    public ArrayList<User> users = new ArrayList<User>();
+    public ArrayList<User> users;
     public ArrayList<User> userConnections = new ArrayList<User>();
     public HashMap<String, Location> userLocations = new HashMap<String, Location>();
     public HashMap<String,Bitmap> connectionPics = new HashMap<>();
@@ -44,46 +44,6 @@ public class UsersData {
     ValueEventListener parentEventListener=new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    };
-
-    ChildEventListener childEventListener=new ChildEventListener() {
-        @Override
-        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            String id = dataSnapshot.getKey();
-            User user = dataSnapshot.getValue(User.class);
-            user.uID = id;
-            if(id.equals(mFirebaseAuth.getCurrentUser().getUid())){
-                currentUser = user;
-            }
-            users.add(0,user);
-        }
-
-        @Override
-        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            String id = dataSnapshot.getKey();
-            User user = dataSnapshot.getValue(User.class);
-            user.uID = id;
-            for(int i=0;i<users.size();i++){
-                if(users.get(i).uID.equals(id)) {
-                    users.set(i,user);
-                }
-            }
-        }
-
-        @Override
-        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
         }
 
@@ -151,11 +111,11 @@ public class UsersData {
     }
 
     public HashMap<String, Location> getConnectionsLocations(){
-        HashMap<String, Location> retMap = new HashMap<>();
+        HashMap<String, Location> conLoc = new HashMap<>();
         for(int i=0;i<userConnections.size();i++){
-            retMap.put(userConnections.get(i).uID,userLocations.get(userConnections.get(i).uID));
+            conLoc.put(userConnections.get(i).uID,userLocations.get(userConnections.get(i).uID));
         }
-        return retMap;
+        return conLoc;
     }
 
     public User getConnection(String friendId) {
