@@ -165,6 +165,5 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     public void showMyConnections() {
-        ArrayList<User> cons = UsersData.getInstance().
     }
 }
