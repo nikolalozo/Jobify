@@ -18,6 +18,8 @@ public class User implements Serializable {
     public String profession;
     public int jobsPosted;
     public int jobsDone;
+    public double lat;
+    public double lng;
     public HashMap<String, String> connections;
 
     public User() {
@@ -34,6 +36,8 @@ public class User implements Serializable {
         this.connections=new HashMap<String, String>();
         jobsPosted=0;
         jobsDone=0;
+        lat=0;
+        lng=0;
     }
 
     public String fullName(){

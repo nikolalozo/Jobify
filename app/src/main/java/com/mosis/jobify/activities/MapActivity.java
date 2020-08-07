@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,10 +30,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.UsersData;
+import com.mosis.jobify.models.User;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -40,34 +47,29 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    private Location lastLocation;
+    private Location latestLocation;
     private Marker currentUserLocationMarker;
     private static final int REQUEST_USER_LOCATION_CODE = 99;
+    private DatabaseReference db;
+    private FirebaseAuth mFirebaseAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        db = FirebaseDatabase.getInstance().getReference();
+        mFirebaseAuth=FirebaseAuth.getInstance();
+
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
         {
             checkUserLocationPermission();
         }
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -76,6 +78,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
+
+            LatLng latLng = new LatLng(43.321443, 21.895592);
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("User current location");
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            currentUserLocationMarker = mMap.addMarker(markerOptions);
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         }
     }
 
@@ -124,34 +137,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-        lastLocation=location;
-
-        if(currentUserLocationMarker!=null) {
-            currentUserLocationMarker.remove();
-        }
-
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("User current location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-        currentUserLocationMarker = mMap.addMarker(markerOptions);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
-
-        if(googleApiClient!=null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
-        }
-
+        latestLocation=location;
+        db.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("lat").setValue(location.getLatitude());
+        db.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("lng").setValue(location.getLongitude());
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(1100);
+        locationRequest.setInterval(1000*60*2);
         locationRequest.setFastestInterval(1100);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
@@ -168,5 +162,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void showMyConnections() {
     }
 }

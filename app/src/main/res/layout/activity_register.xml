@@ -7,30 +7,17 @@
     tools:context=".activities.RegisterActivity">
 
     <EditText
-        android:id="@+id/edtTxtPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/edtTxtEmail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edtTxtEmail"
-        app:layout_constraintTop_toBottomOf="@+id/etLastName" />
-
-    <EditText
         android:id="@+id/edtTxtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/etFirstName"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/etFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
+        app:layout_constraintEnd_toEndOf="@+id/etLastName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etLastName"
+        app:layout_constraintTop_toBottomOf="@+id/etLastName" />
 
     <TextView
         android:id="@+id/tvSignIn"
@@ -46,11 +33,10 @@
         android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="48dp"
         android:text="Sign up"
-        app:layout_constraintEnd_toEndOf="@+id/edtTxtPassword"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/edtTxtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etConfirm"
+        app:layout_constraintStart_toStartOf="@+id/etConfirm"
         app:layout_constraintTop_toBottomOf="@+id/etConfirm" />
 
     <EditText
@@ -69,20 +55,20 @@
         android:id="@+id/etLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
         android:hint="Last Name"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/edtTxtEmail"
+        app:layout_constraintEnd_toEndOf="@+id/etFirstName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edtTxtEmail"
-        app:layout_constraintTop_toBottomOf="@+id/edtTxtEmail" />
+        app:layout_constraintStart_toStartOf="@+id/etFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
 
     <EditText
         android:id="@+id/etConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="Confirm password"
         android:inputType="textPassword"
@@ -90,5 +76,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/edtTxtPassword"
         app:layout_constraintTop_toBottomOf="@+id/edtTxtPassword" />
+
+    <EditText
+        android:id="@+id/edtTxtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edtTxtEmail"
+        app:layout_constraintStart_toStartOf="@+id/edtTxtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtTxtEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
