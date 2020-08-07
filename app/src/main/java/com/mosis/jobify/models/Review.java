@@ -11,8 +11,7 @@ public class Review implements Serializable {
     public String key;
     public int mark;
     public String comment;
-    public String idReviewer;
-    public String idReviewed;
+    public String idJob;
 
     public Review() {
         mark=0;
@@ -27,19 +26,11 @@ public class Review implements Serializable {
         this.mark = mark;
     }
 
-    public String getIdReviewed() {
-        return idReviewed;
+    public String getIdJob() {
+        return idJob;
     }
 
-    public void setIdReviewed(String id) {
-        this.idReviewed=id;
-    }
-
-    public String getIdReviewer() {
-        return idReviewer;
-    }
-
-    public void setIdReviewer(String id) {
-        this.idReviewer = id;
+    public void setIdJob(String id) {
+        this.idJob=id;
     }
 }

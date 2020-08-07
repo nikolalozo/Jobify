@@ -19,7 +19,7 @@ public class JobsData {
 
     public JobsData() {
         this.jobs=new ArrayList<Job>();
-        db= FirebaseDatabase.getInstance().getReference();
+        db = FirebaseDatabase.getInstance().getReference();
         addListeners();
     }
 
