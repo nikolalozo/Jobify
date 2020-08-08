@@ -39,6 +39,7 @@ public class UsersData {
         db = FirebaseDatabase.getInstance().getReference();
         st = FirebaseStorage.getInstance().getReference();
         db.child("users").addListenerForSingleValueEvent(parentEventListener);
+        db.child("users").addChildEventListener(childEventListener);
     }
 
     ValueEventListener parentEventListener=new ValueEventListener() {
@@ -53,17 +54,28 @@ public class UsersData {
         }
     };
 
-    ChildEventListener childEventListenerLoc=new ChildEventListener() {
+        ChildEventListener childEventListener=new ChildEventListener() { ///////// PROBAJ DA LI UZIMA IZ BAZE KAD NEMA KONEKCIJE
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            if(!dataSnapshot.getKey().equals(mFirebaseAuth.getCurrentUser().getUid())){
-                userLocations.put(dataSnapshot.getKey(),dataSnapshot.getValue(Location.class));
+            String id = dataSnapshot.getKey();
+            User user = dataSnapshot.getValue(User.class);
+            user.uID = id;
+            if(id.equals(mFirebaseAuth.getCurrentUser().getUid())){
+                currentUser = user;
             }
+            users.add(0,user);
         }
 
         @Override
         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+            String id = dataSnapshot.getKey();
+            User user = dataSnapshot.getValue(User.class);
+            user.uID = id;
+            for(int i=0;i<users.size();i++){
+                if(users.get(i).uID.equals(id)) {
+                    users.set(i,user);
+                }
+            }
         }
 
         @Override
@@ -82,19 +94,15 @@ public class UsersData {
         }
     };
 
-
-
-
     public ArrayList<User> getUserConnections() {
-        ArrayList<User> connections = new ArrayList<User>();
+        ArrayList<User> arr = new ArrayList<User>();
         for (int i = 0; i < users.size(); i++) {
-            if (currentUser.connections.containsValue(users.get(i).uID)) {
-                connections.add(users.get(i));
+            if (currentUser.connections.contains(users.get(i).uID)) {
+                arr.add(users.get(i));
             }
         }
 
-        userConnections = connections;
-        db.child("locations").addChildEventListener(childEventListenerLoc);
+        userConnections = arr;
         for (int i = 0; i < userConnections.size(); i++) {
             final String id = userConnections.get(i).uID;
             st.child("users").child(id).child("profile").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
@@ -107,15 +115,7 @@ public class UsersData {
                 }
             });
         }
-        return connections;
-    }
-
-    public HashMap<String, Location> getConnectionsLocations(){
-        HashMap<String, Location> conLoc = new HashMap<>();
-        for(int i=0;i<userConnections.size();i++){
-            conLoc.put(userConnections.get(i).uID,userLocations.get(userConnections.get(i).uID));
-        }
-        return conLoc;
+        return arr;
     }
 
     public User getConnection(String friendId) {

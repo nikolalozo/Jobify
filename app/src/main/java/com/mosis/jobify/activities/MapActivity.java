@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -89,6 +90,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             currentUserLocationMarker = mMap.addMarker(markerOptions);
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+            showMyConnections();
         }
     }
 
@@ -165,5 +168,31 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     public void showMyConnections() {
+        ArrayList<User> cons = new ArrayList<>();
+        ArrayList<User> users = UsersData.getInstance().users;
+        User currentUser = UsersData.getInstance().currentUser;
+        for(int i=0;i<users.size();i++){
+            if(currentUser.connections.contains(users.get(i).uID)){
+                cons.add(users.get(i));
+                Toast.makeText(this, users.get(i).firstName, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+        for(int i=0; i<cons.size(); i++) {
+            User con = cons.get(i);
+            double lat = con.lat;
+            double lng = con.lng;
+            LatLng latLng = new LatLng(lat, lng);
+            String name = con.firstName;
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title(name);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            currentUserLocationMarker = mMap.addMarker(markerOptions);
+        }
     }
 }
