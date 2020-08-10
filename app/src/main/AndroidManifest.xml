@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.JobsActivity"></activity>
+        <activity android:name=".JobssActivity" />
         <activity android:name=".activities.RatingsActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <!--
