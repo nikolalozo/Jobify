@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mosis.jobify.JobssActivity;
+import com.mosis.jobify.JobActivity;
 import com.mosis.jobify.R;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -35,7 +35,11 @@ public class ProfileActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.job:
-                        startActivity(new Intent(getApplicationContext(), JobssActivity.class));
+                        startActivity(new Intent(getApplicationContext(), JobActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.new_job:
+                        startActivity(new Intent(getApplicationContext(), NewJobActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }

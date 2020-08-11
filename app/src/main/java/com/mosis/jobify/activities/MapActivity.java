@@ -32,7 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mosis.jobify.JobssActivity;
+import com.mosis.jobify.JobActivity;
 import com.mosis.jobify.R;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -66,7 +66,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                       overridePendingTransition(0, 0);
                       return true;
                   case R.id.job:
-                      startActivity(new Intent(getApplicationContext(), JobssActivity.class));
+                      startActivity(new Intent(getApplicationContext(), JobActivity.class));
+                      overridePendingTransition(0, 0);
+                      return true;
+                  case R.id.new_job:
+                      startActivity(new Intent(getApplicationContext(), NewJobActivity.class));
                       overridePendingTransition(0, 0);
                       return true;
               }

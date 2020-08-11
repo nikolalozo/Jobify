@@ -14,7 +14,7 @@ import com.mosis.jobify.activities.MapActivity;
 import com.mosis.jobify.activities.ProfileActivity;
 import com.mosis.jobify.activities.RatingsActivity;
 
-public class JobssActivity extends AppCompatActivity {
+public class JobActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPageAdapter;
@@ -24,7 +24,7 @@ public class JobssActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jobss);
+        setContentView(R.layout.activity_job);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
