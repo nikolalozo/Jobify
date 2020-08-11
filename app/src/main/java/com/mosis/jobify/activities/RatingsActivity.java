@@ -6,18 +6,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mosis.jobify.JobActivity;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.UsersData;
+import com.mosis.jobify.models.User;
 
 public class RatingsActivity extends AppCompatActivity {
+    ListView lista;
+    public ArrayAdapter<User> adapter;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ratings);
-
+        lista = findViewById(R.id.lista);
+        adapter = new ArrayAdapter<User>(this, R.layout.list_item, UsersData.getInstance().users);
+        lista.setAdapter(adapter);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.ratings);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

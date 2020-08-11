@@ -6,17 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mosis.jobify.JobActivity;
 import com.mosis.jobify.R;
 
 public class ProfileActivity extends AppCompatActivity {
-
+    Button btnOff, btnOn, btnSignOut;
+    FirebaseAuth mFirebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        btnOff = findViewById(R.id.btnOff);
+        btnSignOut = findViewById(R.id.btnSignOut);
+        mFirebaseAuth=FirebaseAuth.getInstance();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -44,6 +51,23 @@ public class ProfileActivity extends AppCompatActivity {
                         return true;
                 }
                 return false;
+            }
+        });
+
+        btnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(new Intent(ProfileActivity.this, TrackingService.class));
+            }
+        });
+
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(i);
+                stopService(new Intent(ProfileActivity.this, TrackingService.class));
             }
         });
     }

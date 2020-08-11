@@ -29,6 +29,7 @@ import com.mosis.jobify.R;
 import com.mosis.jobify.models.User;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -94,6 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 user.firstName=first;
                 user.lastName=last;
+                ArrayList<String> arr = new ArrayList<String>();
+                arr.add("UwsBjtcQWZTEnSYl8PMZRT2HvNk1");
+                user.connections=arr;
 
                 mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override

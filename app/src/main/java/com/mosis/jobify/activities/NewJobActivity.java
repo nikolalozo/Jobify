@@ -19,10 +19,16 @@ import android.widget.TimePicker;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.JobActivity;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,6 +43,7 @@ public class NewJobActivity extends AppCompatActivity {
     Button btnShowOnMap;
     Button btnNext;
     EditText etJobTitle, etJobPay;
+    TextView tvAddress;
     Job job;
 
     @Override
@@ -44,11 +51,24 @@ public class NewJobActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_job);
         openDialog();
+        mFirebaseAuth=FirebaseAuth.getInstance();
         etJobTitle = findViewById(R.id.etJobTitle);
         etJobPay = findViewById(R.id.etPay);
         btnShowOnMap = findViewById(R.id.btnShowOnMap);
         btnNext = findViewById(R.id.btnNext);
+        tvAddress = findViewById(R.id.tvAddressBorder);
+
         job = new Job();
+
+//        ArrayList<User> users = UsersData.getInstance().users;
+//        for(int i=0; i<users.size();i++) {
+//            if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
+//                job.setLatitude(users.get(i).getLat());
+//                job.setLongitude(users.get(i).getLng());
+//                tvAddress.setText("lat:" + job.getLatitude() + "lon" + job.getLongitude());
+//            }
+//        }
+
         btnShowOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

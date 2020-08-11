@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -20,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.JobsData;
+import com.mosis.jobify.data.UsersData;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,19 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         tvSignUp = findViewById(R.id.tvSignUp);
         JobsData.getInstance().init();
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(mFirebaseUser != null) {
-                    Toast.makeText(LoginActivity.this, "You are logged in.", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(i);
-                }
-            }
-        };
-
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(LoginActivity.this, "Couldn't login, please try again.", Toast.LENGTH_SHORT).show();
                             } else {
+                                startService(new Intent(LoginActivity.this, TrackingService.class));
                                 Intent i = new Intent(LoginActivity.this, MapActivity.class);
                                 startActivity(i);
                             }
@@ -138,5 +130,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        UsersData.getInstance().init();
+        FirebaseUser user=mFirebaseAuth.getCurrentUser();
+        if(user!=null){
+            startService(new Intent(LoginActivity.this, TrackingService.class));
+            Intent i = new Intent(LoginActivity.this, MapActivity.class);
+            startActivity(i);
+        }
     }
 }

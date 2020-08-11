@@ -2,6 +2,8 @@ package com.mosis.jobify.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,9 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mosis.jobify.R;
+import com.mosis.jobify.activities.RatingsActivity;
 import com.mosis.jobify.models.User;
 import com.mosis.jobify.models.Location;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,69 +37,42 @@ public class UsersData {
     private DatabaseReference db;
     private FirebaseAuth mFirebaseAuth;
     private StorageReference st;
+    public ArrayList<String> list;
 
     public UsersData() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         this.users = new ArrayList<User>();
-        db = FirebaseDatabase.getInstance().getReference();
-        st = FirebaseStorage.getInstance().getReference();
-        db.child("users").addListenerForSingleValueEvent(parentEventListener);
-    }
+        list = new ArrayList<>();
+        db = FirebaseDatabase.getInstance().getReference().child("users");
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
+                for(DataSnapshot snap : snapshot.getChildren()) {
+                    User user = snap.getValue(User.class);
+                    users.add(0, user);
+                }
 
-    ValueEventListener parentEventListener=new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    };
-
-    ChildEventListener childEventListenerLoc=new ChildEventListener() {
-        @Override
-        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            if(!dataSnapshot.getKey().equals(mFirebaseAuth.getCurrentUser().getUid())){
-                userLocations.put(dataSnapshot.getKey(),dataSnapshot.getValue(Location.class));
             }
-        }
 
-        @Override
-        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        }
+            }
+        });
 
-        @Override
-        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    };
-
-
+    }
 
 
     public ArrayList<User> getUserConnections() {
-        ArrayList<User> connections = new ArrayList<User>();
+        ArrayList<User> arr = new ArrayList<User>();
         for (int i = 0; i < users.size(); i++) {
-            if (currentUser.connections.containsValue(users.get(i).uID)) {
-                connections.add(users.get(i));
+            if (currentUser.connections.contains(users.get(i).uID)) {
+                arr.add(users.get(i));
             }
         }
 
-        userConnections = connections;
-        db.child("locations").addChildEventListener(childEventListenerLoc);
+        userConnections = arr;
         for (int i = 0; i < userConnections.size(); i++) {
             final String id = userConnections.get(i).uID;
             st.child("users").child(id).child("profile").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
@@ -107,15 +85,7 @@ public class UsersData {
                 }
             });
         }
-        return connections;
-    }
-
-    public HashMap<String, Location> getConnectionsLocations(){
-        HashMap<String, Location> conLoc = new HashMap<>();
-        for(int i=0;i<userConnections.size();i++){
-            conLoc.put(userConnections.get(i).uID,userLocations.get(userConnections.get(i).uID));
-        }
-        return conLoc;
+        return arr;
     }
 
     public User getConnection(String friendId) {
@@ -124,6 +94,10 @@ public class UsersData {
                 return userConnections.get(i);
         }
         return null;
+    }
+
+    public void init() {
+
     }
 
     private  static class SingletonHolder{

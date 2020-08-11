@@ -30,7 +30,6 @@
         <activity
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
@@ -43,6 +42,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <service android:name=".activities.TrackingService" />
     </application>
 
 </manifest>
