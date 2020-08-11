@@ -41,13 +41,17 @@ public class User implements Serializable {
         lng=0;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
     public String fullName(){
         return firstName+" "+lastName;
     }
 
     @Override
     public String toString() {
-        return  firstName + " " + lastName + " " + jobsDone + jobsPosted;
+        return  firstName + " " + lastName + " " + jobsDone + jobsPosted + connections;
     }
 
 
