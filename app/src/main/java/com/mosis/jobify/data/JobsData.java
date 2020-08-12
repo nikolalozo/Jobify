@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
 
 import java.util.ArrayList;
 
@@ -19,63 +20,26 @@ public class JobsData {
 
     public JobsData() {
         this.jobs=new ArrayList<Job>();
-        db = FirebaseDatabase.getInstance().getReference();
-        addListeners();
-    }
-
-
-    public void addListeners() {
-        db.child("jobs").addChildEventListener(new ChildEventListener() {
+        db = FirebaseDatabase.getInstance().getReference().child("jobs");
+        db.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String jobKey = dataSnapshot.getKey();
-                Job newJob = dataSnapshot.getValue(Job.class);
-                newJob.key=jobKey;
-                jobs.add(newJob);
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                String jobKey = dataSnapshot.getKey();
-                Job removedJob = dataSnapshot.getValue(Job.class);
-                removedJob.key=jobKey;
-                for(int i=0; i<jobs.size(); i++) {
-                    if(removedJob.key.equals(jobs.get(i).key)) {
-                        jobs.remove(i);
-                        i--;
-                    }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                jobs.clear();
+                for(DataSnapshot snap : snapshot.getChildren()) {
+                    Job job = snap.getValue(Job.class);
+                    job.key=snap.getKey();
+                    jobs.add(0, job);
                 }
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
-        db.child("jobs").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
+
     public void init(){
 
     }

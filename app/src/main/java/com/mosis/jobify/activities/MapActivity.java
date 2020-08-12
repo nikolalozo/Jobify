@@ -17,20 +17,25 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
+import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     FirebaseAuth mFirebaseAuth;
     public boolean open;
+    ArrayList<Marker> markers = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +84,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
             LatLng latLng = new LatLng(43.321443, 21.895592);
 
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title("User current location");
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-            mMap.addMarker(markerOptions);
-
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
             showMyConnections();
-
-
+            showAllJobs();
         }
 
     @Override
@@ -98,14 +95,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     public void showMyConnections() {
-        ArrayList<User> cons = new ArrayList<>();
-        ArrayList<User> users = UsersData.getInstance().users;
-        //String con = UsersData.getInstance().currentUser.connections.get(0);
-        //Toast.makeText(this, con, Toast.LENGTH_LONG).show();
-
-        /*ArrayList<User> conss = UsersData.getInstance().getUserConnections();
-        for(int i=0; i<cons.size(); i++) {
-            User con = cons.get(i);
+        for(int i=0; i<UsersData.getInstance().getUserConnections().size(); i++) {
+            User con = UsersData.getInstance().getUserConnections().get(i);
             double lat = con.lat;
             double lng = con.lng;
             LatLng latLng = new LatLng(lat, lng);
@@ -117,6 +108,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
             mMap.addMarker(markerOptions);
-        }*/
+        }
+    }
+
+    public void showAllJobs() {
+        for(int i=0; i< JobsData.getInstance().getJobs().size(); i++) {
+            Job job = JobsData.getInstance().getJob(i);
+            double lat = job.latitude;
+            double lng = job.longitude;
+            LatLng latLng = new LatLng(lat, lng);
+            String title = job.title;
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title(title);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+            mMap.addMarker(markerOptions);
+        }
     }
 }

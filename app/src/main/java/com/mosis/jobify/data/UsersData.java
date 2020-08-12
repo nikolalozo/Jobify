@@ -71,24 +71,27 @@ public class UsersData {
 
             }
         });
+    }
 
-        for(int i=0; i<users.size();i++) {
-            if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                currentUser=users.get(i);
+    public User getCurrentUser() {
+        for(int i=0; i<UsersData.getInstance().users.size();i++) {
+            if(UsersData.getInstance().users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                currentUser=UsersData.getInstance().users.get(i);
             }
         }
+        return currentUser;
     }
 
 
     public ArrayList<User> getUserConnections() {
         ArrayList<User> arr = new ArrayList<User>();
         for (int i = 0; i < users.size(); i++) {
-            if (currentUser.connections.contains(users.get(i).uID)) {
+            if (getCurrentUser().connections.contains(users.get(i).uID)) {
                 arr.add(users.get(i));
             }
         }
 
-        userConnections = arr;
+        /*userConnections = arr;
         for (int i = 0; i < userConnections.size(); i++) {
             final String id = userConnections.get(i).uID;
             st.child("users").child(id).child("profile").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
@@ -100,7 +103,7 @@ public class UsersData {
                     connectionPics.put(id, scaledBmp);
                 }
             });
-        }
+        }*/
         return arr;
     }
 

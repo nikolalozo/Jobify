@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             db.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).setValue(user);
                             Toast.makeText(RegisterActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(RegisterActivity.this, MapActivity.class);
+                            Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(i);
                         } else {
                             Toast.makeText(RegisterActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
