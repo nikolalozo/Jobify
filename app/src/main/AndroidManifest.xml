@@ -20,7 +20,7 @@
         <activity
             android:name=".JobActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.RatingsActivity" />
+        <activity android:name=".activities.RankingActivity" />
         <activity android:name=".activities.ProfileActivity" />
 
         <meta-data

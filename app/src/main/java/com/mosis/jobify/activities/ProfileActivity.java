@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.ratings:
-                        startActivity(new Intent(getApplicationContext(), RatingsActivity.class));
+                        startActivity(new Intent(getApplicationContext(), RankingActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.job:
