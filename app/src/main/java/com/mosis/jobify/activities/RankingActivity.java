@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mosis.jobify.JobActivity;
+import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
@@ -50,7 +50,7 @@ public class RankingActivity extends AppCompatActivity {
                     case R.id.ratings:
                         return true;
                     case R.id.job:
-                        startActivity(new Intent(getApplicationContext(), JobActivity.class));
+                        startActivity(new Intent(getApplicationContext(), JobsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.new_job:

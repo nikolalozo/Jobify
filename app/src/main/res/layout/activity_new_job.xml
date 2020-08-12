@@ -123,16 +123,6 @@
         app:layout_constraintStart_toStartOf="@+id/tvJobTitle"
         app:layout_constraintTop_toBottomOf="@id/tvApplyBy" />
 
-    <TextView
-        android:id="@+id/tvUID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Job title"
-        app:layout_constraintTop_toBottomOf="@+id/tvApplyByDate"
-        app:layout_constraintStart_toStartOf="@+id/etJobTitle"
-        />
-
     <Button
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"

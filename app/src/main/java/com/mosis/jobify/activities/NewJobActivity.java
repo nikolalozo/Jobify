@@ -19,16 +19,12 @@ import android.widget.TimePicker;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.mosis.jobify.JobActivity;
+import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,7 +50,6 @@ public class NewJobActivity extends AppCompatActivity {
         etJobTitle = findViewById(R.id.etJobTitle);
         etJobPay = findViewById(R.id.etPay);
         btnNext = findViewById(R.id.btnNext);
-        tvUID = findViewById(R.id.tvUID);
 
         job = new Job();
 
@@ -181,7 +176,7 @@ public class NewJobActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.job:
-                        startActivity(new Intent(getApplicationContext(), JobActivity.class));
+                        startActivity(new Intent(getApplicationContext(), JobsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.new_job:
