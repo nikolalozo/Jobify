@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -44,6 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), JobsActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
+                    case R.id.new_job:
+                        startActivity(new Intent(getApplicationContext(), NewJobActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
                 }
                 return false;
             }
@@ -65,6 +70,5 @@ public class ProfileActivity extends AppCompatActivity {
                 stopService(new Intent(ProfileActivity.this, TrackingService.class));
             }
         });
-
     }
 }

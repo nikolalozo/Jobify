@@ -74,9 +74,18 @@ public class UsersData {
 
         for(int i=0; i<users.size();i++) {
             if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                currentUser=users.get(i);
+                currentUser = users.get(i);
             }
         }
+    }
+
+    public User getCurrentUser() {
+        for(int i=0; i<users.size();i++) {
+            if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                currentUser = users.get(i);
+            }
+        }
+        return currentUser;
     }
 
 

@@ -45,8 +45,26 @@ public class User implements Serializable {
         return firstName;
     }
 
+    public String getuID() { return this.uID; }
+
     public String fullName(){
         return firstName+" "+lastName;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     @Override
