@@ -40,10 +40,9 @@ public class NewJobActivity extends AppCompatActivity {
     private TextView mDisplayApplyByDate;
     private DatePickerDialog.OnDateSetListener mApplyByDateSetListener;
     FirebaseAuth mFirebaseAuth;
-    Button btnShowOnMap;
     Button btnNext;
     EditText etJobTitle, etJobPay;
-    TextView tvAddress;
+    TextView tvUID;
     Job job;
 
     @Override
@@ -54,34 +53,24 @@ public class NewJobActivity extends AppCompatActivity {
         mFirebaseAuth=FirebaseAuth.getInstance();
         etJobTitle = findViewById(R.id.etJobTitle);
         etJobPay = findViewById(R.id.etPay);
-        btnShowOnMap = findViewById(R.id.btnShowOnMap);
         btnNext = findViewById(R.id.btnNext);
-        tvAddress = findViewById(R.id.tvAddressBorder);
+        tvUID = findViewById(R.id.tvUID);
 
         job = new Job();
 
-//        ArrayList<User> users = UsersData.getInstance().users;
-//        for(int i=0; i<users.size();i++) {
-//            if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
-//                job.setLatitude(users.get(i).getLat());
-//                job.setLongitude(users.get(i).getLng());
-//                tvAddress.setText("lat:" + job.getLatitude() + "lon" + job.getLongitude());
-//            }
-//        }
+        User currentUser = UsersData.getInstance().getCurrentUser();
+        job.setLatitude(currentUser.getLat());
+        job.setLongitude(currentUser.getLng());
+        job.setIdPosted(currentUser.getuID());
 
-        btnShowOnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(NewJobActivity.this, MapActivity.class);
-                startActivity(i);
-            }
-        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String jobTitle = etJobTitle.getText().toString();
                 String pay = etJobPay.getText().toString();
+                job.setTitle(jobTitle);
                 int jobPay = Integer.parseInt(pay);
+                job.setWage(jobPay);
                 if (jobTitle.isEmpty()) {
                     etJobTitle.setError("Please enter job title.");
                     return;

@@ -45,6 +45,8 @@ public class User implements Serializable {
         return firstName;
     }
 
+    public String getuID() { return this.uID; }
+
     public String fullName(){
         return firstName+" "+lastName;
     }

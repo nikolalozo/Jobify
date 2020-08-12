@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    User currentUser;
     FirebaseAuth mFirebaseAuth;
     public boolean open;
 
@@ -78,22 +79,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-            mMap = googleMap;
+        mMap = googleMap;
 
-            mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(true);
 
-            LatLng latLng = new LatLng(43.321443, 21.895592);
+        for(int i=0; i<UsersData.getInstance().users.size();i++) {
+            if(UsersData.getInstance().users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                currentUser = UsersData.getInstance().users.get(i);
+            }
+        }
 
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title("User current location");
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        LatLng latLng = new LatLng(43.321443, 21.895592);
 
-            mMap.addMarker(markerOptions);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("User current location");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        mMap.addMarker(markerOptions);
 
-            showMyConnections();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+        showMyConnections();
 
 
         }
