@@ -51,7 +51,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return  firstName + " " + lastName + " " + jobsDone + jobsPosted + connections;
+        return  firstName + " " + lastName + "\nJobs done: " + jobsDone + "\nJobs posted: " + jobsPosted;
     }
 
 

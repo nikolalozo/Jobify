@@ -9,25 +9,29 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
 
-public class RatingsActivity extends AppCompatActivity {
-    ListView lista;
-    public ArrayAdapter<User> adapter;
-    TextView tv;
+public class RankingActivity extends AppCompatActivity {
+    ListView lvDone, lvPosted;
+    public ArrayAdapter<User> adapterDone, adapterPosted;
+    TextView tvDone, tvPosted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ratings);
-        lista = findViewById(R.id.lista);
-        adapter = new ArrayAdapter<User>(this, R.layout.list_item, UsersData.getInstance().users);
-        lista.setAdapter(adapter);
+        setContentView(R.layout.activity_ranking);
+        tvDone = findViewById(R.id.tvDone);
+        tvPosted=findViewById(R.id.tvPosted);
+        lvDone = findViewById(R.id.lvDone);
+        lvPosted= findViewById(R.id.lvPosted);
+        adapterDone = new ArrayAdapter<User>(this, R.layout.list_item, UsersData.getInstance().users);
+        adapterPosted = new ArrayAdapter<User>(this, R.layout.list_item, UsersData.getInstance().usersPosted);
+        lvDone.setAdapter(adapterDone);
+        lvPosted.setAdapter(adapterPosted);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.ratings);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

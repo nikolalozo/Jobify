@@ -8,12 +8,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mosis.jobify.R;
-import com.mosis.jobify.data.UsersData;
 
 public class ProfileActivity extends AppCompatActivity {
     Button btnOff, btnOn, btnSignOut;
@@ -39,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.ratings:
-                        startActivity(new Intent(getApplicationContext(), RatingsActivity.class));
+                        startActivity(new Intent(getApplicationContext(), RankingActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.job:

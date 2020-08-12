@@ -139,8 +139,15 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user=mFirebaseAuth.getCurrentUser();
         if(user!=null){
             startService(new Intent(LoginActivity.this, TrackingService.class));
-            Intent i = new Intent(LoginActivity.this, MapActivity.class);
-            startActivity(i);
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    Intent i = new Intent(LoginActivity.this, MapActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            };
+            Handler handler = new android.os.Handler();
+            handler.postDelayed(runnable, 1500);
         }
     }
 }

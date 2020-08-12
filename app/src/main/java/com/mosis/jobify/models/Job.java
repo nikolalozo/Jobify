@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Job implements Serializable {
 
     enum Status {
-        PUBLISHED,
+        POSTED,
         REQUESTED,
         DONE
     }
@@ -31,7 +31,7 @@ public class Job implements Serializable {
         wage=0;
         longitude=45;
         latitude=23;
-        status=Status.PUBLISHED;
+        status=Status.POSTED;
     }
 
     public Job(String title, int wage, double longitude, double latitude, Status status, String idTaken, String idPosted) {

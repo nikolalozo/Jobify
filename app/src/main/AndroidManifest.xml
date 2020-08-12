@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.JobsActivity"></activity>
-        <activity android:name=".activities.RatingsActivity" />
+        <activity android:name=".activities.RankingActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

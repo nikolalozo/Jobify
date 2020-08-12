@@ -1,39 +1,25 @@
 package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
@@ -62,7 +48,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                       overridePendingTransition(0, 0);
                       return true;
                   case R.id.ratings:
-                      startActivity(new Intent(getApplicationContext(), RatingsActivity.class));
+                      startActivity(new Intent(getApplicationContext(), RankingActivity.class));
                       overridePendingTransition(0, 0);
                       return true;
                   case R.id.job:
@@ -103,7 +89,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
             showMyConnections();
-            
+
 
         }
 
@@ -112,17 +98,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     public void showMyConnections() {
-        /*ArrayList<User> cons = new ArrayList<>();
+        ArrayList<User> cons = new ArrayList<>();
         ArrayList<User> users = UsersData.getInstance().users;
-        User currentUser = new User();
-        for(int i=0; i<users.size();i++) {
-            if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                currentUser=users.get(i);
-            }
-        }
-        Toast.makeText(this, UsersData.getInstance().users.get(0).getFirstName(), Toast.LENGTH_LONG).show();*/
+        //String con = UsersData.getInstance().currentUser.connections.get(0);
+        //Toast.makeText(this, con, Toast.LENGTH_LONG).show();
 
-        /*for(int i=0; i<cons.size(); i++) {
+        /*ArrayList<User> conss = UsersData.getInstance().getUserConnections();
+        for(int i=0; i<cons.size(); i++) {
             User con = cons.get(i);
             double lat = con.lat;
             double lng = con.lng;
