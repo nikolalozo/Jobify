@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.mosis.jobify.activities.MapActivity;
 import com.mosis.jobify.activities.ProfileActivity;
-import com.mosis.jobify.activities.RatingsActivity;
+import com.mosis.jobify.activities.RankingActivity;
 
 public class JobActivity extends AppCompatActivity {
 
