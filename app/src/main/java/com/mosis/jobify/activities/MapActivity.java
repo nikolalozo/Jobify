@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;

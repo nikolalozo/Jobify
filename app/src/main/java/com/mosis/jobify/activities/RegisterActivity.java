@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText emailId, passwd, confirm, firstName, lastName, date;
+    EditText emailId, passwd, confirm, firstName, lastName;
     Button btnSignUp;
     TextView tvSignIn;
     FirebaseAuth mFirebaseAuth;

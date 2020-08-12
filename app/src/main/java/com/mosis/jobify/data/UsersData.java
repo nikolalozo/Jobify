@@ -71,17 +71,17 @@ public class UsersData {
 
             }
         });
+
     }
 
     public User getCurrentUser() {
-        for(int i=0; i<UsersData.getInstance().users.size();i++) {
-            if(UsersData.getInstance().users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
-                currentUser=UsersData.getInstance().users.get(i);
+        for(int i=0; i<users.size();i++) {
+            if(users.get(i).uID.equals(mFirebaseAuth.getCurrentUser().getUid())) {
+                currentUser = users.get(i);
             }
         }
         return currentUser;
     }
-
 
     public ArrayList<User> getUserConnections() {
         ArrayList<User> arr = new ArrayList<User>();
