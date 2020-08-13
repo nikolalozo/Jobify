@@ -15,10 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.NewJobDescriptionActivity"></activity>
+        <activity android:name=".activities.JobActivity"
+            android:parentActivityName="com.mosis.jobify.activities.MapActivity"
+            ></activity>
+        <activity android:name=".activities.NewJobDescriptionActivity" />
         <activity android:name=".activities.NewJobActivity" />
         <activity
-            android:name=".JobActivity"
+            android:name=".JobsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.RankingActivity" />
         <activity android:name=".activities.ProfileActivity" />
@@ -42,6 +45,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <service android:name=".activities.TrackingService" />
     </application>
 

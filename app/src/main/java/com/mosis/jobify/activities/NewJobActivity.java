@@ -45,6 +45,7 @@ public class NewJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_job);
+        getSupportActionBar().setTitle("Add new job");
         openDialog();
         mFirebaseAuth=FirebaseAuth.getInstance();
         etJobTitle = findViewById(R.id.etJobTitle);

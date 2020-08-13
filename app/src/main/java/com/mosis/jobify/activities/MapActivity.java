@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -59,6 +60,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                       return true;
                   case R.id.job:
                       startActivity(new Intent(getApplicationContext(), JobsActivity.class));
+                      overridePendingTransition(0, 0);
+                      return true;
+                  case R.id.new_job:
+                      startActivity(new Intent(getApplicationContext(), JobActivity.class));
                       overridePendingTransition(0, 0);
                       return true;
               }

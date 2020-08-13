@@ -25,6 +25,8 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_job_description);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add new job");
         btnFinish = findViewById(R.id.btnFinish);
         etJobDescription = findViewById(R.id.etJobDescription);
         db = FirebaseDatabase.getInstance().getReference("jobs");
