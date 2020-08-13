@@ -71,11 +71,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE},2);
-        }
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -95,10 +90,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             showMyConnections();
             showAllJobs();
         }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    }
 
     public void showMyConnections() {
         for(int i=0; i<UsersData.getInstance().getUserConnections().size(); i++) {
