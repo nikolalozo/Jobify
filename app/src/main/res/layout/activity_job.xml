@@ -30,17 +30,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-    <TextView
-        android:id="@+id/tvPay"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layoutPay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        android:text="Pay:"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddress" >
+
+        <TextView
+            android:id="@+id/tvPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Pay:"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/colorPrimary"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvDate"
@@ -49,7 +72,7 @@
         android:layout_marginTop="10dp"
         android:textSize="20dp"
         android:text="Date:"
-        app:layout_constraintTop_toBottomOf="@+id/tvPay"
+        app:layout_constraintTop_toBottomOf="@+id/layoutPay"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -82,46 +105,134 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingHorizontal="20dp"
+        android:padding="20dp"
         android:textSize="20dp"
         android:background="@drawable/textview_border"
-        android:text="Moja porodica i ja nećemo biti u gradu sutra do 18h i potreban nam je neko da prošeta našeg psa."
+        android:text=""
         app:layout_constraintTop_toBottomOf="@+id/btnApply"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
     <LinearLayout
+        android:id="@+id/layoutDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/textview_border"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" >
 
-        <TextView
-            android:id="@+id/tvPublished"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="20dp"
-            android:textSize="20dp"
-            android:background="@drawable/textview_border"
-            android:text="Published by"
-            />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="7dp" >
 
-        <View android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvPublished"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:text="Published"
+                />
+
+
+            <TextView
+                android:id="@+id/publishedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:textSize="25dp"
+                android:textColor="@color/colorPrimary"
+                android:text=""
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:padding="10dp"
+            android:background="@color/colorLightGray" />
 
-        <TextView
-            android:id="@+id/tvApplyDate"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="7dp" >
+
+            <TextView
+                android:id="@+id/tvApplyDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:textSize="20dp"
+                android:text="Apply by"
+                />
+
+
+            <TextView
+                android:id="@+id/applyByDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:textSize="25dp"
+                android:textColor="@color/colorPrimary"
+                android:text=""
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:background="@drawable/textview_border"
+        app:layout_constraintTop_toBottomOf="@+id/layoutDate" >
+
+        <TextView
+            android:id="@+id/tvImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="20dp"
-            android:background="@drawable/textview_border"
-            android:text="Apply by"
+            android:text="Image"
             />
+
+        <TextView
+            android:id="@+id/tvOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp"
+            android:text=""
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/btnViewProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="13dp"
+            android:text="View profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHour" />
 
     </LinearLayout>
 

@@ -1,13 +1,9 @@
 package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,8 +25,9 @@ import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -63,7 +60,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                       overridePendingTransition(0, 0);
                       return true;
                   case R.id.new_job:
-                      startActivity(new Intent(getApplicationContext(), JobActivity.class));
+                      startActivity(new Intent(getApplicationContext(), NewJobActivity.class));
                       overridePendingTransition(0, 0);
                       return true;
               }
@@ -89,6 +86,27 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
             showMyConnections();
             showAllJobs();
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+            {
+                @Override
+                public void onInfoWindowClick(final Marker marker) {
+                    if (marker != null) {
+                        Object obj = marker.getTag();
+                        Bundle bundle = new Bundle();
+                        Intent intent1;
+                        if (obj instanceof User) {
+                            bundle.putSerializable("user", (User) obj);
+                            intent1 = new Intent(MapActivity.this, ProfileActivity.class);
+                            intent1.putExtras(bundle);
+                            startActivity(intent1);
+                        } else {
+                            bundle.putSerializable("job", (Job) obj);
+                            intent1 = new Intent(MapActivity.this, JobActivity.class);
+                            intent1.putExtras(bundle);
+                            startActivity(intent1);
+                        }
+                    }}
+            });
         }
 
     public void showMyConnections() {
@@ -104,24 +122,29 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             markerOptions.title(name);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-            mMap.addMarker(markerOptions);
+            Marker marker = mMap.addMarker(markerOptions);
+            marker.setTag(con);
+            markers.add(marker);
         }
     }
 
     public void showAllJobs() {
-        for(int i=0; i< JobsData.getInstance().getJobs().size(); i++) {
+        final ArrayList<Job> overlayArrayList = new ArrayList<>();
+        for (int i = 0; i < JobsData.getInstance().getJobs().size(); i++) {
             Job job = JobsData.getInstance().getJob(i);
-            double lat = job.latitude;
-            double lng = job.longitude;
+            double lat = job.getLatitude();
+            double lng = job.getLongitude();
             LatLng latLng = new LatLng(lat, lng);
-            String title = job.title;
+            String title = job.getTitle();
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(title);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
-            mMap.addMarker(markerOptions);
+            Marker marker = mMap.addMarker(markerOptions);
+            marker.setTag(job);
+            markers.add(marker);
         }
     }
 }

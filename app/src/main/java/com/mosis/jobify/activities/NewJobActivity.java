@@ -19,6 +19,8 @@ import android.widget.TimePicker;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
@@ -27,6 +29,8 @@ import com.mosis.jobify.models.User;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewJobActivity extends AppCompatActivity {
     private TextView mDisplayDate;
@@ -36,9 +40,9 @@ public class NewJobActivity extends AppCompatActivity {
     private TextView mDisplayApplyByDate;
     private DatePickerDialog.OnDateSetListener mApplyByDateSetListener;
     FirebaseAuth mFirebaseAuth;
+    private DatabaseReference db;
     Button btnNext;
     EditText etJobTitle, etJobPay;
-    TextView tvUID;
     Job job;
 
     @Override
@@ -53,7 +57,6 @@ public class NewJobActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
 
         job = new Job();
-
         User currentUser = UsersData.getInstance().getCurrentUser();
         job.setLatitude(currentUser.getLat());
         job.setLongitude(currentUser.getLng());
@@ -191,6 +194,5 @@ public class NewJobActivity extends AppCompatActivity {
     public void openDialog() {
         NewJobDialog newJobDialog = new NewJobDialog();
         newJobDialog.show(getSupportFragmentManager(), "new job dialog");
-
     }
 }

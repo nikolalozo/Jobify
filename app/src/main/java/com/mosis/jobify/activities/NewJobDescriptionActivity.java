@@ -2,9 +2,7 @@ package com.mosis.jobify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +10,9 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
 
 public class NewJobDescriptionActivity extends AppCompatActivity {
 
@@ -30,6 +30,7 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
         btnFinish = findViewById(R.id.btnFinish);
         etJobDescription = findViewById(R.id.etJobDescription);
         db = FirebaseDatabase.getInstance().getReference("jobs");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             job = (Job) extras.get("job");
@@ -41,7 +42,13 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
                 job.setDescription(jobDescription);
                 String jobId = db.push().getKey();
                 db.child(jobId).setValue(job);
+                openDialog();
             }
         });
+    }
+
+    public void openDialog() {
+        CreatedJobDialog createdJobDialog = new CreatedJobDialog();
+        createdJobDialog.show(getSupportFragmentManager(), "created job dialog");
     }
 }

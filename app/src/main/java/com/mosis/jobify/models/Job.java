@@ -28,8 +28,8 @@ public class Job implements Serializable {
     @Exclude
     public double distance;
     public Status status;
-    public String idPosted;
     public String idTaken;
+    public String idPosted;
 
     public Job() {
         title = "New job";
@@ -43,7 +43,7 @@ public class Job implements Serializable {
         appliedBy = new Date();
     }
 
-    public Job(String title, int wage, String desc, double longitude, double latitude, Status status, String idTaken, String idPosted, Date date, Date datePosted, Date appliedBy) {
+    public Job(String title, int wage, String desc, double longitude, double latitude, Status status, String idTaken, Date date, Date datePosted, Date appliedBy) {
         this.title=title;
         this.wage=wage;
         this.description = desc;
@@ -51,7 +51,6 @@ public class Job implements Serializable {
         this.latitude=latitude;
         this.status=status;
         this.idTaken=idTaken;
-        this.idPosted=idPosted;
         this.date = date;
         this.datePosted = datePosted;
         this.appliedBy = appliedBy;
@@ -89,20 +88,20 @@ public class Job implements Serializable {
         this.latitude = latitude;
     }
 
-    public String getIdPosted() {
-        return idPosted;
-    }
-
-    public void setIdPosted(String id) {
-        this.idPosted=id;
-    }
-
     public String getIdTaken() {
         return idTaken;
     }
 
     public void setIdTaken(String id) {
-        this.idPosted=id;
+        this.idTaken=id;
+    }
+
+    public String getIdPosted() {
+        return idPosted;
+    }
+
+    public void setIdPosted(String id) {
+        this.idPosted = id;
     }
 
     public Date getDate() {
