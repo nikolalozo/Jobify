@@ -2,9 +2,7 @@ package com.mosis.jobify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +23,12 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_job_description);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add new job");
         btnFinish = findViewById(R.id.btnFinish);
         etJobDescription = findViewById(R.id.etJobDescription);
         db = FirebaseDatabase.getInstance().getReference("jobs");
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             job = (Job) extras.get("job");
@@ -39,7 +40,13 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
                 job.setDescription(jobDescription);
                 String jobId = db.push().getKey();
                 db.child(jobId).setValue(job);
+                openDialog();
             }
         });
+    }
+
+    public void openDialog() {
+        CreatedJobDialog createdJobDialog = new CreatedJobDialog();
+        createdJobDialog.show(getSupportFragmentManager(), "created job dialog");
     }
 }

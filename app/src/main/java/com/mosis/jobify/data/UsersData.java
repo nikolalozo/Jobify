@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
+import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 import com.mosis.jobify.models.Location;
 
@@ -81,6 +82,16 @@ public class UsersData {
             }
         }
         return currentUser;
+    }
+
+    public User getUser(String uid) {
+        User user = new User();
+        for(int i = 0; i < users.size(); i++) {
+            if(users.get(i).getuID().equals(uid)) {
+                user = users.get(i);
+            }
+        }
+        return user;
     }
 
     public ArrayList<User> getUserConnections() {
