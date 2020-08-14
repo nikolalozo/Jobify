@@ -10,9 +10,7 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.R;
-import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
-import com.mosis.jobify.models.User;
 
 public class NewJobDescriptionActivity extends AppCompatActivity {
 

@@ -136,6 +136,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             double lng = job.getLongitude();
             LatLng latLng = new LatLng(lat, lng);
             String title = job.getTitle();
+            job.setKey(JobsData.getInstance().getJob(i).getKey());
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);

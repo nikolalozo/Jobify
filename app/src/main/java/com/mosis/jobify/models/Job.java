@@ -4,6 +4,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 @IgnoreExtraProperties
@@ -30,6 +31,7 @@ public class Job implements Serializable {
     public Status status;
     public String idTaken;
     public String idPosted;
+    public ArrayList<String> arrayIdRequested;
 
     public Job() {
         title = "New job";
@@ -41,6 +43,7 @@ public class Job implements Serializable {
         date = new Date();
         datePosted = new Date();
         appliedBy = new Date();
+        arrayIdRequested = new ArrayList<String>();
     }
 
     public Job(String title, int wage, String desc, double longitude, double latitude, Status status, String idTaken, Date date, Date datePosted, Date appliedBy) {
@@ -54,6 +57,14 @@ public class Job implements Serializable {
         this.date = date;
         this.datePosted = datePosted;
         this.appliedBy = appliedBy;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getTitle() {
@@ -134,6 +145,14 @@ public class Job implements Serializable {
 
     public void setDescription(String desc) {
         this.description = desc;
+    }
+
+    public void addRequest(String id) {
+        this.arrayIdRequested.add(id);
+    }
+
+    public void removeRequest(String id) {
+        this.arrayIdRequested.remove(id);
     }
 
     @Override
