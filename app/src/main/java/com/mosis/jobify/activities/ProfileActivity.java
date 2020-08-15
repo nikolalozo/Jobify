@@ -27,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        getSupportActionBar().hide();
         btnOff = findViewById(R.id.btnOff);
         btnSignOut = findViewById(R.id.btnSignOut);
         tvFullName = findViewById(R.id.tvFullName);

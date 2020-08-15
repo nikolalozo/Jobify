@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewJobDescriptionActivity">
+    tools:context=".activities.NewJobDescriptionActivity"
+    android:background="@drawable/bg_light" >
 
     <TextView
         android:id="@+id/tvJobDescription"
