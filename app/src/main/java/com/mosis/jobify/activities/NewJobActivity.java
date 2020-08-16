@@ -64,7 +64,7 @@ public class NewJobActivity extends AppCompatActivity {
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
                 String jobTitle = etJobTitle.getText().toString();
                 String pay = etJobPay.getText().toString();
                 job.setTitle(jobTitle);
