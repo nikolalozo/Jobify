@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         UsersData.getInstance().init();
+        JobsData.getInstance().init();
         FirebaseUser user=mFirebaseAuth.getCurrentUser();
         if(user!=null && granted){
             startService(new Intent(LoginActivity.this, TrackingService.class));

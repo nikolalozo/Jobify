@@ -1,5 +1,7 @@
 package com.mosis.jobify.data;
 
+import android.widget.ArrayAdapter;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -50,26 +52,13 @@ public class JobsData {
     }
 
     public ArrayList<Job> getJobRequestsForUser(String id) {
-        final ArrayList<Job> jobsForId = new ArrayList<Job>();
-        Query queryRef = db.orderByChild("idPosted").equalTo(id);
-        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                jobsForId.clear();
-                for(DataSnapshot snap : snapshot.getChildren()) {
-                    Job job = snap.getValue(Job.class);
-                    if (!job.arrayIdRequested.isEmpty()) {
-                        jobsForId.add(0, job);
-                    }
-                }
+        ArrayList<Job> jobsForId = new ArrayList<Job>();
+
+        for(int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).getIdPosted().equals(id)) {
+                jobsForId.add(jobs.get(i));
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        }
         return jobsForId;
     }
 

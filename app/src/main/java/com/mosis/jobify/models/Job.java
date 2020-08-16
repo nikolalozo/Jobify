@@ -4,8 +4,10 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 @IgnoreExtraProperties
 public class Job implements Serializable {
@@ -157,15 +159,7 @@ public class Job implements Serializable {
 
     @Override
     public String toString() {
-        return "Job{" +
-                ", Title=" + title +
-                ", Wage=" + wage +
-                ", Description=" + description +
-                ", Longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", Date=" + date +
-                ", Date Posted=" + datePosted +
-                ", Applied By=" + appliedBy +
-                '}';
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        return title + "\n" + dateFormat.format(date);
     }
 }
