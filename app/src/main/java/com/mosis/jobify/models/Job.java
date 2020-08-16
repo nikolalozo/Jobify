@@ -14,7 +14,7 @@ public class Job implements Serializable {
 
     enum Status {
         POSTED,
-        REQUESTED,
+        TAKEN,
         DONE
     }
 

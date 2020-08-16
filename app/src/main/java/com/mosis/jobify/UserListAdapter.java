@@ -9,20 +9,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.mosis.jobify.data.UsersData;
+import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserListAdapter extends ArrayAdapter<User> {
     private int layout;
     public Context context;
     private List<User> mObjects;
+    public String jobId;
+    private DatabaseReference db;
 
-    public UserListAdapter(Context context, int resource, List<User> objects) {
-        super(context, resource, objects);
+    public UserListAdapter(Context contextt, int resource, List<User> objects, String id) {
+        super(contextt, resource, objects);
+        db = FirebaseDatabase.getInstance().getReference("jobs");
         mObjects = objects;
         layout = resource;
-        context = context;
+        context = contextt;
+        jobId = id;
     }
 
     @Override
@@ -41,11 +51,11 @@ public class UserListAdapter extends ArrayAdapter<User> {
         mainViewHolder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(v.getContext(),
-                        "This is a message displayed in a Toast",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
+                DatabaseReference jobRef = db.child(jobId);
+                Map<String, Object> jobUpdates = new HashMap<>();
+                jobUpdates.put("idTaken", getItem(position).getuID());
+                jobUpdates.put("status", "TAKEN");
+                jobRef.updateChildren(jobUpdates);
             }
         });
 

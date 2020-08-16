@@ -45,6 +45,7 @@ public class JobListAdapter extends ArrayAdapter<Job> {
                 if (getItem(position).arrayIdRequested != null) {
                     Intent i = new Intent(v.getContext(), UserRequestsActivity.class);
                     i.putExtra("array", getItem(position).arrayIdRequested);
+                    i.putExtra("jobId", getItem(position).getKey());
                     v.getContext().startActivity(i);
                 } else {
                      Toast.makeText(v.getContext(), "There is no user requests", Toast.LENGTH_SHORT).show();
