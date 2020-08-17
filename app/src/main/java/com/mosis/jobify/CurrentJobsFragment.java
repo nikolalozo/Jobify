@@ -26,15 +26,6 @@ public class CurrentJobsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.currentjobs_fragment, container, false);
         jobs = JobsData.getInstance().getCurrentJobsForUser(UsersData.getInstance().getCurrentUser().getuID());
-//        User user = new User();
-//        for (int i = 0; i < jobs.size(); i++) {
-//            if (jobs.get(i).getIdPosted().equals(UsersData.getInstance().getCurrentUser().getuID())) {
-//                user = UsersData.getInstance().getUser(jobs.get(i).getIdTaken());
-//
-//            } else {
-//                user = UsersData.getInstance().getUser(jobs.get(i).getIdPosted());
-//            }
-//        }
         lvCurrentJobs = (ListView) view.findViewById((R.id.lvCurrentJobs));
         lvCurrentJobs.setAdapter(new CurrentJobListAdapter(getActivity(), R.layout.layout_current_job_list_item, jobs));
 

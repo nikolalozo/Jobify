@@ -148,4 +148,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             markers.add(marker);
         }
     }
+
+    public static double pointsDistance(double lat1, double lng1, double lat2, double lng2) {
+        double R = 6378137.0; // Earth’s mean radius in meter
+        double dLat = rad(lat2-lat1);
+        double dLng = rad(lng2-lng1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(rad(lat1)) * Math.cos(rad(lat2)) *
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = R * c;
+        return d; // returns the distance in meter
+    }
+
+    public static double rad(double x) {
+        return x * Math.PI / 180;
+    }
 }
