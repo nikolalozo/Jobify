@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mosis.jobify.StatusEnum;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
@@ -56,6 +57,17 @@ public class JobsData {
 
         for(int i = 0; i < jobs.size(); i++) {
             if (jobs.get(i).getIdPosted().equals(id)) {
+                jobsForId.add(jobs.get(i));
+            }
+        }
+        return jobsForId;
+    }
+
+    public ArrayList<Job> getPendingJobsForUser(String id) {
+        ArrayList<Job> jobsForId = new ArrayList<Job>();
+
+        for(int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).arrayIdRequested.contains(id) && jobs.get(i).getStatus() == StatusEnum.POSTED) {
                 jobsForId.add(jobs.get(i));
             }
         }

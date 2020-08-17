@@ -2,6 +2,7 @@ package com.mosis.jobify.models;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.mosis.jobify.StatusEnum;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -11,13 +12,6 @@ import java.util.Locale;
 
 @IgnoreExtraProperties
 public class Job implements Serializable {
-
-    enum Status {
-        POSTED,
-        TAKEN,
-        DONE
-    }
-
     @Exclude
     public String key;
     public String title;
@@ -30,7 +24,7 @@ public class Job implements Serializable {
     public String description;
     @Exclude
     public double distance;
-    public Status status;
+    public StatusEnum status;
     public String idTaken;
     public String idPosted;
     public ArrayList<String> arrayIdRequested;
@@ -41,14 +35,14 @@ public class Job implements Serializable {
         wage=0;
         longitude=45;
         latitude=23;
-        status=Status.POSTED;
+        status=StatusEnum.POSTED;
         date = new Date();
         datePosted = new Date();
         appliedBy = new Date();
         arrayIdRequested = new ArrayList<String>();
     }
 
-    public Job(String title, int wage, String desc, double longitude, double latitude, Status status, String idTaken, Date date, Date datePosted, Date appliedBy) {
+    public Job(String title, int wage, String desc, double longitude, double latitude, StatusEnum status, String idTaken, Date date, Date datePosted, Date appliedBy) {
         this.title=title;
         this.wage=wage;
         this.description = desc;
@@ -116,6 +110,8 @@ public class Job implements Serializable {
     public void setIdPosted(String id) {
         this.idPosted = id;
     }
+
+    public StatusEnum getStatus() { return this.status; }
 
     public Date getDate() {
         return this.date;
