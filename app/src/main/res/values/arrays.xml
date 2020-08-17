@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <array name="initial_slider_values_Dist">
+            <item>0</item>
+            <item>6000</item>
+        </array>
+    <array name="initial_slider_values_Pay">
+        <item>100</item>
+        <item>3000</item>
+    </array>
+</resources>

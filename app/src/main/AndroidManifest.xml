@@ -18,6 +18,8 @@
         <activity android:name=".activities.PeopleInRangeActivity"></activity>
         <activity android:name=".activities.UserRequestsActivity" />
         <activity android:name=".activities.StartActivity" />
+        <activity android:name=".activities.SearchActivity"></activity>
+        <activity android:name=".activities.FilterActivity" />
         <activity
             android:name=".activities.JobActivity"
             android:parentActivityName=".activities.MapActivity" />

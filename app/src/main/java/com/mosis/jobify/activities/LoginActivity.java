@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             };
             Handler handler = new android.os.Handler();
-            handler.postDelayed(runnable, 1500);
+            handler.postDelayed(runnable, 3500);
         }
     }
 }
