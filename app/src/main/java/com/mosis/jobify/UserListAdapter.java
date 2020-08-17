@@ -37,18 +37,17 @@ public class UserListAdapter extends ArrayAdapter<User> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        UserViewHolder mainViewHolder = null;
+        ViewHolder mainViewHolder = null;
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
-            UserViewHolder viewHolder = new UserViewHolder();
+            ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) convertView.findViewById(R.id.tvUserInfo);
-            viewHolder.acceptButton = (Button) convertView.findViewById(R.id.btnAcceptRequest);
-            viewHolder.declineButton = (Button) convertView.findViewById(R.id.btnDeclineRequest);
+            viewHolder.button = (Button) convertView.findViewById(R.id.btnAcceptRequest);
             convertView.setTag(viewHolder);
         }
-        mainViewHolder = (UserViewHolder) convertView.getTag();
-        mainViewHolder.acceptButton.setOnClickListener(new View.OnClickListener() {
+        mainViewHolder = (ViewHolder) convertView.getTag();
+        mainViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference jobRef = db.child(jobId);
@@ -56,17 +55,6 @@ public class UserListAdapter extends ArrayAdapter<User> {
                 jobUpdates.put("idTaken", getItem(position).getuID());
                 jobUpdates.put("status", "TAKEN");
                 jobRef.updateChildren(jobUpdates);
-            }
-        });
-
-        mainViewHolder.declineButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(v.getContext(),
-                        "Ema",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
             }
         });
 

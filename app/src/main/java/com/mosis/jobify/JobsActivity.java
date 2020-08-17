@@ -62,6 +62,7 @@ public class JobsActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CurrentJobsFragment(), "Current jobs");
         adapter.addFragment(new PendingJobsFragment(), "Pending jobs");
         adapter.addFragment(new JobRequestsFragment(), "Job requests");
         viewPager.setAdapter(adapter);

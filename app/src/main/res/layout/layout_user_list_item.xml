@@ -23,15 +23,6 @@
         android:layout_toEndOf="@+id/tvUserInfo"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="10dp"
-        android:layout_alignParentRight="@+id/btnDeclineRequest"/>
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="Decline request"
-        android:id="@+id/btnDeclineRequest"
-        android:layout_toEndOf="@+id/tvJobInfo"
-        android:layout_marginHorizontal="10dp"
         android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

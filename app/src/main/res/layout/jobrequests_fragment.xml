@@ -14,12 +14,6 @@
         android:layout_marginTop="40dp"
         android:id="@+id/jobRequestsTab"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnTEST2"
-        android:text="TESTBTN 2"/>
-
     <ListView
         android:id="@+id/lvJobRequests"
         android:layout_width="match_parent"
