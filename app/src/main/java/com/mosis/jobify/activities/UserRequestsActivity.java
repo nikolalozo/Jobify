@@ -18,7 +18,7 @@ public class UserRequestsActivity extends AppCompatActivity {
     ArrayList<String> idRequests;
     ArrayList<User> users = new ArrayList<User>();
     ListView lvUserRequests;
-    String jobId;
+    Job job;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +31,12 @@ public class UserRequestsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             idRequests = (ArrayList<String>) extras.get("array");
-            jobId = (String) extras.get("jobId");
+            job = (Job) extras.get("job");
             for (int i = 0; i < idRequests.size(); i++) {
                 User user = UsersData.getInstance().getUser(idRequests.get(i));
                 users.add(user);
             }
-            lvUserRequests.setAdapter(new UserListAdapter(this, R.layout.layout_user_list_item, users, jobId));
+            lvUserRequests.setAdapter(new UserListAdapter(this, R.layout.layout_user_list_item, users, job));
         }
     }
 }

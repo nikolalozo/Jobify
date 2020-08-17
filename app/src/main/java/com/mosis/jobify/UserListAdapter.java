@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.data.UsersData;
@@ -23,16 +25,16 @@ public class UserListAdapter extends ArrayAdapter<User> {
     private int layout;
     public Context context;
     private List<User> mObjects;
-    public String jobId;
+    public Job job;
     private DatabaseReference db;
 
-    public UserListAdapter(Context contextt, int resource, List<User> objects, String id) {
+    public UserListAdapter(Context contextt, int resource, List<User> objects, Job jobb) {
         super(contextt, resource, objects);
         db = FirebaseDatabase.getInstance().getReference("jobs");
         mObjects = objects;
         layout = resource;
         context = contextt;
-        jobId = id;
+        job = jobb;
     }
 
     @Override
@@ -50,11 +52,13 @@ public class UserListAdapter extends ArrayAdapter<User> {
         mainViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference jobRef = db.child(jobId);
+                DatabaseReference jobRef = db.child(job.getKey());
                 Map<String, Object> jobUpdates = new HashMap<>();
                 jobUpdates.put("idTaken", getItem(position).getuID());
                 jobUpdates.put("status", "TAKEN");
                 jobRef.updateChildren(jobUpdates);
+
+
             }
         });
 

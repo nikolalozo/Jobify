@@ -74,6 +74,17 @@ public class JobsData {
         return jobsForId;
     }
 
+    public ArrayList<Job> getCurrentJobsForUser(String id) {
+        ArrayList<Job> jobsForId = new ArrayList<Job>();
+
+        for(int i = 0; i < jobs.size(); i++) {
+            if ((jobs.get(i).arrayIdRequested.contains(id) || jobs.get(i).getIdPosted().equals(id)) && jobs.get(i).getStatus() == StatusEnum.TAKEN) {
+                jobsForId.add(jobs.get(i));
+            }
+        }
+        return jobsForId;
+    }
+
     public Job getJob(int i) {
         return this.jobs.get(i);
     }

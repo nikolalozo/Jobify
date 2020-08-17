@@ -1,5 +1,6 @@
 package com.mosis.jobify;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,48 +9,41 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mosis.jobify.activities.UserRequestsActivity;
+import com.mosis.jobify.activities.ConfirmJobDialog;
 import com.mosis.jobify.models.Job;
 
 import java.util.List;
 
-public class JobListAdapter extends ArrayAdapter<Job> {
+public class CurrentJobListAdapter extends ArrayAdapter<Job> {
     private int layout;
     public Context context;
     private List<Job> mObjects;
 
-    public JobListAdapter(Context context, int resource, List<Job> objects) {
-        super(context, resource, objects);
+    public CurrentJobListAdapter(Context cont, int resource, List<Job> objects) {
+        super(cont, resource, objects);
         mObjects = objects;
         layout = resource;
-        context = context;
+        context = cont;
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder mainViewholder = null;
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.title = (TextView) convertView.findViewById(R.id.tvJobInfo);
-            viewHolder.button = (Button) convertView.findViewById(R.id.btnViewRequest);
+            viewHolder.button = (Button) convertView.findViewById(R.id.btnConfirmJob);
             convertView.setTag(viewHolder);
         }
         mainViewholder = (ViewHolder) convertView.getTag();
         mainViewholder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getItem(position).arrayIdRequested.size() > 0) {
-                    Intent i = new Intent(v.getContext(), UserRequestsActivity.class);
-                    i.putExtra("array", getItem(position).arrayIdRequested);
-                    i.putExtra("job", getItem(position));
-                    v.getContext().startActivity(i);
-                } else {
-                     Toast.makeText(v.getContext(), "There are no user requests", Toast.LENGTH_SHORT).show();
-                }
+                ConfirmJobDialog confirmJobDialog = new ConfirmJobDialog();
+                confirmJobDialog.show(((JobsActivity)context).getSupportFragmentManager(), "confirm job dialog");
             }
         });
         mainViewholder.title.setText(getItem(position).getTitle());

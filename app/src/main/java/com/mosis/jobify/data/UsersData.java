@@ -34,7 +34,7 @@ public class UsersData {
     public UsersData() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         users = new ArrayList<User>();
-        usersPosted=new ArrayList<User>();
+        usersPosted = new ArrayList<User>();
         db = FirebaseDatabase.getInstance().getReference().child("users");
         Query q = db.orderByChild("jobsDone");
         q.addValueEventListener(new ValueEventListener() {
