@@ -2,21 +2,16 @@ package com.mosis.jobify.models;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.mosis.jobify.StatusEnum;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 @IgnoreExtraProperties
 public class Job implements Serializable {
-
-    enum Status {
-        POSTED,
-        REQUESTED,
-        DONE,
-        TAKEN
-    }
-
     @Exclude
     public String key;
     public String title;
@@ -29,7 +24,7 @@ public class Job implements Serializable {
     public String description;
     @Exclude
     public double distance;
-    public Status status;
+    public StatusEnum status;
     public String idTaken;
     public String idPosted;
     public ArrayList<String> arrayIdRequested;
@@ -40,14 +35,14 @@ public class Job implements Serializable {
         wage=0;
         longitude=45;
         latitude=23;
-        status=Status.POSTED;
+        status=StatusEnum.POSTED;
         date = new Date();
         datePosted = new Date();
         appliedBy = new Date();
         arrayIdRequested = new ArrayList<String>();
     }
 
-    public Job(String title, int wage, String desc, double longitude, double latitude, Status status, String idTaken, Date date, Date datePosted, Date appliedBy) {
+    public Job(String title, int wage, String desc, double longitude, double latitude, StatusEnum status, String idTaken, Date date, Date datePosted, Date appliedBy) {
         this.title=title;
         this.wage=wage;
         this.description = desc;
@@ -116,6 +111,8 @@ public class Job implements Serializable {
         this.idPosted = id;
     }
 
+    public StatusEnum getStatus() { return this.status; }
+
     public Date getDate() {
         return this.date;
     }
@@ -158,15 +155,7 @@ public class Job implements Serializable {
 
     @Override
     public String toString() {
-        return "Job{" +
-                ", Title=" + title +
-                ", Wage=" + wage +
-                ", Description=" + description +
-                ", Longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", Date=" + date +
-                ", Date Posted=" + datePosted +
-                ", Applied By=" + appliedBy +
-                '}';
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+        return title + "\n" + dateFormat.format(date);
     }
 }

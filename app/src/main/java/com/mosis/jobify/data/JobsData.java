@@ -1,5 +1,7 @@
 package com.mosis.jobify.data;
 
+import android.widget.ArrayAdapter;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -8,7 +10,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mosis.jobify.StatusEnum;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
@@ -19,7 +23,7 @@ public class JobsData {
     private DatabaseReference db;
 
     public JobsData() {
-        this.jobs=new ArrayList<Job>();
+        this.jobs = new ArrayList<Job>();
         db = FirebaseDatabase.getInstance().getReference().child("jobs");
         db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -46,6 +50,39 @@ public class JobsData {
 
     public ArrayList<Job> getJobs() {
         return jobs;
+    }
+
+    public ArrayList<Job> getJobRequestsForUser(String id) {
+        ArrayList<Job> jobsForId = new ArrayList<Job>();
+
+        for(int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).getIdPosted().equals(id)) {
+                jobsForId.add(jobs.get(i));
+            }
+        }
+        return jobsForId;
+    }
+
+    public ArrayList<Job> getPendingJobsForUser(String id) {
+        ArrayList<Job> jobsForId = new ArrayList<Job>();
+
+        for(int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).arrayIdRequested.contains(id) && jobs.get(i).getStatus() == StatusEnum.POSTED) {
+                jobsForId.add(jobs.get(i));
+            }
+        }
+        return jobsForId;
+    }
+
+    public ArrayList<Job> getCurrentJobsForUser(String id) {
+        ArrayList<Job> jobsForId = new ArrayList<Job>();
+
+        for(int i = 0; i < jobs.size(); i++) {
+            if ((jobs.get(i).arrayIdRequested.contains(id) || jobs.get(i).getIdPosted().equals(id)) && jobs.get(i).getStatus() == StatusEnum.TAKEN) {
+                jobsForId.add(jobs.get(i));
+            }
+        }
+        return jobsForId;
     }
 
     public Job getJob(int i) {

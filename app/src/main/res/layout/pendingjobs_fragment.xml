@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_light" >
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,10 +14,10 @@
         android:layout_marginTop="40dp"
         android:id="@+id/pendingJobsTab"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/lvPendingJobs"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnTEST1"
-        android:text="TESTBTN 1"/>
+        android:layout_marginTop="115dp" />
 
 </RelativeLayout>

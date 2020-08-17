@@ -206,7 +206,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
-    public double pointsDistance(double lat1, double lng1, double lat2, double lng2) {
+    public static double pointsDistance(double lat1, double lng1, double lat2, double lng2) {
         double R = 6378137.0; // Earth’s mean radius in meter
         double dLat = rad(lat2-lat1);
         double dLng = rad(lng2-lng1);
@@ -218,7 +218,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         return d; // returns the distance in meter
     }
 
-    public double rad(double x) {
+    public static double rad(double x) {
         return x * Math.PI / 180;
     }
 }

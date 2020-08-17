@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailId = findViewById(R.id.edtTxtEmail);
@@ -163,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         UsersData.getInstance().init();
+        JobsData.getInstance().init();
         FirebaseUser user=mFirebaseAuth.getCurrentUser();
         if(user!=null && granted){
             startService(new Intent(LoginActivity.this, TrackingService.class));
