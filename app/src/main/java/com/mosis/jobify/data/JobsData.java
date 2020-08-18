@@ -1,20 +1,14 @@
 package com.mosis.jobify.data;
 
-import android.widget.ArrayAdapter;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mosis.jobify.StatusEnum;
 import com.mosis.jobify.models.Job;
-import com.mosis.jobify.models.User;
 
 import java.util.ArrayList;
 
@@ -56,7 +50,7 @@ public class JobsData {
         ArrayList<Job> jobsForId = new ArrayList<Job>();
 
         for(int i = 0; i < jobs.size(); i++) {
-            if (jobs.get(i).getIdPosted().equals(id)) {
+            if (jobs.get(i).getIdPosted().equals(id) && jobs.get(i).getStatus() == StatusEnum.POSTED) {
                 jobsForId.add(jobs.get(i));
             }
         }
@@ -77,8 +71,8 @@ public class JobsData {
     public ArrayList<Job> getCurrentJobsForUser(String id) {
         ArrayList<Job> jobsForId = new ArrayList<Job>();
 
-        for(int i = 0; i < jobs.size(); i++) {
-            if ((jobs.get(i).arrayIdRequested.contains(id) || jobs.get(i).getIdPosted().equals(id)) && jobs.get(i).getStatus() == StatusEnum.TAKEN) {
+        for (int i = 0; i < jobs.size(); i++) {
+            if ((jobs.get(i).arrayIdRequested.contains(id) && jobs.get(i).getStatus() == StatusEnum.TAKEN) || ((jobs.get(i).getIdPosted().equals(id) || (jobs.get(i).getIdTaken() != null && jobs.get(i).getIdTaken().equals(id))) && jobs.get(i).getStatus() == StatusEnum.TAKEN)) {
                 jobsForId.add(jobs.get(i));
             }
         }

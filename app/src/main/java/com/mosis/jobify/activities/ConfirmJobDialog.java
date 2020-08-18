@@ -21,9 +21,6 @@ public class ConfirmJobDialog extends DialogFragment {
         builder.setMessage("In order to confirm pending jobs you need to be maximum 100 meters far from person you want to connect.").setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent(getContext(), PeopleInRangeActivity.class);
-                i.putExtra("job", job);
-                startActivity(i);
             }
         });
         return builder.create();

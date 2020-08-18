@@ -67,6 +67,18 @@ public class User implements Serializable {
         this.lat = lat;
     }
 
+    public void addConnection(String id) {
+        this.connections.add(id);
+    }
+
+    public void removeConnection(String id) {
+        this.connections.remove(id);
+    }
+
+    public ArrayList<String> getConnections() {
+        return this.connections;
+    }
+
     @Override
     public String toString() {
         return  firstName + " " + lastName + "\nJobs done: " + jobsDone + "\nJobs posted: " + jobsPosted;
