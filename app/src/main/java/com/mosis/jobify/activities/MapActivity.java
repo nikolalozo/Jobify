@@ -46,6 +46,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     static Date applyBy;
     public static Calendar cal;
     Date today;
+    //DODAJ LISTENER ZA DB CHILD LOKACIJA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +145,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         //Toast.makeText(this, String.valueOf(JobsData.getInstance().getJobs().get(0).appliedBy), Toast.LENGTH_LONG).show();
     }
+
+
 
     @Override
     protected void onRestart() {
