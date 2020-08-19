@@ -5,15 +5,34 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvJobInfo"
-        android:layout_marginHorizontal="20dp"
-        android:padding="10dp"
-        android:textSize="16dp"
-        android:textStyle="bold">
-    </TextView>
+        android:orientation="vertical"
+        android:id="@+id/current_job_layout"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvJobName"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvUserJobTaken"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold">
+        </TextView>
+
+    </LinearLayout>
 
     <Button
         android:layout_width="70dp"
@@ -24,5 +43,33 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="20dp"
         android:layout_alignParentRight="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:id="@+id/btnAcceptJob"
+            android:layout_toEndOf="@+id/btnAcceptJob"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentRight="true"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Decline"
+            android:id="@+id/btnDeclineJob"
+            android:layout_toEndOf="@+id/btnDeclineJob"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

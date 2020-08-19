@@ -28,6 +28,7 @@ public class Job implements Serializable {
     public String idTaken;
     public String idPosted;
     public ArrayList<String> arrayIdRequested;
+    public ArrayList<String> confirmedBy;
 
     public Job() {
         title = "New job";
@@ -40,6 +41,7 @@ public class Job implements Serializable {
         datePosted = new Date();
         appliedBy = new Date();
         arrayIdRequested = new ArrayList<String>();
+        confirmedBy = new ArrayList<String>();
     }
 
     public Job(String title, int wage, String desc, double longitude, double latitude, StatusEnum status, String idTaken, Date date, Date datePosted, Date appliedBy) {
@@ -151,6 +153,18 @@ public class Job implements Serializable {
 
     public void removeRequest(String id) {
         this.arrayIdRequested.remove(id);
+    }
+
+    public void confirmRequest(String id) {
+        this.confirmedBy.add(id);
+    }
+
+    public void declineRequest(String id) {
+        this.confirmedBy.remove(id);
+    }
+
+    public ArrayList<String> getConfirmedBy() {
+        return this.confirmedBy;
     }
 
     @Override
