@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mosis.jobify.StatusEnum;
 import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
 
 import java.util.ArrayList;
 
@@ -77,6 +78,17 @@ public class JobsData {
             }
         }
         return jobsForId;
+    }
+
+    public ArrayList<Job> getDoneJobsForCurrentUser() {
+        ArrayList<Job> doneJobsForId = new ArrayList<Job>();
+
+        for (int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).getIdTaken() != null && jobs.get(i).getIdTaken().equals(UsersData.getInstance().getCurrentUser().getuID()) && jobs.get(i).getStatus() == StatusEnum.DONE) {
+                doneJobsForId.add(jobs.get(i));
+            }
+        }
+        return doneJobsForId;
     }
 
     public Job getJob(int i) {

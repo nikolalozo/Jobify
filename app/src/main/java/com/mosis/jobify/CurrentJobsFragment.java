@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.mosis.jobify.activities.ConfirmJobDialog;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
@@ -32,7 +31,6 @@ public class CurrentJobsFragment extends Fragment {
         lvCurrentJobs.setAdapter(new CurrentJobListAdapter(getActivity(), R.layout.layout_current_job_list_item, jobs));
 
         return view;
-
     }
 
     public void openDialog() {

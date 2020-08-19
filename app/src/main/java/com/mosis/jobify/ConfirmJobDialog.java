@@ -1,4 +1,4 @@
-package com.mosis.jobify.activities;
+package com.mosis.jobify;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

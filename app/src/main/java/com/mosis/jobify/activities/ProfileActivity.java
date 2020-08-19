@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,11 +25,10 @@ import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
 
-public class ProfileActivity extends AppCompatActivity {
-    Button btnOff, btnSignOut;
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth mFirebaseAuth;
     User user;
-    TextView tvFullName;
+    TextView tvFullName, tvConnections;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -34,9 +37,14 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        btnOff = findViewById(R.id.btnOff);
-        btnSignOut = findViewById(R.id.btnSignOut);
         tvFullName = findViewById(R.id.tvFullName);
+        tvConnections = findViewById(R.id.numConnections);
+
+        ImageView imageView = findViewById(R.id.profileImage);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ema);
+        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+        roundedBitmapDrawable.setCircular(true);
+        imageView.setImageDrawable(roundedBitmapDrawable);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -45,7 +53,8 @@ public class ProfileActivity extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         Bundle extras = getIntent().getExtras();
@@ -56,6 +65,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         tvFullName.setText(user.fullName());
+        if (user.getConnections() != null) {
+            tvConnections.setText(String.valueOf(user.getConnections().size()));
+        } else {
+            tvConnections.setText("0");
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -85,22 +99,45 @@ public class ProfileActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
-        btnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Intent i;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_edit_profile:
+                i = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_connections:
+                i = new Intent(ProfileActivity.this, ConnectionsActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_job_history:
+                i = new Intent(ProfileActivity.this, JobHistoryActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_turn_off:
                 stopService(new Intent(ProfileActivity.this, TrackingService.class));
-            }
-        });
-
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
+                i = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(i);
                 stopService(new Intent(ProfileActivity.this, TrackingService.class));
-            }
-        });
+                break;
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
