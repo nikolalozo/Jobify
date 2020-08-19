@@ -7,13 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 

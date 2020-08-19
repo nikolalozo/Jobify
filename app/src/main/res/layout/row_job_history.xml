@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDoneJobDate"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:textSize="10dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDoneJobTitle"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDoneJobOwner"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:textSize="10dp"
+            android:textStyle="bold">
+        </TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

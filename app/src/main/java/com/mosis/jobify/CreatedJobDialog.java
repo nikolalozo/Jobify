@@ -1,4 +1,4 @@
-package com.mosis.jobify.activities;
+package com.mosis.jobify;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.mosis.jobify.activities.MapActivity;
+import com.mosis.jobify.activities.NewJobActivity;
 
 public class CreatedJobDialog extends DialogFragment {
     @NonNull
