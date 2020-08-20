@@ -127,6 +127,10 @@ public class User implements Serializable {
         return this.connections;
     }
 
+    public int getJobsDone() {
+        return jobsDone;
+    }
+
     @Override
     public String toString() {
         return  firstName + " " + lastName + "\nJobs done: " + jobsDone + "\nJobs posted: " + jobsPosted;
