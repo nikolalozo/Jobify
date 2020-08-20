@@ -1,46 +1,47 @@
 package com.mosis.jobify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.mosis.jobify.JobHistoryAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.mosis.jobify.CustomInfoDialog;
+import com.mosis.jobify.DoneJobsHistoryFragment;
+import com.mosis.jobify.PostedJobsHistoryFragment;
 import com.mosis.jobify.R;
-import com.mosis.jobify.data.JobsData;
-import com.mosis.jobify.models.Job;
-
-import java.util.ArrayList;
+import com.mosis.jobify.SectionsPagerAdapter;
 
 public class JobHistoryActivity extends AppCompatActivity {
-    public ArrayList<Job> doneJobs;
-    ListView lvDoneJobs;
-    TextView tvEmptyJobHistory;
+    private SectionsPagerAdapter mSectionsPageAdapter;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_history);
+        openDialog();
+        getSupportActionBar().hide();
 
-        doneJobs = JobsData.getInstance().getDoneJobsForCurrentUser();
-        lvDoneJobs = findViewById((R.id.lvDoneJobs));
-        tvEmptyJobHistory = findViewById(R.id.tvEmptyJobHistory);
-        lvDoneJobs.setAdapter(new JobHistoryAdapter(this, doneJobs));
-        if (doneJobs.size() > 0) {
-            tvEmptyJobHistory.setVisibility(View.INVISIBLE);
-        }
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(mViewPager);
+        mSectionsPageAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        lvDoneJobs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(JobHistoryActivity.this, JobActivity.class);
-                i.putExtra("job", doneJobs.get(position));
-                startActivity(i);
-            }
-        });
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new DoneJobsHistoryFragment(), "Done jobs");
+        adapter.addFragment(new PostedJobsHistoryFragment(), "Posted jobs");
+        viewPager.setAdapter(adapter);
+    }
+
+    public void openDialog() {
+        CustomInfoDialog infoJobDialog = new CustomInfoDialog();
+        infoJobDialog.setMessage("After the job had been done, you and other person are connected on Jobify. Please take a moment and rate each other.");
+        infoJobDialog.setTitle("Success!");
+        infoJobDialog.show(getSupportFragmentManager(), "confirm job dialog");
     }
 }

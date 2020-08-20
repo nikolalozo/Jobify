@@ -91,6 +91,17 @@ public class JobsData {
         return doneJobsForId;
     }
 
+    public ArrayList<Job> getPostedJobsForCurrentUser() {
+        ArrayList<Job> postedJobsForId = new ArrayList<Job>();
+
+        for (int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).getIdPosted().equals(UsersData.getInstance().getCurrentUser().getuID()) && jobs.get(i).getStatus() == StatusEnum.DONE) {
+                postedJobsForId.add(jobs.get(i));
+            }
+        }
+        return postedJobsForId;
+    }
+
     public Job getJob(int i) {
         return this.jobs.get(i);
     }

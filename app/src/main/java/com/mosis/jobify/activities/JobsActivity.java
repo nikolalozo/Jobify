@@ -1,4 +1,4 @@
-package com.mosis.jobify;
+package com.mosis.jobify.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,15 +10,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.mosis.jobify.CurrentJobsFragment;
+import com.mosis.jobify.JobRequestsFragment;
+import com.mosis.jobify.PendingJobsFragment;
+import com.mosis.jobify.R;
+import com.mosis.jobify.SectionsPagerAdapter;
 import com.mosis.jobify.activities.MapActivity;
 import com.mosis.jobify.activities.ProfileActivity;
 import com.mosis.jobify.activities.RankingActivity;
 
 public class JobsActivity extends AppCompatActivity {
-
-
     private SectionsPagerAdapter mSectionsPageAdapter;
-
     private ViewPager mViewPager;
 
     @Override

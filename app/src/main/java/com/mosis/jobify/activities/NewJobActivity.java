@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,16 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.mosis.jobify.JobsActivity;
-import com.mosis.jobify.NewJobDialog;
+import com.mosis.jobify.CustomInfoDialog;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
@@ -45,8 +36,6 @@ public class NewJobActivity extends AppCompatActivity {
     private TextView mDisplayApplyByDate;
     private DatePickerDialog.OnDateSetListener mApplyByDateSetListener;
     FirebaseAuth mFirebaseAuth;
-    private DatabaseReference db;
-    private StorageReference st;
     Button btnNext;
     EditText etJobTitle, etJobPay;
     Job job;
@@ -58,7 +47,6 @@ public class NewJobActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add new job");
         openDialog();
         mFirebaseAuth=FirebaseAuth.getInstance();
-        st= FirebaseStorage.getInstance().getReference();
         etJobTitle = findViewById(R.id.etJobTitle);
         etJobPay = findViewById(R.id.etPay);
         btnNext = findViewById(R.id.btnNext);
@@ -199,7 +187,8 @@ public class NewJobActivity extends AppCompatActivity {
     }
 
     public void openDialog() {
-        NewJobDialog newJobDialog = new NewJobDialog();
+        CustomInfoDialog newJobDialog = new CustomInfoDialog();
+        newJobDialog.setMessage("Location of job you want to added is your current location.");
         newJobDialog.show(getSupportFragmentManager(), "new job dialog");
     }
 }

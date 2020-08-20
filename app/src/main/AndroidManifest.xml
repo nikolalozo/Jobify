@@ -36,7 +36,7 @@
         <activity android:name=".activities.NewJobDescriptionActivity" />
         <activity android:name=".activities.NewJobActivity" />
         <activity
-            android:name=".JobsActivity"
+            android:name=".activities.JobsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.RankingActivity" />
         <activity

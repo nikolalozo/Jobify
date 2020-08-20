@@ -1,7 +1,5 @@
 package com.mosis.jobify.models;
 
-import android.graphics.Bitmap;
-
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -23,13 +21,11 @@ public class User implements Serializable {
     public int jobsDone;
     public double lat;
     public double lng;
+    public int years;
     public ArrayList<String> connections;
-    @Exclude
-    public Bitmap bmp;
 
     public User() {
         this.connections=new ArrayList<String>();
-        bmp=null;
     }
 
     public User(String uID, String email, String password, String firstName, String lastName, String profession) {
@@ -38,19 +34,65 @@ public class User implements Serializable {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.profession=profession;
+        this.profession = profession;
         this.connections=new ArrayList<String>();
         jobsPosted=0;
         jobsDone=0;
         lat=0;
         lng=0;
-        bmp=null;
+        years = 0;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String name) {
+        firstName = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String surname) {
+        lastName = surname;
+    }
+
+    @Exclude
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String newPassword) {
+        password = newPassword;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String mail) {
+        email = mail;
+    }
+
+    public int getYears() {
+        return years;
+    }
+
+    public void setYears(int a) {
+        years = a;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String prof) {
+        profession = prof;
+    }
+
+    @Exclude
     public String getuID() { return this.uID; }
 
     public String fullName(){
@@ -83,6 +125,10 @@ public class User implements Serializable {
 
     public ArrayList<String> getConnections() {
         return this.connections;
+    }
+
+    public int getJobsDone() {
+        return jobsDone;
     }
 
     @Override
