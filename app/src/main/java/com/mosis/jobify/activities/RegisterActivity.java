@@ -2,13 +2,18 @@ package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -59,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance().getReference();
-        st= FirebaseStorage.getInstance().getReference().child("Profile Pictures");
+        st= FirebaseStorage.getInstance().getReference();
         firstName = findViewById(R.id.etFirstName);
         lastName = findViewById(R.id.etLastName);
         emailId = findViewById(R.id.edtTxtEmail);
@@ -116,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                 user.firstName=first;
                 user.lastName=last;
                 ArrayList<String> arr = new ArrayList<String>();
-                arr.add("UwsBjtcQWZTEnSYl8PMZRT2HvNk1");
+                arr.add("25z5JHxxNyZ7TB4eJemFYRptPDa2");
                 user.connections=arr;
 
                 mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -131,9 +137,27 @@ public class RegisterActivity extends AppCompatActivity {
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                             byte[] data = baos.toByteArray();
-                            st.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("picture").putBytes(data);
-                            Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(i);
+                            st.child("users").child(mFirebaseAuth.getCurrentUser().getUid()).child("picture").putBytes(data).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    if (ActivityCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(RegisterActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                                    {
+                                        ActivityCompat.requestPermissions(RegisterActivity.this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE},2);
+                                    }
+                                    else {
+                                        startService(new Intent(RegisterActivity.this, TrackingService.class));
+                                        Runnable runnable = new Runnable() {
+                                            public void run() {
+                                                Intent i = new Intent(RegisterActivity.this, MapActivity.class);
+                                                startActivity(i);
+                                                finish();
+                                            }
+                                        };
+                                        Handler handler = new android.os.Handler();
+                                        handler.postDelayed(runnable, 2500);
+                                    }
+                                }
+                            });
                         } else {
                             Toast.makeText(RegisterActivity.this, "Registration failed!", Toast.LENGTH_SHORT).show();
                         }
@@ -152,6 +176,26 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull final int[] grantResults) {
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                finish();
+                System.exit(0);
+            }
+        }
+                startService(new Intent(RegisterActivity.this, TrackingService.class));
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        Intent i = new Intent(RegisterActivity.this, MapActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                };
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(runnable, 2500);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK)
@@ -159,13 +203,6 @@ public class RegisterActivity extends AppCompatActivity {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             Bitmap squarePhoto = cropToSquare(photo);
             imageView.setImageBitmap(squarePhoto);
-        }
-    }
-
-    private void takePic(){
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (i.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(i, 1);
         }
     }
 

@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvSignUp;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    boolean granted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +69,21 @@ public class LoginActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(LoginActivity.this, "Couldn't login, please try again.", Toast.LENGTH_SHORT).show();
                             } else {
-                                if (ActivityCompat.checkSelfPermission(LoginActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(LoginActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED || !granted)
+                                if (ActivityCompat.checkSelfPermission(LoginActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(LoginActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
                                 {
                                     ActivityCompat.requestPermissions(LoginActivity.this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE},2);
                                 }
                                 else {
-                                    Intent i = new Intent(LoginActivity.this, MapActivity.class);
-                                    startActivity(i);
                                     startService(new Intent(LoginActivity.this, TrackingService.class));
+                                    Runnable runnable = new Runnable() {
+                                        public void run() {
+                                            Intent i = new Intent(LoginActivity.this, MapActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    };
+                                    Handler handler = new android.os.Handler();
+                                    handler.postDelayed(runnable, 2500);
                                 }
 
                             }
@@ -148,35 +154,19 @@ public class LoginActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         for (int grantResult : grantResults) {
             if (grantResult == PackageManager.PERMISSION_DENIED) {
-                granted=false;
                 finish();
                 System.exit(0);
             }
         }
-        granted=true;
-        Intent i = new Intent(LoginActivity.this, MapActivity.class);
-        startActivity(i);
-        startService(new Intent(LoginActivity.this, TrackingService.class));
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        UsersData.getInstance().init();
-        JobsData.getInstance().init();
-        FirebaseUser user=mFirebaseAuth.getCurrentUser();
-        if(user!=null && granted){
-            startService(new Intent(LoginActivity.this, TrackingService.class));
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    Intent i = new Intent(LoginActivity.this, MapActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            };
-            Handler handler = new android.os.Handler();
-            handler.postDelayed(runnable, 3500);
-        }
+                startService(new Intent(LoginActivity.this, TrackingService.class));
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        Intent i = new Intent(LoginActivity.this, MapActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                };
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(runnable, 2500);
     }
 }

@@ -17,13 +17,20 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth mFirebaseAuth;
@@ -32,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    StorageReference st;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +47,17 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_profile);
         tvFullName = findViewById(R.id.tvFullName);
         tvConnections = findViewById(R.id.numConnections);
+        st= FirebaseStorage.getInstance().getReference();
+        final ImageView imageView = (CircleImageView) findViewById(R.id.profile_picture);
 
-        ImageView imageView = findViewById(R.id.profileImage);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ema);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        imageView.setImageDrawable(roundedBitmapDrawable);
+        st.child("users").child(UsersData.getInstance().getCurrentUser().uID).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap scaledBmp = bitmap.createScaledBitmap(bitmap, imageView.getWidth(), imageView.getHeight(), false);
+                imageView.setImageBitmap(scaledBmp);
+            }
+        });
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);

@@ -1,5 +1,7 @@
 package com.mosis.jobify.models;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -22,9 +24,12 @@ public class User implements Serializable {
     public double lat;
     public double lng;
     public ArrayList<String> connections;
+    @Exclude
+    public Bitmap bmp;
 
     public User() {
         this.connections=new ArrayList<String>();
+        bmp=null;
     }
 
     public User(String uID, String email, String password, String firstName, String lastName, String profession) {
@@ -39,6 +44,7 @@ public class User implements Serializable {
         jobsDone=0;
         lat=0;
         lng=0;
+        bmp=null;
     }
 
     public String getFirstName() {

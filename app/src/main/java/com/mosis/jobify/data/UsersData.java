@@ -14,7 +14,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.mosis.jobify.BuildConfig;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 import com.mosis.jobify.models.Location;
@@ -33,6 +35,7 @@ public class UsersData {
 
     public UsersData() {
         mFirebaseAuth = FirebaseAuth.getInstance();
+        st= FirebaseStorage.getInstance().getReference();
         users = new ArrayList<User>();
         usersPosted = new ArrayList<User>();
         db = FirebaseDatabase.getInstance().getReference().child("users");
@@ -99,13 +102,24 @@ public class UsersData {
         for (int i = 0; i < users.size(); i++) {
             if (getCurrentUser().connections.contains(users.get(i).uID)) {
                 arr.add(users.get(i));
+                /*final User user = users.get(i);
+                st.child("users").child(users.get(i).uID).child("picture").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                    @Override
+                    public void onComplete(@NonNull Task<byte[]> task) {
+                        byte[] data = task.getResult();
+                        Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        Bitmap scaledBmp = bmp.createScaledBitmap(bmp, 100, 100, false);
+                        user.bmp=scaledBmp;
+                    }
+                });*/
+
             }
         }
 
         /*userConnections = arr;
         for (int i = 0; i < userConnections.size(); i++) {
             final String id = userConnections.get(i).uID;
-            st.child("users").child(id).child("profile").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+            st.child("users").child(id).child("picture").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
                 @Override
                 public void onComplete(@NonNull Task<byte[]> task) {
                     byte[] data = task.getResult();
@@ -114,6 +128,7 @@ public class UsersData {
                     connectionPics.put(id, scaledBmp);
                 }
             });
+
         }*/
         return arr;
     }

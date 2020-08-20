@@ -53,15 +53,18 @@
             app:layout_constraintVertical_bias="1.0"
             app:menu="@menu/menu_navigation" />
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="44dp"
+            android:src="@drawable/default_profile"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/toolbarProfile"
-            app:srcCompat="@drawable/ema" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvFullName"
@@ -71,7 +74,7 @@
             android:textSize="27dp"
             android:textColor="@color/colorPrimary"
             android:text="Djurdja Vidakovic"
-            app:layout_constraintTop_toBottomOf="@+id/profileImage"
+            app:layout_constraintTop_toBottomOf="@+id/profile_picture"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />

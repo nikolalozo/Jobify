@@ -4,6 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +28,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.JobsData;
@@ -30,7 +46,9 @@ import com.mosis.jobify.models.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -46,6 +64,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     static Date applyBy;
     public static Calendar cal;
     Date today;
+    StorageReference st;
+    ArrayList<User> userConnections;
+    ArrayList<Job> jobs;
     //DODAJ LISTENER ZA DB CHILD LOKACIJA
 
     @Override
@@ -53,6 +74,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mFirebaseAuth = FirebaseAuth.getInstance();
+        st= FirebaseStorage.getInstance().getReference();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.map);
         fabFilter = findViewById(R.id.fabFilter);
@@ -66,8 +88,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         cal.add(Calendar.MONTH, 1);
         applyBy=cal.getTime();
         today=Calendar.getInstance().getTime();
-
-        Toast.makeText(this, String.valueOf(applyBy), Toast.LENGTH_LONG).show();
+        userConnections=UsersData.getInstance().getUserConnections();
+        jobs=JobsData.getInstance().getJobs();
 
 
         fabFilter.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +139,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
-        if (includeConnections)
-            showMyConnections();
-        if (includeJobs)
-            showJobs();
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback()
+        {
+            @Override
+            public void onMapLoaded()
+            {
+                if (includeJobs)
+                    showJobs();
+                if (includeConnections)
+                    showMyConnections();
+            }
+        });
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(final Marker marker) {
@@ -143,7 +172,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        //Toast.makeText(this, String.valueOf(JobsData.getInstance().getJobs().get(0).appliedBy), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, String.valueOf(jobs.get(0).title), Toast.LENGTH_LONG).show();
     }
 
 
@@ -158,44 +187,93 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         if (includeJobs)
             showJobs();
         //Toast.makeText(this, String.valueOf(applyBy.before(JobsData.getInstance().getJob(0).appliedBy)), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, String.valueOf(JobsData.getInstance().getJob(0).appliedBy), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, String.valueOf(JobsData.getInstance().getJob(0).appliedBy), Toast.LENGTH_SHORT).show();
+    }
+
+    public int dp(float value) {
+        if (value == 0) {
+            return 0;
+        }
+        return (int) Math.ceil(getResources().getDisplayMetrics().density * value);
+    }
+
+    private Bitmap createUserBitmap(Bitmap image) {
+        Bitmap result = null;
+        try {
+            result = Bitmap.createBitmap(dp(62), dp(76), Bitmap.Config.ARGB_8888);
+            result.eraseColor(Color.TRANSPARENT);
+            Canvas canvas = new Canvas(result);
+            Drawable drawable = getResources().getDrawable(R.drawable.livepin);
+            drawable.setBounds(0, 0, dp(62), dp(76));
+            drawable.draw(canvas);
+
+            Paint roundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            RectF bitmapRect = new RectF();
+            canvas.save();
+
+            Bitmap bitmap = image;
+            //Bitmap bitmap = BitmapFactory.decodeFile(path.toString()); /*generate bitmap here if your image comes from any url*/
+            if (bitmap != null) {
+                BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                Matrix matrix = new Matrix();
+                float scale = dp(52) / (float) bitmap.getWidth();
+                matrix.postTranslate(dp(5), dp(5));
+                matrix.postScale(scale, scale);
+                roundPaint.setShader(shader);
+                shader.setLocalMatrix(matrix);
+                bitmapRect.set(dp(5), dp(5), dp(52 + 5), dp(52 + 5));
+                canvas.drawRoundRect(bitmapRect, dp(26), dp(26), roundPaint);
+            }
+            canvas.restore();
+            try {
+                canvas.setBitmap(null);
+            } catch (Exception e) {}
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return result;
     }
 
 
     public void showMyConnections() {
-        for(int i=0; i<UsersData.getInstance().getUserConnections().size(); i++) {
-            User con = UsersData.getInstance().getUserConnections().get(i);
-            User currentUser = UsersData.getInstance().getCurrentUser();
+        for (int i = 0; i < userConnections.size(); i++) {
+            User con = userConnections.get(i);
+            final User currentUser = UsersData.getInstance().getCurrentUser();
             double distance = pointsDistance(currentUser.lat, currentUser.lng, con.lat, con.lng);
-            if(distance>minDistance && distance<maxDistance) {
+            if (distance > minDistance && distance < maxDistance) {
                 double lat = con.lat;
                 double lng = con.lng;
-                LatLng latLng = new LatLng(lat, lng);
-                String name = con.firstName;
+                final LatLng latLng = new LatLng(lat, lng);
 
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title(name);
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-                Marker marker = mMap.addMarker(markerOptions);
-                marker.setTag(con);
-                markers.add(marker);
+                st.child("users").child(con.uID).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        Bitmap scaledBmp = bitmap.createScaledBitmap(bitmap, 256, 256, false);
+                        Bitmap userBitmap = createUserBitmap(scaledBmp);
+                        if (userBitmap != null) {
+                            mMap.addMarker(
+                                    new MarkerOptions()
+                                            .position(latLng)
+                                            .icon(BitmapDescriptorFactory.fromBitmap(userBitmap)).anchor(0.5f, 1));
+                        }
+                    }
+                });
             }
         }
     }
 
+
     public void showJobs() {
-        for (int i = 0; i < JobsData.getInstance().getJobs().size(); i++) {
-            Job job = JobsData.getInstance().getJob(i);
+        for (int i = 0; i < jobs.size(); i++) {
+            Job job = jobs.get(i);
             User currentUser = UsersData.getInstance().getCurrentUser();
             double distance = pointsDistance(currentUser.lat, currentUser.lng, job.latitude, job.longitude);
-            if(job.wage>minPay && job.wage<maxPay && distance>minDistance && distance<maxDistance) {
+            if(job.wage>=minPay && job.wage<=maxPay && distance>=minDistance && distance<=maxDistance) {
                 double lat = job.getLatitude();
                 double lng = job.getLongitude();
                 LatLng latLng = new LatLng(lat, lng);
                 String title = job.getTitle();
-                job.setKey(JobsData.getInstance().getJob(i).getKey());
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
@@ -204,7 +282,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.setTag(job);
-                markers.add(marker);
             }
         }
     }
