@@ -11,13 +11,15 @@ public class Review implements Serializable {
     public String key;
     public float mark;
     public String idJob;
+    public String idUser;
 
     public Review() {
         mark = 0;
     }
 
-    public Review(float m, String jobId) {
+    public Review(float m, String jobId, String userId) {
         mark = m;
+        idUser = userId;
         idJob = jobId;
     }
 
