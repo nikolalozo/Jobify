@@ -38,7 +38,6 @@ public class NewJobActivity extends AppCompatActivity {
     private TextView mDisplayApplyByDate;
     private DatePickerDialog.OnDateSetListener mApplyByDateSetListener;
     FirebaseAuth mFirebaseAuth;
-    private DatabaseReference db;
     Button btnNext;
     EditText etJobTitle, etJobPay;
     Job job;

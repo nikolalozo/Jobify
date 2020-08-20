@@ -1,14 +1,17 @@
 package com.mosis.jobify.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mosis.jobify.JobHistoryAdapter;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.JobsData;
