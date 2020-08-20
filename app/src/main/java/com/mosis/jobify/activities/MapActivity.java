@@ -56,7 +56,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     FirebaseAuth mFirebaseAuth;
     public boolean open;
     ArrayList<Marker> markers = new ArrayList<Marker>();
-    private FloatingActionButton fabFilter;
+    private FloatingActionButton fabFilter, fabSearch;
     static Integer minPay, maxPay;
     static float minDistance, maxDistance;
     static boolean includeJobs, includeConnections;
@@ -66,6 +66,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     StorageReference st;
     ArrayList<User> userConnections;
     ArrayList<Job> jobs;
+    public static double newLat;
+    public static double newLng;
+    public static boolean search;
+
     //DODAJ LISTENER ZA DB CHILD LOKACIJA
 
     @Override
@@ -77,6 +81,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.map);
         fabFilter = findViewById(R.id.fabFilter);
+        fabSearch=findViewById(R.id.fabSearch);
         minDistance = 0;
         maxDistance = 6000;
         minPay = 100;
@@ -90,11 +95,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         userConnections=UsersData.getInstance().getUserConnections();
         jobs=JobsData.getInstance().getJobs();
 
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapActivity.this, SearchActivity.class));
+            }
+        });
 
         fabFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MapActivity.this, SearchActivity.class));
+                startActivity(new Intent(MapActivity.this, FilterActivity.class));
             }
         });
 
@@ -185,6 +196,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             showMyConnections();
         if (includeJobs)
             showJobs();
+        if(search) {
+            LatLng latLng = new LatLng(newLat, newLng);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        }
         //Toast.makeText(this, String.valueOf(applyBy.before(JobsData.getInstance().getJob(0).appliedBy)), Toast.LENGTH_SHORT).show();
         //Toast.makeText(this, String.valueOf(JobsData.getInstance().getJob(0).appliedBy), Toast.LENGTH_SHORT).show();
     }

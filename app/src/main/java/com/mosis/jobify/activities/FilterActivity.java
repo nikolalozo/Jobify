@@ -46,6 +46,7 @@ public class FilterActivity extends AppCompatActivity {
         rsPay.setValues(MapActivity.minPay.floatValue(), MapActivity.maxPay.floatValue());
         swJobs.setChecked(MapActivity.includeJobs);
         swConnections.setChecked(MapActivity.includeConnections);
+        MapActivity.search=false;
 
         if(MapActivity.includeJobs) {
             tvSelectDate.setEnabled(true);

@@ -3,7 +3,9 @@ package com.mosis.jobify.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -16,6 +18,8 @@ import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
+
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
     ListView lvSearch;
@@ -75,6 +79,22 @@ public class SearchActivity extends AppCompatActivity {
                         lvSearch.setAdapter(adapterJobs);
                         break;
                 }
+            }
+        });
+
+        lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MapActivity.search=true;
+                if(searchForConnections) {
+                    MapActivity.newLat= adapterUsers.getItem(position).lat;
+                    MapActivity.newLng=adapterUsers.getItem(position).lng;
+                }
+                else {
+                    MapActivity.newLat= adapterJobs.getItem(position).latitude;
+                    MapActivity.newLng=adapterJobs.getItem(position).longitude;
+                }
+                finish();
             }
         });
     }
