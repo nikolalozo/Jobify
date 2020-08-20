@@ -19,9 +19,7 @@ import android.widget.TimePicker;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.mosis.jobify.JobsActivity;
-import com.mosis.jobify.NewJobDialog;
+import com.mosis.jobify.CustomInfoDialog;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
@@ -189,7 +187,8 @@ public class NewJobActivity extends AppCompatActivity {
     }
 
     public void openDialog() {
-        NewJobDialog newJobDialog = new NewJobDialog();
+        CustomInfoDialog newJobDialog = new CustomInfoDialog();
+        newJobDialog.setMessage("Location of job you want to added is your current location.");
         newJobDialog.show(getSupportFragmentManager(), "new job dialog");
     }
 }

@@ -9,17 +9,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class NewJobDialog extends AppCompatDialogFragment {
+public class CustomInfoDialog extends AppCompatDialogFragment {
+    public String message;
+    public String title;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Location of job you want to added is your current location.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setMessage(this.message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
+        if (title != null) {
+            builder.setTitle(title);
+        }
         return builder.create();
+    }
+
+    public void setMessage(String mess) {
+        message = mess;
+    }
+
+    public void setTitle(String tit) {
+        title = tit;
     }
 }
