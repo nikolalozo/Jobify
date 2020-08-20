@@ -29,7 +29,6 @@ public class JobHistoryActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {

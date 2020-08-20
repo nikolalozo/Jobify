@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/media_card_view"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="200dp"
         card_view:cardBackgroundColor="@android:color/white"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
@@ -16,8 +16,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvDoneJobDate"
@@ -42,8 +41,18 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tvRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rate_user"
+                android:layout_margin="20dp"
+                android:textSize="23sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

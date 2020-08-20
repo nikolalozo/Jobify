@@ -9,20 +9,23 @@ import java.io.Serializable;
 public class Review implements Serializable {
     @Exclude
     public String key;
-    public int mark;
-    public String comment;
+    public float mark;
     public String idJob;
 
     public Review() {
-        mark=0;
-        comment="Komentar";
+        mark = 0;
     }
 
-    public int getMark() {
+    public Review(float m, String jobId) {
+        mark = m;
+        idJob = jobId;
+    }
+
+    public float getMark() {
         return mark;
     }
 
-    public void setMark(int mark) {
+    public void setMark(float mark) {
         this.mark = mark;
     }
 
