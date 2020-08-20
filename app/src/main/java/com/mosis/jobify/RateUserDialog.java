@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Review;
 
 public class RateUserDialog extends DialogFragment {
@@ -36,7 +37,7 @@ public class RateUserDialog extends DialogFragment {
         }).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Review review = new Review(ratingBar.getRating(), jobId);
+                Review review = new Review(ratingBar.getRating(), jobId, UsersData.getInstance().getCurrentUser().getuID());
                 String ratingId = db.push().getKey();
                 db.child(ratingId).setValue(review);
                 dialog.dismiss();
