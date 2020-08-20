@@ -20,18 +20,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 

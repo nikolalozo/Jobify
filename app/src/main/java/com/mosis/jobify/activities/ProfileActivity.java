@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.mosis.jobify.JobsActivity;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
@@ -28,7 +27,7 @@ import com.mosis.jobify.models.User;
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth mFirebaseAuth;
     User user;
-    TextView tvFullName, tvConnections;
+    TextView tvFullName, tvConnections, tvDoneJobs, tvYears, tvProfession;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -39,6 +38,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_profile);
         tvFullName = findViewById(R.id.tvFullName);
         tvConnections = findViewById(R.id.numConnections);
+        tvDoneJobs = findViewById(R.id.numDoneJobs);
+        tvYears = findViewById(R.id.tvYears);
+        tvProfession = findViewById(R.id.tvProfession);
 
         ImageView imageView = findViewById(R.id.profileImage);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ema);
@@ -65,11 +67,19 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         }
 
         tvFullName.setText(user.fullName());
+        tvDoneJobs.setText(String.valueOf(user.getJobsDone()));
+        if (user.getYears() > 0) {
+            tvYears.setText(String.valueOf(user.getYears()) + " years");
+        }
+        if (user.getProfession() != null) {
+            tvProfession.setText(user.getProfession());
+        }
         if (user.getConnections() != null) {
             tvConnections.setText(String.valueOf(user.getConnections().size()));
         } else {
             tvConnections.setText("0");
         }
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);

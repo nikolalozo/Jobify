@@ -9,7 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 
@@ -18,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class JobHistoryAdapter extends ArrayAdapter<Job> {
-
     Context context;
     ArrayList<Job> doneJobs;
 
@@ -30,12 +32,21 @@ public class JobHistoryAdapter extends ArrayAdapter<Job> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = layoutInflater.inflate(R.layout.row_job_history, parent, false);
         TextView jobTitle = row.findViewById(R.id.tvDoneJobTitle);
         TextView jobDate = row.findViewById(R.id.tvDoneJobDate);
         TextView jobOwner = row.findViewById(R.id.tvDoneJobOwner);
+        TextView tvRateUser = row.findViewById(R.id.tvRate);
+        tvRateUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RateUserDialog rateUserDialog = new RateUserDialog();
+                rateUserDialog.setJobId(getItem(position).getKey());
+                rateUserDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "rate user dialog");
+            }
+        });
 
         jobTitle.setText(getItem(position).getTitle());
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
