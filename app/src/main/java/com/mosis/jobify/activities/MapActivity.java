@@ -1,6 +1,7 @@
 package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -34,6 +36,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mosis.jobify.R;
@@ -54,8 +62,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     FirebaseAuth mFirebaseAuth;
-    public boolean open;
-    ArrayList<Marker> markers = new ArrayList<Marker>();
     private FloatingActionButton fabFilter, fabSearch;
     static Integer minPay, maxPay;
     static float minDistance, maxDistance;
@@ -63,14 +69,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     static Date applyBy;
     public static Calendar cal;
     Date today;
-    StorageReference st;
-    ArrayList<User> userConnections;
-    ArrayList<Job> jobs;
+    private StorageReference st;
+    private DatabaseReference db;
     public static double newLat;
     public static double newLng;
     public static boolean search;
-
-    //DODAJ LISTENER ZA DB CHILD LOKACIJA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         setContentView(R.layout.activity_map);
         mFirebaseAuth = FirebaseAuth.getInstance();
         st= FirebaseStorage.getInstance().getReference();
+        db= FirebaseDatabase.getInstance().getReference().child("users");
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.map);
         fabFilter = findViewById(R.id.fabFilter);
@@ -92,8 +96,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         cal.add(Calendar.MONTH, 1);
         applyBy=cal.getTime();
         today=Calendar.getInstance().getTime();
-        userConnections=UsersData.getInstance().getUserConnections();
-        jobs=JobsData.getInstance().getJobs();
 
         fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +108,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MapActivity.this, FilterActivity.class));
+            }
+        });
+
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        mMap.clear();
+                        if(includeConnections)
+                            showMyConnections();
+                        if(includeJobs)
+                            showJobs();
+                    }
+                };
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(runnable, 2500);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -181,11 +205,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 }
             }
         });
-
-        Toast.makeText(this, String.valueOf(jobs.get(0).title), Toast.LENGTH_LONG).show();
     }
-
-
 
     @Override
     protected void onRestart() {
@@ -200,8 +220,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             LatLng latLng = new LatLng(newLat, newLng);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         }
-        //Toast.makeText(this, String.valueOf(applyBy.before(JobsData.getInstance().getJob(0).appliedBy)), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, String.valueOf(JobsData.getInstance().getJob(0).appliedBy), Toast.LENGTH_SHORT).show();
     }
 
     public int dp(float value) {
@@ -250,8 +268,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
     public void showMyConnections() {
+        ArrayList<User> userConnections=UsersData.getInstance().getUserConnections();
         for (int i = 0; i < userConnections.size(); i++) {
-            User con = userConnections.get(i);
+            final User con = userConnections.get(i);
             final User currentUser = UsersData.getInstance().getCurrentUser();
             double distance = pointsDistance(currentUser.lat, currentUser.lng, con.lat, con.lng);
             if (distance > minDistance && distance < maxDistance) {
@@ -279,6 +298,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
     public void showJobs() {
+        ArrayList<Job> jobs = JobsData.getInstance().getJobs();
         for (int i = 0; i < jobs.size(); i++) {
             Job job = jobs.get(i);
             User currentUser = UsersData.getInstance().getCurrentUser();
@@ -292,7 +312,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title(title);
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.briefcase));
 
                 Marker marker = mMap.addMarker(markerOptions);
                 marker.setTag(job);

@@ -27,7 +27,7 @@ import java.util.Map;
 public class FilterActivity extends AppCompatActivity {
     RangeSlider rsDistance;
     RangeSlider rsPay;
-    Button btnReset;
+    Button btnReset, btnSet;
     Switch swJobs, swConnections;
     TextView tvSelectDate;
     private DatePickerDialog.OnDateSetListener selectDateSetListener;
@@ -39,6 +39,7 @@ public class FilterActivity extends AppCompatActivity {
         rsDistance=findViewById(R.id.rsDistance);
         rsPay=findViewById(R.id.rsPay);
         btnReset=findViewById(R.id.btnReset);
+        btnSet=findViewById(R.id.btnSet);
         swJobs=findViewById(R.id.swJobs);
         swConnections=findViewById(R.id.swConnections);
         tvSelectDate=findViewById(R.id.tvSelectDate);
@@ -91,6 +92,13 @@ public class FilterActivity extends AppCompatActivity {
                 MapActivity.cal=Calendar.getInstance();
                 MapActivity.cal.add(Calendar.MONTH, 1);
 
+            }
+        });
+
+        btnSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

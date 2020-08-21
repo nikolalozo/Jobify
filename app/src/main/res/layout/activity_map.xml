@@ -22,7 +22,9 @@
         android:layout_marginEnd="101dp"
         android:layout_marginBottom="68dp"
         android:clickable="true"
-        app:srcCompat="@android:color/holo_blue_dark" />
+        app:backgroundTint="#DAF0F0F0"
+        app:srcCompat="@android:color/background_light"
+        android:src="@drawable/search"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -32,7 +34,7 @@
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
         app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabFilter"
@@ -43,5 +45,8 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="68dp"
         android:clickable="true"
-        app:srcCompat="@android:color/holo_blue_dark" />
+        app:backgroundTint="#DAF0F0F0"
+        app:srcCompat="@android:color/background_light"
+        android:src="@drawable/filter"/>
+
 </RelativeLayout>
