@@ -102,47 +102,9 @@ public class UsersData {
         for (int i = 0; i < users.size(); i++) {
             if (getCurrentUser().connections.contains(users.get(i).uID)) {
                 arr.add(users.get(i));
-                /*final User user = users.get(i);
-                st.child("users").child(users.get(i).uID).child("picture").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                    @Override
-                    public void onComplete(@NonNull Task<byte[]> task) {
-                        byte[] data = task.getResult();
-                        Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                        Bitmap scaledBmp = bmp.createScaledBitmap(bmp, 100, 100, false);
-                        user.bmp=scaledBmp;
-                    }
-                });*/
-
             }
         }
-
-        /*userConnections = arr;
-        for (int i = 0; i < userConnections.size(); i++) {
-            final String id = userConnections.get(i).uID;
-            st.child("users").child(id).child("picture").getBytes(5 * 1024 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                @Override
-                public void onComplete(@NonNull Task<byte[]> task) {
-                    byte[] data = task.getResult();
-                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    Bitmap scaledBmp = bmp.createScaledBitmap(bmp, 100, 100, false);
-                    connectionPics.put(id, scaledBmp);
-                }
-            });
-
-        }*/
         return arr;
-    }
-
-    public User getConnection(String friendId) {
-        for(int i=0;i<userConnections.size();i++){
-            if(userConnections.get(i).uID.equals(friendId))
-                return userConnections.get(i);
-        }
-        return null;
-    }
-
-    public void init() {
-
     }
 
     private  static class SingletonHolder{

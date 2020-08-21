@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
+import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -18,8 +19,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -62,7 +65,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     FirebaseAuth mFirebaseAuth;
-    private FloatingActionButton fabFilter, fabSearch;
+    private FloatingActionButton fabFilter, fabSearch, fabZoomIn, fabZoomOut;
     static Integer minPay, maxPay;
     static float minDistance, maxDistance;
     static boolean includeJobs, includeConnections;
@@ -86,6 +89,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         bottomNavigationView.setSelectedItemId(R.id.map);
         fabFilter = findViewById(R.id.fabFilter);
         fabSearch=findViewById(R.id.fabSearch);
+        fabZoomIn=findViewById(R.id.fabZoomIn);
+        fabZoomOut=findViewById(R.id.fabZoomOut);
         minDistance = 0;
         maxDistance = 6000;
         minPay = 100;
@@ -96,6 +101,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         cal.add(Calendar.MONTH, 1);
         applyBy=cal.getTime();
         today=Calendar.getInstance().getTime();
+
+        fabZoomOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.zoomOut());
+            }
+        });
+
+        fabZoomIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.zoomIn());
+            }
+        });
 
         fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,10 +188,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         mMap.setMyLocationEnabled(true);
+
         LatLng latLng = new LatLng(43.321443, 21.895592);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback()
         {
             @Override

@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
         radioGroup=findViewById(R.id.radioGroup);
         rb1=findViewById(R.id.radio_button_1);
         rb2=findViewById(R.id.radio_button_2);
-        adapterUsers= new ArrayAdapter<User>(this, R.layout.list_item, UsersData.getInstance().users);
+        adapterUsers= new ArrayAdapter<User>(this, R.layout.list_item, UsersData.getInstance().getUserConnections());
         adapterJobs=new ArrayAdapter<Job>(this, R.layout.list_item, JobsData.getInstance().getJobs());
         lvSearch.setAdapter(adapterUsers);
 

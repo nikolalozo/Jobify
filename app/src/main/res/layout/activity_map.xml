@@ -14,6 +14,30 @@
         tools:context=".activities.MapActivity" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabZoomIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="322dp"
+        android:layout_marginBottom="139dp"
+        android:clickable="true"
+        android:src="@drawable/plus"
+        app:backgroundTint="#DAF0F0F0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabZoomOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="322dp"
+        android:layout_marginBottom="68dp"
+        android:clickable="true"
+        android:src="@drawable/minus"
+        app:backgroundTint="#DAF0F0F0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +47,6 @@
         android:layout_marginBottom="68dp"
         android:clickable="true"
         app:backgroundTint="#DAF0F0F0"
-        app:srcCompat="@android:color/background_light"
         android:src="@drawable/search"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -46,7 +69,6 @@
         android:layout_marginBottom="68dp"
         android:clickable="true"
         app:backgroundTint="#DAF0F0F0"
-        app:srcCompat="@android:color/background_light"
         android:src="@drawable/filter"/>
 
 </RelativeLayout>
