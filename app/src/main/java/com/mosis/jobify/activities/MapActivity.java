@@ -2,8 +2,16 @@ package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,8 +25,10 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +58,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mosis.jobify.R;
+import com.mosis.jobify.StatusEnum;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
@@ -60,6 +71,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -80,6 +92,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -140,6 +153,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                             showMyConnections();
                         if(includeJobs)
                             showJobs();
+                        //sendNotificationJob();
+                        //if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
+                        //sendNotificationConnection();
                     }
                 };
                 Handler handler = new android.os.Handler();
@@ -322,7 +338,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             Job job = jobs.get(i);
             User currentUser = UsersData.getInstance().getCurrentUser();
             double distance = pointsDistance(currentUser.lat, currentUser.lng, job.latitude, job.longitude);
-            if(job.wage>=minPay && job.wage<=maxPay && distance>=minDistance && distance<=maxDistance) {
+            if(job.wage>=minPay && job.wage<=maxPay && distance>=minDistance && distance<=maxDistance && job.status== StatusEnum.POSTED) {
                 double lat = job.getLatitude();
                 double lng = job.getLongitude();
                 LatLng latLng = new LatLng(lat, lng);

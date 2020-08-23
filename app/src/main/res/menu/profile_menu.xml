@@ -23,10 +23,5 @@
             android:title="Logout"
             android:icon="@drawable/ic_arrow_back"></item>
 
-        <item
-            android:id="@+id/nav_turn_off"
-            android:title="Turn off"
-            android:icon="@drawable/ic_power_settings"></item>
-
     </group>
 </menu>

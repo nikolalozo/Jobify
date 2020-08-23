@@ -14,7 +14,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     NavigationView navigationView;
     Toolbar toolbar;
     StorageReference st;
+    Switch swService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         tvProfession = findViewById(R.id.tvProfession);
         st= FirebaseStorage.getInstance().getReference();
         final ImageView imageView = (CircleImageView) findViewById(R.id.profile_picture);
+        swService=findViewById(R.id.swService);
+        if(TrackingService.tracking)
+        swService.setChecked(true);
+        else
+            swService.setChecked(false);
 
         st.child("users").child(UsersData.getInstance().getCurrentUser().uID).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
@@ -93,7 +101,17 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             tvConnections.setText("0");
         }
 
-
+        swService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked && !TrackingService.tracking) {
+                    startService(new Intent(ProfileActivity.this, TrackingService.class));
+                    TrackingService.tracking=true;
+                }
+                else
+                    stopService(new Intent(ProfileActivity.this, TrackingService.class));
+            }
+        });
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -148,9 +166,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_job_history:
                 i = new Intent(ProfileActivity.this, JobHistoryActivity.class);
                 startActivity(i);
-                break;
-            case R.id.nav_turn_off:
-                stopService(new Intent(ProfileActivity.this, TrackingService.class));
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

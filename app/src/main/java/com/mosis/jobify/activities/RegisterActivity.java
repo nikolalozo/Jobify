@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         tvSignIn = findViewById(R.id.tvSignIn);
         imageView=(CircleImageView) findViewById(R.id.profile_image);
+        btnSignUp.setEnabled(false);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +85,116 @@ public class RegisterActivity extends AppCompatActivity {
                 if (i.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(i, 1);
                 }
+            }
+        });
+
+        firstName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                    btnSignUp.setEnabled(false);
+                }
+                else {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        lastName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                    btnSignUp.setEnabled(false);
+                }
+                else {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        emailId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                    btnSignUp.setEnabled(false);
+                }
+                else {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        passwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                    btnSignUp.setEnabled(false);
+                }
+                else {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        confirm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                    btnSignUp.setEnabled(false);
+                }
+                else {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -146,15 +259,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                     else {
                                         startService(new Intent(RegisterActivity.this, TrackingService.class));
-                                        Runnable runnable = new Runnable() {
-                                            public void run() {
                                                 Intent i = new Intent(RegisterActivity.this, MapActivity.class);
                                                 startActivity(i);
                                                 finish();
-                                            }
-                                        };
-                                        Handler handler = new android.os.Handler();
-                                        handler.postDelayed(runnable, 2500);
                                     }
                                 }
                             });
@@ -184,15 +291,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
                 startService(new Intent(RegisterActivity.this, TrackingService.class));
-                Runnable runnable = new Runnable() {
-                    public void run() {
                         Intent i = new Intent(RegisterActivity.this, MapActivity.class);
                         startActivity(i);
                         finish();
-                    }
-                };
-                Handler handler = new android.os.Handler();
-                handler.postDelayed(runnable, 2500);
     }
 
     @Override
@@ -201,12 +302,12 @@ public class RegisterActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK)
         {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
-            Bitmap squarePhoto = cropToSquare(photo);
+            Bitmap squarePhoto = crop(photo);
             imageView.setImageBitmap(squarePhoto);
         }
     }
 
-    public static Bitmap cropToSquare(Bitmap bitmap){
+    public static Bitmap crop(Bitmap bitmap){
         int width  = bitmap.getWidth();
         int height = bitmap.getHeight();
         int newWidth = (height > width) ? width : height;

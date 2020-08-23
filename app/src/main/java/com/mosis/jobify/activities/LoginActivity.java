@@ -23,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mosis.jobify.R;
+import com.mosis.jobify.Restarter;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 
@@ -34,7 +35,9 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSignIn;
     TextView tvSignUp;
     FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    Intent mServiceIntent;
+    private TrackingService mYourService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +77,9 @@ public class LoginActivity extends AppCompatActivity {
                                     ActivityCompat.requestPermissions(LoginActivity.this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE},2);
                                 }
                                 else {
-                                    startService(new Intent(LoginActivity.this, TrackingService.class));
-                                    Runnable runnable = new Runnable() {
-                                        public void run() {
-                                            Intent i = new Intent(LoginActivity.this, MapActivity.class);
-                                            startActivity(i);
-                                            finish();
-                                        }
-                                    };
-                                    Handler handler = new android.os.Handler();
-                                    handler.postDelayed(runnable, 2500);
+                                        startService(new Intent(LoginActivity.this, TrackingService.class));
+                                        startActivity(new Intent(LoginActivity.this, MapActivity.class));
                                 }
-
                             }
                         }
                     });
@@ -151,6 +145,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        //stopService(mServiceIntent);
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("restartservice");
+        broadcastIntent.setClass(this, Restarter.class);
+        this.sendBroadcast(broadcastIntent);
+        super.onDestroy();
+    }
+
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         for (int grantResult : grantResults) {
             if (grantResult == PackageManager.PERMISSION_DENIED) {
@@ -159,14 +164,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
                 startService(new Intent(LoginActivity.this, TrackingService.class));
-                Runnable runnable = new Runnable() {
-                    public void run() {
                         Intent i = new Intent(LoginActivity.this, MapActivity.class);
                         startActivity(i);
                         finish();
-                    }
-                };
-                Handler handler = new android.os.Handler();
-                handler.postDelayed(runnable, 2500);
     }
 }

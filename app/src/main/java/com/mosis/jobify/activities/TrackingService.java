@@ -1,25 +1,49 @@
 package com.mosis.jobify.activities;
 
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 
 import android.content.Context;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mosis.jobify.R;
+import com.mosis.jobify.Restarter;
+import com.mosis.jobify.data.JobsData;
+import com.mosis.jobify.data.UsersData;
+import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+
+import static com.mosis.jobify.StatusEnum.TAKEN;
 
 
 public class TrackingService extends Service {
@@ -31,7 +55,10 @@ public class TrackingService extends Service {
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 10000;
     private static final float LOCATION_DISTANCE = 10f;
-    public boolean tracking;
+    public static boolean tracking;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
+    String NOTIFICATION_CHANNEL_ID = "1001";
 
     private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -66,9 +93,9 @@ public class TrackingService extends Service {
     }
 
     LocationListener[] mLocationListeners = new LocationListener[]{
-            new LocationListener(LocationManager.PASSIVE_PROVIDER)
-
-};
+            new LocationListener(LocationManager.GPS_PROVIDER),
+            new LocationListener(LocationManager.NETWORK_PROVIDER)
+    };
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -84,6 +111,10 @@ public class TrackingService extends Service {
 
     @Override
     public void onCreate() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
+            startMyOwnForeground();
+        else
+            startForeground(1, new Notification());
 
         Log.e(TAG, "onCreate");
         auth = FirebaseAuth.getInstance();
@@ -93,22 +124,20 @@ public class TrackingService extends Service {
 
         try {
             mLocationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER,
+                    LocationManager.GPS_PROVIDER,
                     LOCATION_INTERVAL,
                     LOCATION_DISTANCE,
                     mLocationListeners[0]
             );
-            tracking=true;
-            Toast.makeText(this, "Started listening.", Toast.LENGTH_SHORT).show();
         } catch (java.lang.SecurityException ex) {
             Log.i(TAG, "fail to request location update, ignore", ex);
         } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
+            Log.d(TAG, "gps provider does not exist, " + ex.getMessage());
         }
 
-        /*try {
+        try {
             mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
+                    LocationManager.NETWORK_PROVIDER,
                     LOCATION_INTERVAL,
                     LOCATION_DISTANCE,
                     mLocationListeners[1]
@@ -116,11 +145,156 @@ public class TrackingService extends Service {
         } catch (java.lang.SecurityException ex) {
             Log.i(TAG, "fail to request location update, ignore", ex);
         } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
-        }*/
+            Log.d(TAG, "network provider does not exist " + ex.getMessage());
+        }
 
+        tracking=true;
 
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        sendNotificationConnection();
+                        sendNotificationJob();
+                    }
+                };
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(runnable, 5000);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void sendNotificationConnection() {
+        ArrayList<User> userConnections = UsersData.getInstance().getUserConnections();
+        User currentUser = UsersData.getInstance().getCurrentUser();
+        for(int i=0; i<userConnections.size(); i++) {
+            User con = userConnections.get(i);
+            double distanceCon = MapActivity.pointsDistance(currentUser.lat, currentUser.lng, con.lat, con.lng);
+            if(distanceCon<= 1000) {
+                Intent resultIntent = new Intent(TrackingService.this , MapActivity.class);
+                resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
+                        0 /* Request code */, resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                mBuilder = new NotificationCompat.Builder(TrackingService.this);
+                mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                mBuilder.setContentTitle("You are closer than 100 meters to your friend!")
+                        .setContentText("You can go to them and say hello!")
+                        .setAutoCancel(true)
+                        .setSmallIcon(R.drawable.ic_person_outline_black_24dp)
+                        .setContentIntent(resultPendingIntent);
+
+                mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                {
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                    NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+                    notificationChannel.enableLights(true);
+                    notificationChannel.setLightColor(Color.RED);
+                    notificationChannel.enableVibration(true);
+                    notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                    assert mNotificationManager != null;
+                    mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                    mNotificationManager.createNotificationChannel(notificationChannel);
+                }
+                assert mNotificationManager != null;
+                mNotificationManager.notify(10 /* Request Code */, mBuilder.build());
+
+            }
+        }
+    }
+
+    public void sendNotificationJob() {
+        ArrayList<User> users = UsersData.getInstance().users;
+        ArrayList<Job> jobs = JobsData.getInstance().getJobs();
+        User currentUser = UsersData.getInstance().getCurrentUser();
+        for(int i=0; i<users.size(); i++) {
+            User user = users.get(i);
+            for(int j=0; j<jobs.size(); j++) {
+                Job job = jobs.get(j);
+                double distanceJob = MapActivity.pointsDistance(currentUser.lat, currentUser.lng, job.latitude, job.longitude);
+                double distanceUser = MapActivity.pointsDistance(currentUser.lat, currentUser.lng, user.lat, user.lng);
+                if(distanceJob <= 100 && distanceUser<= 100 && job.idTaken!=null && job.status==TAKEN) {
+                    if(job.idTaken.equals(currentUser.uID) && job.idPosted.equals(user.uID)) {
+                        Intent resultIntent = new Intent(TrackingService.this , JobsActivity.class);
+                        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
+                                0 /* Request code */, resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        mBuilder = new NotificationCompat.Builder(TrackingService.this);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                        mBuilder.setContentTitle("You are closer than 100 meters to your employer!")
+                                .setContentText("Click here to confirm that you've done your job!")
+                                .setAutoCancel(true)
+                                .setSmallIcon(R.drawable.ic_work_black_24dp)
+                                .setContentIntent(resultPendingIntent);
+
+                        mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                        {
+                            int importance = NotificationManager.IMPORTANCE_HIGH;
+                            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+                            notificationChannel.enableLights(true);
+                            notificationChannel.setLightColor(Color.RED);
+                            notificationChannel.enableVibration(true);
+                            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                            assert mNotificationManager != null;
+                            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                            mNotificationManager.createNotificationChannel(notificationChannel);
+                        }
+                        assert mNotificationManager != null;
+                        mNotificationManager.notify(15 /* Request Code */, mBuilder.build());
+                    }
+
+                    if(job.idTaken.equals(user.uID) && job.idPosted.equals(currentUser.uID)) {
+                        Intent resultIntent = new Intent(TrackingService.this , JobsActivity.class);
+                        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
+                                0 /* Request code */, resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        mBuilder = new NotificationCompat.Builder(TrackingService.this);
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                        mBuilder.setContentTitle("You are closer than 100 meters to your worker!")
+                                .setContentText("Click here to confirm that they have done their job!")
+                                .setAutoCancel(true)
+                                .setSmallIcon(R.drawable.ic_work_black_24dp)
+                                .setContentIntent(resultPendingIntent);
+
+                        mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                        {
+                            int importance = NotificationManager.IMPORTANCE_HIGH;
+                            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+                            notificationChannel.enableLights(true);
+                            notificationChannel.setLightColor(Color.RED);
+                            notificationChannel.enableVibration(true);
+                            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                            assert mNotificationManager != null;
+                            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                            mNotificationManager.createNotificationChannel(notificationChannel);
+                        }
+                        assert mNotificationManager != null;
+                        mNotificationManager.notify(15 /* Request Code */, mBuilder.build());
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -135,12 +309,15 @@ public class TrackingService extends Service {
                     }
                     mLocationManager.removeUpdates(mLocationListeners[i]);
                     tracking=false;
-                    Toast.makeText(this, "Stopped listening.", Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {
                     Log.i(TAG, "fail to remove location listener, ignore", ex);
                 }
             }
         }
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction("restartservice");
+            broadcastIntent.setClass(this, Restarter.class);
+            this.sendBroadcast(broadcastIntent);
     }
 
     private void initializeLocationManager() {
@@ -149,4 +326,28 @@ public class TrackingService extends Service {
             mLocationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         }
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void startMyOwnForeground()
+    {
+        String NOTIFICATION_CHANNEL_ID = "example.permanence";
+        String channelName = "Background Service";
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setContentTitle("App is running in background")
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                .setPriority(Notification.PRIORITY_MIN)
+                .build();
+        startForeground(2, notification);
+    }
+
 }

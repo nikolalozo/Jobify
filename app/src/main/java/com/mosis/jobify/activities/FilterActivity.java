@@ -91,6 +91,12 @@ public class FilterActivity extends AppCompatActivity {
                 MapActivity.maxPay=3000;
                 MapActivity.cal=Calendar.getInstance();
                 MapActivity.cal.add(Calendar.MONTH, 1);
+                if(!MapActivity.includeJobs) {
+                    swJobs.setChecked(true);
+                }
+                if(!MapActivity.includeConnections) {
+                    swConnections.setChecked(true);
+                }
 
             }
         });
