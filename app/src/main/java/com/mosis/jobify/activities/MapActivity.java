@@ -86,6 +86,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     Date today;
     private StorageReference st;
     private DatabaseReference db;
+    private DatabaseReference db1;
     public static double newLat;
     public static double newLng;
     public static boolean search;
@@ -98,6 +99,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mFirebaseAuth = FirebaseAuth.getInstance();
         st= FirebaseStorage.getInstance().getReference();
         db= FirebaseDatabase.getInstance().getReference().child("users");
+        db1=FirebaseDatabase.getInstance().getReference().child("jobs");
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.map);
         fabFilter = findViewById(R.id.fabFilter);
@@ -153,9 +155,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                             showMyConnections();
                         if(includeJobs)
                             showJobs();
-                        //sendNotificationJob();
-                        //if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
-                        //sendNotificationConnection();
+                    }
+                };
+                Handler handler = new android.os.Handler();
+                handler.postDelayed(runnable, 2500);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        mMap.clear();
+                        if(includeConnections)
+                            showMyConnections();
+                        if(includeJobs)
+                            showJobs();
                     }
                 };
                 Handler handler = new android.os.Handler();

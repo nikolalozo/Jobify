@@ -40,6 +40,8 @@ import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
@@ -59,6 +61,7 @@ public class TrackingService extends Service {
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
     String NOTIFICATION_CHANNEL_ID = "1001";
+    Date today;
 
     private class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -111,6 +114,7 @@ public class TrackingService extends Service {
 
     @Override
     public void onCreate() {
+        today=Calendar.getInstance().getTime();
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
             startMyOwnForeground();
         else
@@ -224,9 +228,9 @@ public class TrackingService extends Service {
                 Job job = jobs.get(j);
                 double distanceJob = MapActivity.pointsDistance(currentUser.lat, currentUser.lng, job.latitude, job.longitude);
                 double distanceUser = MapActivity.pointsDistance(currentUser.lat, currentUser.lng, user.lat, user.lng);
-                if(distanceJob <= 100 && distanceUser<= 100 && job.idTaken!=null && job.status==TAKEN) {
-                    if(job.idTaken.equals(currentUser.uID) && job.idPosted.equals(user.uID)) {
-                        Intent resultIntent = new Intent(TrackingService.this , JobsActivity.class);
+                if(distanceJob <= 100 && distanceUser<= 100 && job.idTaken!=null && job.status==TAKEN && today.after(job.date)) {
+                    if (job.idTaken.equals(currentUser.uID) && job.idPosted.equals(user.uID) && job.confirmedBy.size()==0) {
+                        Intent resultIntent = new Intent(TrackingService.this, JobsActivity.class);
                         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
@@ -243,8 +247,7 @@ public class TrackingService extends Service {
 
                         mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-                        {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             int importance = NotificationManager.IMPORTANCE_HIGH;
                             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
                             notificationChannel.enableLights(true);
@@ -258,9 +261,43 @@ public class TrackingService extends Service {
                         assert mNotificationManager != null;
                         mNotificationManager.notify(15 /* Request Code */, mBuilder.build());
                     }
+                    if (job.idTaken.equals(currentUser.uID) && job.idPosted.equals(user.uID) && job.confirmedBy.size()>0) {
+                        if (!job.confirmedBy.get(0).equals(currentUser.uID)) {
+                            Intent resultIntent = new Intent(TrackingService.this, JobsActivity.class);
+                            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    if(job.idTaken.equals(user.uID) && job.idPosted.equals(currentUser.uID)) {
-                        Intent resultIntent = new Intent(TrackingService.this , JobsActivity.class);
+                            PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
+                                    0 /* Request code */, resultIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            mBuilder = new NotificationCompat.Builder(TrackingService.this);
+                            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                            mBuilder.setContentTitle("You are closer than 100 meters to your employer!")
+                                    .setContentText("Click here to confirm that you've done your job!")
+                                    .setAutoCancel(true)
+                                    .setSmallIcon(R.drawable.ic_work_black_24dp)
+                                    .setContentIntent(resultPendingIntent);
+
+                            mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                int importance = NotificationManager.IMPORTANCE_HIGH;
+                                NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+                                notificationChannel.enableLights(true);
+                                notificationChannel.setLightColor(Color.RED);
+                                notificationChannel.enableVibration(true);
+                                notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                                assert mNotificationManager != null;
+                                mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                                mNotificationManager.createNotificationChannel(notificationChannel);
+                            }
+                            assert mNotificationManager != null;
+                            mNotificationManager.notify(15 /* Request Code */, mBuilder.build());
+                        }
+                    }
+
+                    if (job.idTaken.equals(user.uID) && job.idPosted.equals(currentUser.uID) && job.confirmedBy.size()==0) {
+                        Intent resultIntent = new Intent(TrackingService.this, JobsActivity.class);
                         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
@@ -277,8 +314,7 @@ public class TrackingService extends Service {
 
                         mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-                        {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             int importance = NotificationManager.IMPORTANCE_HIGH;
                             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
                             notificationChannel.enableLights(true);
@@ -291,6 +327,40 @@ public class TrackingService extends Service {
                         }
                         assert mNotificationManager != null;
                         mNotificationManager.notify(15 /* Request Code */, mBuilder.build());
+                    }
+                    if (job.idTaken.equals(user.uID) && job.idPosted.equals(currentUser.uID) && job.confirmedBy.size()>0) {
+                        if (!job.confirmedBy.get(0).equals(currentUser.uID)) {
+                            Intent resultIntent = new Intent(TrackingService.this, JobsActivity.class);
+                            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
+                                    0 /* Request code */, resultIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            mBuilder = new NotificationCompat.Builder(TrackingService.this);
+                            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                            mBuilder.setContentTitle("You are closer than 100 meters to your worker!")
+                                    .setContentText("Click here to confirm that they have done their job!")
+                                    .setAutoCancel(true)
+                                    .setSmallIcon(R.drawable.ic_work_black_24dp)
+                                    .setContentIntent(resultPendingIntent);
+
+                            mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                int importance = NotificationManager.IMPORTANCE_HIGH;
+                                NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+                                notificationChannel.enableLights(true);
+                                notificationChannel.setLightColor(Color.RED);
+                                notificationChannel.enableVibration(true);
+                                notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                                assert mNotificationManager != null;
+                                mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                                mNotificationManager.createNotificationChannel(notificationChannel);
+                            }
+                            assert mNotificationManager != null;
+                            mNotificationManager.notify(15 /* Request Code */, mBuilder.build());
+                        }
                     }
                 }
             }
