@@ -9,4 +9,5 @@ public class JobViewHolder {
     Button button;
     Button acceptButton;
     Button declineButton;
+    TextView tv2;
 }

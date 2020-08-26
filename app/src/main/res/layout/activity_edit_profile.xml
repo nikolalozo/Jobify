@@ -1,154 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.EditProfileActivity"
-    android:background="@drawable/bg_light" >
+    tools:context=".activities.ProfileActivity"
+    android:background="@drawable/bg_light"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <ImageView
-        android:id="@+id/editProfileImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ema" />
-
-    <TextView
-        android:id="@+id/tvUserName"
+    <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="First name"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileImage"
-        app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
-        />
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/header_profile_menu"
+        app:menu="@menu/profile_menu"
+        android:layout_gravity="start">
+    </com.google.android.material.navigation.NavigationView>
 
-    <EditText
-        android:id="@+id/etUserFirstName"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="64"
-        android:paddingHorizontal="15dp"
-        android:background="@drawable/edit_text_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        tools:context=".activities.EditProfileActivity"
+        android:id="@+id/mparent"
+        android:background="@drawable/bg_light">
 
-    <TextView
-        android:id="@+id/tvUserSurname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Surname"
-        app:layout_constraintTop_toBottomOf="@+id/etUserFirstName"
-        app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
-        />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#00008577"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_dehaze" />
 
-    <EditText
-        android:id="@+id/etUserSurname"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="64"
-        android:paddingHorizontal="15dp"
-        android:background="@drawable/edit_text_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserSurname" />
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="First name"
+            app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarProfile"
+            />
 
-    <TextView
-        android:id="@+id/tvUserEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Email"
-        app:layout_constraintTop_toBottomOf="@+id/etUserSurname"
-        app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
-        />
+        <EditText
+            android:id="@+id/etUserFirstName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLength="64"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/edit_text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
-    <EditText
-        android:id="@+id/etUserEmail"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="64"
-        android:paddingHorizontal="15dp"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/edit_text_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserEmail" />
+        <TextView
+            android:id="@+id/tvUserSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Surname"
+            app:layout_constraintTop_toBottomOf="@+id/etUserFirstName"
+            app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
+            />
 
-    <TextView
-        android:id="@+id/tvUserYears"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Years"
-        app:layout_constraintTop_toBottomOf="@+id/etUserEmail"
-        app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
-        />
+        <EditText
+            android:id="@+id/etUserSurname"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLength="64"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/edit_text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserSurname" />
 
-    <EditText
-        android:id="@+id/etUserYears"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:inputType="number"
-        android:paddingHorizontal="15dp"
-        android:background="@drawable/edit_text_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserYears" />
+        <TextView
+            android:id="@+id/tvUserEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Email"
+            app:layout_constraintTop_toBottomOf="@+id/etUserSurname"
+            app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
+            />
 
-    <TextView
-        android:id="@+id/tvUserProfession"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Profession"
-        app:layout_constraintTop_toBottomOf="@+id/etUserYears"
-        app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
-        />
+        <EditText
+            android:id="@+id/etUserEmail"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLength="64"
+            android:paddingHorizontal="15dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edit_text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserEmail" />
 
-    <EditText
-        android:id="@+id/etUserProfession"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="64"
-        android:paddingHorizontal="15dp"
-        android:background="@drawable/edit_text_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserProfession" />
+        <TextView
+            android:id="@+id/tvUserYears"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Years"
+            app:layout_constraintTop_toBottomOf="@+id/etUserEmail"
+            app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
+            />
 
-    <Button
-        android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="15dp"
-        android:text="Edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserProfession" />
+        <EditText
+            android:id="@+id/etUserYears"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:inputType="number"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/edit_text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserYears" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/tvChangePassw"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:clickable="true"-->
-<!--        android:text="@string/change_password"-->
-<!--        android:gravity="center"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/btnEdit"-->
-<!--        android:textSize="15sp" />-->
+        <TextView
+            android:id="@+id/tvUserProfession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Profession"
+            app:layout_constraintTop_toBottomOf="@+id/etUserYears"
+            app:layout_constraintStart_toStartOf="@+id/etUserFirstName"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/etUserProfession"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLength="64"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/edit_text_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserProfession" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="25dp"
+            android:text="Edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etUserProfession" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

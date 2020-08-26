@@ -15,12 +15,17 @@ import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mosis.jobify.models.User;
 
 import java.util.ArrayList;
 
-public class ConnectionAdapter extends ArrayAdapter<User> {
+import de.hdodenhof.circleimageview.CircleImageView;
 
+public class ConnectionAdapter extends ArrayAdapter<User> {
+    StorageReference st;
     Context context;
     ArrayList<User> users;
 
@@ -28,6 +33,7 @@ public class ConnectionAdapter extends ArrayAdapter<User> {
         super(c, R.layout.row_connection, usersArray);
         this.context = c;
         this.users = usersArray;
+        st = FirebaseStorage.getInstance().getReference();
     }
 
     @NonNull
@@ -35,14 +41,18 @@ public class ConnectionAdapter extends ArrayAdapter<User> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = layoutInflater.inflate(R.layout.row_connection, parent, false);
-        ImageView images = row.findViewById(R.id.connectionImage);
+        final ImageView image = (CircleImageView) row.findViewById(R.id.user_picture);
         TextView myTitle = row.findViewById(R.id.connectionFullName);
 
         myTitle.setText(getItem(position).fullName());
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ema);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        images.setImageDrawable(roundedBitmapDrawable);
+        st.child("users").child(getItem(position).getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap scaledBmp = bitmap.createScaledBitmap(bitmap, 50, 50, false);
+                image.setImageBitmap(scaledBmp);
+            }
+        });
 
         return row;
     }

@@ -11,7 +11,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.CreatedJobDialog;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewJobDescriptionActivity extends AppCompatActivity {
 
@@ -19,6 +24,8 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
     Button btnFinish;
     EditText etJobDescription;
     Job job;
+    Map<String, Object> userUpdates;
+    public User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,8 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
         btnFinish = findViewById(R.id.btnFinish);
         etJobDescription = findViewById(R.id.etJobDescription);
         db = FirebaseDatabase.getInstance().getReference("jobs");
+        currentUser = UsersData.getInstance().getCurrentUser();
+        userUpdates = new HashMap<>();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -42,6 +51,11 @@ public class NewJobDescriptionActivity extends AppCompatActivity {
                 String jobId = db.push().getKey();
                 db.child(jobId).setValue(job);
                 openDialog();
+                db = FirebaseDatabase.getInstance().getReference("users");
+                DatabaseReference usersRef = db.child(job.getIdPosted());
+                currentUser.incrementPostedJobs();
+                userUpdates.put("jobsPosted", currentUser.getJobsPosted());
+                usersRef.updateChildren(userUpdates);
             }
         });
     }

@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -14,14 +12,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,15 +49,47 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         tvDoneJobs = findViewById(R.id.numDoneJobs);
         tvYears = findViewById(R.id.tvYears);
         tvProfession = findViewById(R.id.tvProfession);
-        st= FirebaseStorage.getInstance().getReference();
+        st = FirebaseStorage.getInstance().getReference();
         final ImageView imageView = (CircleImageView) findViewById(R.id.profile_picture);
-        swService=findViewById(R.id.swService);
+        swService = findViewById(R.id.swService);
         if(TrackingService.tracking)
         swService.setChecked(true);
         else
             swService.setChecked(false);
 
-        st.child("users").child(UsersData.getInstance().getCurrentUser().uID).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        Bundle extras = getIntent().getExtras();
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbarProfile);
+        setSupportActionBar(toolbar);
+        if (extras != null) {
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        } else {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+            navigationView.setNavigationItemSelectedListener(this);
+            navigationView.bringToFront();
+            navigationView.setCheckedItem(R.id.nav_profile);
+        }
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        if (extras != null) {
+            user = (User) extras.get("user");
+            swService.setVisibility(View.INVISIBLE);
+        } else {
+            user = UsersData.getInstance().getCurrentUser();
+        }
+
+        st.child("users").child(user.getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -68,24 +97,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 imageView.setImageBitmap(scaledBmp);
             }
         });
-
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbarProfile);
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.bringToFront();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            user = (User) extras.get("user");
-        } else {
-            user = UsersData.getInstance().getCurrentUser();
-        }
 
         tvFullName.setText(user.fullName());
         tvDoneJobs.setText(String.valueOf(user.getJobsDone()));
@@ -112,7 +123,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                     stopService(new Intent(ProfileActivity.this, TrackingService.class));
             }
         });
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        if (extras != null) {
+            bottomNavigationView.setVisibility(View.INVISIBLE);
+        }
         bottomNavigationView.setSelectedItemId(R.id.profile);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -155,6 +170,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent i;
         switch (menuItem.getItemId()) {
+            case R.id.nav_profile:
+                break;
             case R.id.nav_edit_profile:
                 i = new Intent(ProfileActivity.this, EditProfileActivity.class);
                 startActivity(i);

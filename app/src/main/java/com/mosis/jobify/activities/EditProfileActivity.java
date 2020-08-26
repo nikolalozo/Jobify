@@ -1,9 +1,13 @@
 package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,10 +33,12 @@ import com.mosis.jobify.models.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     User currentUser;
     EditText etFirstName, etSurname, etEmail, etYears, etProfession;
-//    TextView tvChangePassword;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
     Button btnEdit;
     DatabaseReference db;
     FirebaseAuth mFirebaseAuth;
@@ -40,22 +47,27 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbarProfile);
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+        navigationView.setCheckedItem(R.id.nav_edit_profile);
+
         currentUser = UsersData.getInstance().getCurrentUser();
         db = FirebaseDatabase.getInstance().getReference("users");
         mFirebaseAuth = FirebaseAuth.getInstance();
-
-        ImageView imageView = findViewById(R.id.editProfileImage);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ema);
-        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        roundedBitmapDrawable.setCircular(true);
-        imageView.setImageDrawable(roundedBitmapDrawable);
 
         etFirstName = findViewById(R.id.etUserFirstName);
         etSurname = findViewById(R.id.etUserSurname);
         etEmail = findViewById(R.id.etUserEmail);
         etYears = findViewById(R.id.etUserYears);
         etProfession = findViewById(R.id.etUserProfession);
-//        tvChangePassword = findViewById(R.id.tvChangePassw);
         etFirstName.setText(currentUser.getFirstName());
         etSurname.setText(currentUser.getLastName());
         etEmail.setText(currentUser.getEmail());
@@ -66,14 +78,6 @@ public class EditProfileActivity extends AppCompatActivity {
         if (currentUser.getProfession() != null) {
             etProfession.setText(currentUser.getProfession());
         }
-
-//        tvChangePassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
-//                changePasswordDialog.show(getSupportFragmentManager(), "change password dialog");
-//            }
-//        });
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,5 +113,47 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Intent i;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_profile:
+                i = new Intent(EditProfileActivity.this, ProfileActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_edit_profile:
+                break;
+            case R.id.nav_connections:
+                i = new Intent(EditProfileActivity.this, ConnectionsActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_job_history:
+                i = new Intent(EditProfileActivity.this, JobHistoryActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                i = new Intent(EditProfileActivity.this, LoginActivity.class);
+                startActivity(i);
+                stopService(new Intent(EditProfileActivity.this, TrackingService.class));
+                break;
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 }
