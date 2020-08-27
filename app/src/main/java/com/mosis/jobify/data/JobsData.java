@@ -72,7 +72,11 @@ public class JobsData {
                 numb++;
             }
         }
-        return mark / numb;
+        if (numb > 0) {
+            return mark / numb;
+        } else {
+            return 0;
+        }
     }
 
     public ArrayList<Job> getPendingJobsForUser(String id) {
