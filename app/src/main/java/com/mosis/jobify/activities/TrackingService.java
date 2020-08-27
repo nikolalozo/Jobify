@@ -59,7 +59,7 @@ public class TrackingService extends Service {
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 10000;
     private static final float LOCATION_DISTANCE = 10f;
-    public static boolean tracking;
+    public static boolean tracking=true;
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
     String NOTIFICATION_CHANNEL_ID = "1001";

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NewJobDescriptionActivity"
-    android:background="@drawable/bg_light" >
+    android:background="@drawable/bg_light"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".activities.NewJobDescriptionActivity">
 
     <TextView
         android:id="@+id/tvJobDescription"
@@ -13,20 +15,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:text="Job description"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/etJobDescription" />
+        app:layout_constraintStart_toStartOf="@+id/etJobDescription"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etJobDescription"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:minHeight="300dp"
         android:layout_marginTop="5dp"
-        android:maxLength="300"
-        android:inputType="textMultiLine"
-        android:scrollHorizontally="false"
-        android:paddingHorizontal="15dp"
         android:background="@drawable/edittext_border"
+        android:inputType="textMultiLine"
+        android:maxLength="300"
+        android:minHeight="300dp"
+        android:paddingHorizontal="15dp"
+        android:scrollHorizontally="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvJobDescription" />
@@ -41,4 +43,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etJobDescription" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

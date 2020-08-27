@@ -50,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText emailId, passwd, confirm, firstName, lastName;
+    EditText emailId, passwd, confirm, firstName, lastName, etAge;
     Button btnSignUp;
     TextView tvSignIn;
     FirebaseAuth mFirebaseAuth;
@@ -77,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvSignIn = findViewById(R.id.tvSignIn);
         imageView=(CircleImageView) findViewById(R.id.profile_image);
         btnSignUp.setEnabled(false);
+        etAge=findViewById(R.id.etAge);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                if(etAge.getText().toString().isEmpty() || firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
                     btnSignUp.setEnabled(false);
                 }
                 else {
@@ -118,7 +119,29 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                if(etAge.getText().toString().isEmpty() || firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                    btnSignUp.setEnabled(false);
+                }
+                else {
+                    btnSignUp.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etAge.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(etAge.getText().toString().isEmpty() || firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
                     btnSignUp.setEnabled(false);
                 }
                 else {
@@ -140,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                if(etAge.getText().toString().isEmpty() || firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
                     btnSignUp.setEnabled(false);
                 }
                 else {
@@ -162,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                if(etAge.getText().toString().isEmpty() || firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
                     btnSignUp.setEnabled(false);
                 }
                 else {
@@ -184,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
+                if(etAge.getText().toString().isEmpty() || firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || emailId.getText().toString().isEmpty() || passwd.getText().toString().isEmpty() || confirm.getText().toString().isEmpty()){
                     btnSignUp.setEnabled(false);
                 }
                 else {
@@ -206,6 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String conf = confirm.getText().toString();
                 String first = firstName.getText().toString();
                 String last = lastName.getText().toString();
+                String age = etAge.getText().toString();
                 if (email.isEmpty()) {
                     emailId.setError("Please enter email.");
                     return;
@@ -221,6 +245,9 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (last.isEmpty()) {
                     lastName.setError("Please enter last name");
                     return;
+                } else if(age.isEmpty()) {
+                    etAge.setError("Please enter age.");
+                    return;
                 }
 
                 user = new User();
@@ -234,9 +261,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 user.firstName=first;
                 user.lastName=last;
-                ArrayList<String> arr = new ArrayList<String>();
-                arr.add("25z5JHxxNyZ7TB4eJemFYRptPDa2");
-                user.connections=arr;
+                user.years=Integer.parseInt(age);
 
                 mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
