@@ -29,6 +29,8 @@ public class Job implements Serializable {
     public String idPosted;
     public ArrayList<String> arrayIdRequested;
     public ArrayList<String> confirmedBy;
+    public float reviewByOwner;
+    public float reviewByEmployeer;
 
     public Job() {
         title = "New job";
@@ -37,6 +39,8 @@ public class Job implements Serializable {
         longitude=45;
         latitude=23;
         status=StatusEnum.POSTED;
+        reviewByEmployeer = 0;
+        reviewByOwner = 0;
         date = new Date();
         datePosted = new Date();
         appliedBy = new Date();
@@ -165,6 +169,22 @@ public class Job implements Serializable {
 
     public ArrayList<String> getConfirmedBy() {
         return this.confirmedBy;
+    }
+
+    public void setReviewByOwner(float mark) {
+        reviewByOwner = mark;
+    }
+
+    public float getReviewByOwner() {
+        return reviewByOwner;
+    }
+
+    public void setReviewByEmployeer(float mark) {
+        reviewByEmployeer = mark;
+    }
+
+    public float getReviewByEmployeer() {
+        return reviewByEmployeer;
     }
 
     @Override

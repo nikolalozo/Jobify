@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
+import com.mosis.jobify.models.User;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -36,20 +38,32 @@ public class JobHistoryAdapter extends ArrayAdapter<Job> {
         TextView jobTitle = row.findViewById(R.id.tvDoneJobTitle);
         TextView jobDate = row.findViewById(R.id.tvDoneJobDate);
         TextView jobOwner = row.findViewById(R.id.tvDoneJobOwner);
-        TextView tvRateUser = row.findViewById(R.id.tvRate);
+        final Button tvRateUser = row.findViewById(R.id.tvRate);
+
+        if (getItem(position).getIdPosted().equals(UsersData.getInstance().getCurrentUser().getuID()) && (getItem(position).getReviewByOwner() > 0)) {
+            tvRateUser.setVisibility(View.INVISIBLE);
+        } else if (getItem(position).getIdTaken().equals(UsersData.getInstance().getCurrentUser().getuID()) && (getItem(position).getReviewByEmployeer() > 0)) {
+            tvRateUser.setVisibility(View.INVISIBLE);
+        }
+
         tvRateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RateUserDialog rateUserDialog = new RateUserDialog();
-                rateUserDialog.setJobId(getItem(position).getKey());
-                rateUserDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "rate user dialog");
+                rateUserDialog.setJob(getItem(position));
+                rateUserDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "rate user dialog");
+                tvRateUser.setVisibility(View.INVISIBLE);
             }
         });
 
         jobTitle.setText(getItem(position).getTitle());
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         jobDate.setText(dateFormat.format(getItem(position).getDate()));
-        jobOwner.setText(UsersData.getInstance().getUser(getItem(position).getIdPosted()).fullName());
+        if (getItem(position).getIdPosted().equals(UsersData.getInstance().getCurrentUser().getuID())) {
+            jobOwner.setText(UsersData.getInstance().getUser(getItem(position).getIdTaken()).fullName());
+        } else {
+            jobOwner.setText(UsersData.getInstance().getUser(getItem(position).getIdPosted()).fullName());
+        }
         jobOwner.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_done_all, 0, 0, 0);
 
         return row;

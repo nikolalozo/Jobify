@@ -13,17 +13,20 @@ import androidx.fragment.app.DialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mosis.jobify.data.UsersData;
-import com.mosis.jobify.models.Review;
+import com.mosis.jobify.models.Job;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RateUserDialog extends DialogFragment {
     RatingBar ratingBar;
     DatabaseReference db;
-    public String jobId;
+    public Job job;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        db = FirebaseDatabase.getInstance().getReference("reviews");
+        db = FirebaseDatabase.getInstance().getReference("jobs");
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_rate_user_dialog, null);
@@ -37,9 +40,16 @@ public class RateUserDialog extends DialogFragment {
         }).setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Review review = new Review(ratingBar.getRating(), jobId, UsersData.getInstance().getCurrentUser().getuID());
-                String ratingId = db.push().getKey();
-                db.child(ratingId).setValue(review);
+                DatabaseReference jobRef = db.child(job.getKey());
+                Map<String, Object> jobUpdates = new HashMap<>();
+                if (job.getIdPosted().equals(UsersData.getInstance().getCurrentUser().getuID())) {
+                    job.setReviewByOwner(ratingBar.getRating());
+                    jobUpdates.put("reviewByOwner", job.getReviewByOwner());
+                } else {
+                    job.setReviewByEmployeer(ratingBar.getRating());
+                    jobUpdates.put("reviewByEmployeer", job.getReviewByEmployeer());
+                }
+                jobRef.updateChildren(jobUpdates);
                 dialog.dismiss();
             }
         });
@@ -47,7 +57,7 @@ public class RateUserDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void setJobId(String id) {
-        jobId = id;
+    public void setJob(Job jobb) {
+        job = jobb;
     }
 }

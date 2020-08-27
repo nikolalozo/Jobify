@@ -8,51 +8,56 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/media_card_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="140dp"
         card_view:cardBackgroundColor="@android:color/white"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvDoneJobDate"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:textSize="15sp" />
+                android:orientation="vertical"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/tvDoneJobTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:textSize="23sp"
-                android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/tvDoneJobDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tvDoneJobOwner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvDoneJobTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:textSize="23sp"
+                    android:textColor="@color/colorPrimaryDark" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/tvDoneJobOwner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <Button
                 android:id="@+id/tvRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rate_user"
                 android:layout_margin="20dp"
-                android:textSize="23sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

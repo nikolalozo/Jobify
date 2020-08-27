@@ -1,6 +1,7 @@
 package com.mosis.jobify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -36,13 +38,12 @@ public class JobActivity extends AppCompatActivity {
     TextView tvJobTitle, tvPay, tvDate, tvDescription, tvPostedDate, tvApplyBy, tvHour, tvPerson, tvAlreadyApplied;
     Button btnViewProfile, btnApply;
     StorageReference st;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Job details");
         db = FirebaseDatabase.getInstance().getReference("jobs");
         st = FirebaseStorage.getInstance().getReference();
         tvJobTitle = findViewById(R.id.tvTitle);
@@ -56,6 +57,14 @@ public class JobActivity extends AppCompatActivity {
         btnViewProfile = findViewById(R.id.btnViewProfile);
         btnApply = findViewById(R.id.btnApply);
         tvAlreadyApplied = findViewById(R.id.tvAlreadyApplied);
+        toolbar = findViewById(R.id.toolbarJob);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         final ImageView imageView = (CircleImageView) findViewById(R.id.user_picture);
 
@@ -85,25 +94,22 @@ public class JobActivity extends AppCompatActivity {
                 }
             });
             String currUserId = UsersData.getInstance().getCurrentUser().getuID();
-            if (job.getIdPosted().equals(currUserId)) {
+            if (job.status == StatusEnum.DONE) {
+                btnApply.setVisibility(View.INVISIBLE);
+                tvAlreadyApplied.setVisibility(View.VISIBLE);
+                tvAlreadyApplied.setText("Finished job");
+                return;
+            } else if (job.getAppliedBy().compareTo(new Date()) > 0) {
+                btnApply.setVisibility(View.INVISIBLE);
+                tvAlreadyApplied.setText("Date for applying has passed");
+                return;
+            } else if (job.getIdPosted().equals(currUserId)) {
                 btnApply.setVisibility(View.INVISIBLE);
                 tvAlreadyApplied.setVisibility(View.INVISIBLE);
-                if (job.status == StatusEnum.DONE) {
-                    tvAlreadyApplied.setVisibility(View.VISIBLE);
-                    tvAlreadyApplied.setText("Finished job");
-                }
             } else if (job.arrayIdRequested.contains(currUserId)) {
                 btnApply.setVisibility(View.INVISIBLE);
-                if (job.status == StatusEnum.DONE) {
-                    tvAlreadyApplied.setText("Finished job");
-                }
             } else {
                 tvAlreadyApplied.setVisibility(View.INVISIBLE);
-                if (job.status == StatusEnum.DONE) {
-                    tvAlreadyApplied.setVisibility(View.VISIBLE);
-                    tvAlreadyApplied.setText("Finished job");
-                    btnApply.setVisibility(View.INVISIBLE);
-                }
                 btnApply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
