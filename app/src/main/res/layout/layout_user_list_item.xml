@@ -1,28 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvUserInfo"
-        android:layout_marginHorizontal="20dp"
-        android:padding="10dp"
-        android:textSize="16dp"
-        android:textStyle="bold">
-    </TextView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/media_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
 
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="Accept request"
-        android:id="@+id/btnAcceptRequest"
-        android:layout_toEndOf="@+id/tvUserInfo"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvUserInfo"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="7dp"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvViewProfile"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="7dp"
+                    android:textSize="16dp"
+                    android:text="VIEW PROFILE"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnAcceptRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="wrap_content"
+                    android:text="Accept request"
+                    android:layout_marginVertical="7dp"
+                    android:layout_alignParentRight="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginVertical="18dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_picture"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/default_profile" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

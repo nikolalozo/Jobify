@@ -131,6 +131,18 @@ public class User implements Serializable {
         return jobsDone;
     }
 
+    public int getJobsPosted() {
+        return jobsPosted;
+    }
+
+    public void incrementJobsDone() {
+        jobsDone++;
+    }
+
+    public void incrementPostedJobs() {
+        jobsPosted++;
+    }
+
     @Override
     public String toString() {
         return  firstName + " " + lastName + "\nJobs done: " + jobsDone + "\nJobs posted: " + jobsPosted;

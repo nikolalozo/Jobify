@@ -53,6 +53,10 @@ public class JobsActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), RankingActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
+                    case R.id.new_job:
+                        startActivity(new Intent(getApplicationContext(), NewJobActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
                     case R.id.job:
                         return true;
                 }

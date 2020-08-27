@@ -7,6 +7,18 @@
     tools:context=".activities.JobActivity"
     android:background="@drawable/bg_light" >
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarJob"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -14,19 +26,7 @@
         android:layout_marginTop="10dp"
         android:textSize="30dp"
         android:text="Job title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15dp"
-        android:text="Job title"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/toolbarJob"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -38,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddress" >
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" >
 
         <TextView
             android:id="@+id/tvPay"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textSize="20dp"
-        android:text="20:00"
+        android:text=""
         app:layout_constraintTop_toBottomOf="@+id/tvDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,13 +102,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tvHour" />
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvAlreadyApplied"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="13dp"
+        android:textSize="20dp"
+        android:text="Applied for the job"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="@+id/btnApply"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:padding="20dp"
         android:textSize="20dp"
-        android:background="@drawable/textview_border"
+        android:background="@drawable/job_border"
         android:text=""
         app:layout_constraintTop_toBottomOf="@+id/btnApply"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,14 +133,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/textview_border"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center"
             android:paddingVertical="7dp" >
 
@@ -154,7 +166,7 @@
         </LinearLayout>
 
         <View
-            android:layout_width="2dp"
+            android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:padding="10dp"
             android:background="@color/colorLightGray" />
@@ -163,6 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center"
             android:paddingVertical="7dp" >
 
@@ -196,44 +209,35 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingVertical="15dp"
-        android:background="@drawable/textview_border"
+        android:background="@drawable/job_border"
         app:layout_constraintTop_toBottomOf="@+id/layoutDate" >
 
-        <TextView
-            android:id="@+id/tvImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp"
-            android:text="Image"
-            />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:src="@drawable/default_profile" />
 
         <TextView
             android:id="@+id/tvOwner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
+            android:layout_weight="1"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20dp"
             android:text=""
             />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="10dp" />
-
         <Button
             android:id="@+id/btnViewProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="13dp"
-            android:text="View profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHour" />
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:text="Profile" />
 
     </LinearLayout>
 

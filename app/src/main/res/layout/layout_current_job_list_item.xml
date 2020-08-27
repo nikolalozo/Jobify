@@ -1,75 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/current_job_layout"
-        android:gravity="center">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/media_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvJobName"
-            android:layout_marginHorizontal="20dp"
-            android:padding="10dp"
-            android:textSize="16dp"
-            android:textStyle="bold">
-        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvUserJobTaken"
-            android:layout_marginHorizontal="20dp"
-            android:padding="10dp"
-            android:textSize="16dp"
-            android:textStyle="bold">
-        </TextView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginVertical="7dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvJobName"
+                    android:layout_marginHorizontal="20dp"
+                    android:paddingTop="10dp"
+                    android:text=""
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+                </TextView>
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvUserJobTaken"
+                    android:layout_marginHorizontal="20dp"
+                    android:paddingTop="5dp"
+                    android:textSize="16dp">
+                </TextView>
 
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:id="@+id/btnConfirmJob"
-        android:layout_toEndOf="@+id/tvJobInfo"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvViewProfile"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="11dp"
+                    android:textSize="16dp"
+                    android:text="VIEW PROFILE"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentRight="true"
-        android:gravity="center">
+            </LinearLayout>
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="Accept"
-            android:id="@+id/btnAcceptJob"
-            android:layout_toEndOf="@+id/btnAcceptJob"
-            android:layout_marginLeft="20dp"
-            android:layout_alignParentRight="true"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_marginVertical="8dp">
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="Decline"
-            android:id="@+id/btnDeclineJob"
-            android:layout_toEndOf="@+id/btnDeclineJob"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
 
-    </LinearLayout>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Accept"
+                        android:id="@+id/btnAcceptJob"
+                        android:layout_alignParentRight="true"/>
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Decline"
+                        android:id="@+id/btnDeclineJob"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_alignParentRight="true"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Confirm"
+                    android:id="@+id/btnConfirmJob"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_alignParentRight="true"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

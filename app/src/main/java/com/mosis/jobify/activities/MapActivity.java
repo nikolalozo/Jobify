@@ -341,10 +341,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                         Bitmap scaledBmp = bitmap.createScaledBitmap(bitmap, 256, 256, false);
                         Bitmap userBitmap = createUserBitmap(scaledBmp);
                         if (userBitmap != null) {
-                            mMap.addMarker(
-                                    new MarkerOptions()
-                                            .position(latLng)
-                                            .icon(BitmapDescriptorFactory.fromBitmap(userBitmap)).anchor(0.5f, 1));
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(latLng);
+                            markerOptions.title(con.fullName());
+                            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(userBitmap)).anchor(0.5f, 1);
+
+                            Marker marker = mMap.addMarker(markerOptions);
+                            marker.setTag(con);
                         }
                     }
                 });
