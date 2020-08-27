@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -25,20 +26,25 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mosis.jobify.R;
+import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
+import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseAuth mFirebaseAuth;
     User user;
-    TextView tvFullName, tvConnections, tvDoneJobs, tvYears, tvProfession;
+    TextView tvFullName, tvConnections, tvDoneJobs, tvYears, tvProfession, tvMark;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     StorageReference st;
     Switch swService;
+    RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         tvDoneJobs = findViewById(R.id.numDoneJobs);
         tvYears = findViewById(R.id.tvYears);
         tvProfession = findViewById(R.id.tvProfession);
+        tvMark = findViewById(R.id.tvMark);
+
+        ratingBar = findViewById(R.id.rating_bar);
+        ratingBar.setIsIndicator(true);
+
         st = FirebaseStorage.getInstance().getReference();
         final ImageView imageView = (CircleImageView) findViewById(R.id.profile_picture);
         swService = findViewById(R.id.swService);
@@ -88,6 +99,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         } else {
             user = UsersData.getInstance().getCurrentUser();
         }
+        float mark = JobsData.getInstance().getAverageNoteForUser(user.getuID());
+        ratingBar.setRating(mark);
+        tvMark.setText(mark + "/5");
 
         st.child("users").child(user.getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override

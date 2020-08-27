@@ -58,6 +58,23 @@ public class JobsData {
         return jobsForId;
     }
 
+    public float getAverageNoteForUser(String id) {
+        float mark = 0;
+        int numb = 0;
+
+        for (int i = 0; i < jobs.size(); i++) {
+            Job job = jobs.get(i);
+            if (job.getIdPosted().equals(id) && (job.getReviewByEmployeer() > 0)) {
+               mark += job.getReviewByEmployeer();
+               numb++;
+            } else if (job.getIdTaken() != null && job.getIdTaken().equals(id) && (job.getReviewByOwner() > 0)) {
+                mark += job.getReviewByOwner();
+                numb++;
+            }
+        }
+        return mark / numb;
+    }
+
     public ArrayList<Job> getPendingJobsForUser(String id) {
         ArrayList<Job> jobsForId = new ArrayList<Job>();
 

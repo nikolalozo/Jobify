@@ -79,28 +79,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating_bar"
+            android:layout_marginTop="20dp"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:progressTint="@color/colorGolden"
+            android:progressBackgroundTint="@color/colorLightGray"
+            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"></RatingBar>
+
         <TextView
-            android:id="@+id/tvProfession"
+            android:id="@+id/tvMark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="20dp"
             android:textColor="@color/colorLightGray"
             android:text=""
-            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/tvYears"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorLightGray"
-            android:text=""
-            app:layout_constraintTop_toBottomOf="@+id/tvProfession"
+            app:layout_constraintTop_toBottomOf="@+id/rating_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -112,7 +112,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:background="@drawable/job_border"
-            app:layout_constraintTop_toBottomOf="@+id/tvYears" >
+            app:layout_constraintTop_toBottomOf="@+id/tvMark" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -184,17 +184,52 @@
 
         </LinearLayout>
 
-        <Switch
-            android:id="@+id/swService"
-            android:layout_width="wrap_content"
-            android:layout_height="51dp"
-            android:text="Send my location"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.917"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.825" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/layoutProfileInfo" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingVertical="7dp" >
+
+                <TextView
+                    android:id="@+id/tvProfession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorLightGray"
+                    android:text=""
+                    />
+
+                <TextView
+                    android:id="@+id/tvYears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorLightGray"
+                    android:text=""
+                    />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/swService"
+                android:layout_width="wrap_content"
+                android:layout_height="51dp"
+                android:text="Send my location"
+                android:layout_margin="20dp"
+                />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
