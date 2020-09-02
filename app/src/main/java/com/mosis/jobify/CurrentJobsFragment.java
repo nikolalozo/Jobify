@@ -35,6 +35,7 @@ public class CurrentJobsFragment extends Fragment {
 
     public void openDialog() {
         ConfirmJobDialog confirmJobDialog = new ConfirmJobDialog();
+        confirmJobDialog.setMessage("In order to confirm pending jobs you need to be maximum 100 meters far from person you want to connect.");
         confirmJobDialog.show(getFragmentManager(), "confirm job dialog");
     }
 }

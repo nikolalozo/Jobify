@@ -1,6 +1,7 @@
 package com.mosis.jobify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -29,10 +30,21 @@ public class SearchActivity extends AppCompatActivity {
     boolean searchForConnections;
     RadioGroup radioGroup;
     RadioButton rb1, rb2;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        toolbar = findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Search");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         searchForConnections=true;
         lvSearch=findViewById(R.id.lvSearch);
         searchView=findViewById(R.id.searchView);

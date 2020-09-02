@@ -19,7 +19,7 @@ public class CreatedJobDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Success!");
-        builder.setMessage("You have created new job! Go to maps and checkout your new job. .").setPositiveButton("View maps", new DialogInterface.OnClickListener() {
+        builder.setMessage("You have created new job! Go to maps and checkout your new job.").setPositiveButton("View maps", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getContext(), MapActivity.class);
@@ -32,6 +32,7 @@ public class CreatedJobDialog extends DialogFragment {
                 startActivity(intent);
             }
         });
+        builder.setIcon(R.drawable.ic_job);
         return builder.create();
     }
 }

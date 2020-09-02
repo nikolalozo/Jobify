@@ -14,11 +14,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.mosis.jobify.ConnectionAdapter;
+import com.mosis.jobify.UserAdapter;
 import com.mosis.jobify.R;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
@@ -53,7 +52,9 @@ public class ConnectionsActivity extends AppCompatActivity implements Navigation
 
         connections = UsersData.getInstance().getUserConnections();
         lvConnections = findViewById((R.id.lvConnections));
-        lvConnections.setAdapter(new ConnectionAdapter(this, connections));
+        UserAdapter userAdapter = new UserAdapter(this, connections);
+        userAdapter.setIsRankList(0);
+        lvConnections.setAdapter(userAdapter);
         if (connections.size() > 0) {
             tvNoConnections.setVisibility(View.INVISIBLE);
         }

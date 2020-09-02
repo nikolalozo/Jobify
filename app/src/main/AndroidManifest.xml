@@ -36,12 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SearchActivity" />
-        <activity android:name=".activities.FilterActivity" />
+        <activity android:name=".activities.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.FilterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.JobActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.NewJobDescriptionActivity" />
+        <activity android:name=".activities.NewJobDescriptionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.NewJobActivity" />
         <activity
             android:name=".activities.JobsActivity"

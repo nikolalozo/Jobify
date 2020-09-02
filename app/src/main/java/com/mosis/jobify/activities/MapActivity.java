@@ -363,7 +363,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             Job job = jobs.get(i);
             User currentUser = UsersData.getInstance().getCurrentUser();
             double distance = pointsDistance(currentUser.lat, currentUser.lng, job.latitude, job.longitude);
-            if(job.wage>=minPay && job.wage<=maxPay && distance>=minDistance && distance<=maxDistance && job.status== StatusEnum.POSTED) {
+            if(job.wage>=minPay && job.wage<=maxPay && distance>=minDistance && distance<=maxDistance && job.status == StatusEnum.POSTED && job.getAppliedBy().compareTo(new Date()) > 0) {
                 double lat = job.getLatitude();
                 double lng = job.getLongitude();
                 LatLng latLng = new LatLng(lat, lng);
