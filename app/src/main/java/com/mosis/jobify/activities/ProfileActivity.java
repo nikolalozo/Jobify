@@ -95,9 +95,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if (extras != null) {
             user = (User) extras.get("user");
-            swService.setVisibility(View.INVISIBLE);
         } else {
             user = UsersData.getInstance().getCurrentUser();
+        }
+        if (!user.uID.equals(UsersData.getInstance().getCurrentUser().getuID())) {
+            swService.setVisibility(View.INVISIBLE);
+        } else {
+            swService.setVisibility(View.VISIBLE);
         }
         float mark = JobsData.getInstance().getAverageNoteForUser(user.getuID());
         ratingBar.setRating(mark);
