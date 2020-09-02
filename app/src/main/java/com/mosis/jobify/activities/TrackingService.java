@@ -79,6 +79,8 @@ public class TrackingService extends Service {
             mLastLocation.set(location);
             db.child("users").child(auth.getCurrentUser().getUid()).child("lat").setValue(mLastLocation.getLatitude());
             db.child("users").child(auth.getCurrentUser().getUid()).child("lng").setValue(mLastLocation.getLongitude());
+                    sendNotificationJob();
+                    sendNotificationConnection();
         }
 
         @Override
@@ -157,25 +159,6 @@ public class TrackingService extends Service {
 
         tracking=true;
 
-        db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Runnable runnable = new Runnable() {
-                    public void run() {
-                        sendNotificationConnection();
-                        sendNotificationJob();
-                    }
-                };
-                Handler handler = new android.os.Handler();
-                handler.postDelayed(runnable, 5000);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
         db1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -185,7 +168,7 @@ public class TrackingService extends Service {
                     }
                 };
                 Handler handler = new android.os.Handler();
-                handler.postDelayed(runnable, 5000);
+                handler.postDelayed(runnable, 10000);
             }
 
             @Override
