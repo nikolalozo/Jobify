@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -24,13 +22,14 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ConnectionAdapter extends ArrayAdapter<User> {
+public class UserAdapter extends ArrayAdapter<User> {
     StorageReference st;
     Context context;
     ArrayList<User> users;
+    int isRankList = 0;
 
-    public ConnectionAdapter(Context c, ArrayList<User> usersArray) {
-        super(c, R.layout.row_connection, usersArray);
+    public UserAdapter(Context c, ArrayList<User> usersArray) {
+        super(c, R.layout.row_user, usersArray);
         this.context = c;
         this.users = usersArray;
         st = FirebaseStorage.getInstance().getReference();
@@ -40,9 +39,17 @@ public class ConnectionAdapter extends ArrayAdapter<User> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = layoutInflater.inflate(R.layout.row_connection, parent, false);
+        View row = layoutInflater.inflate(R.layout.row_user, parent, false);
         final ImageView image = (CircleImageView) row.findViewById(R.id.user_picture);
         TextView myTitle = row.findViewById(R.id.connectionFullName);
+        TextView rankInfo = row.findViewById(R.id.rankInfo);
+        if (isRankList == 0) {
+            rankInfo.setVisibility(View.INVISIBLE);
+        } else if (isRankList ==1 ) {
+            rankInfo.setText("Posted jobs: " + getItem(position).getJobsPosted());
+        } else {
+            rankInfo.setText("Done jobs: " + getItem(position).getJobsDone());
+        }
 
         myTitle.setText(getItem(position).fullName());
         st.child("users").child(getItem(position).getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -55,5 +62,9 @@ public class ConnectionAdapter extends ArrayAdapter<User> {
         });
 
         return row;
+    }
+
+    public void setIsRankList(int number) {
+        this.isRankList = number;
     }
 }

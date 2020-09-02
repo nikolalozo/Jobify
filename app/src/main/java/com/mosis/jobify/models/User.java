@@ -92,8 +92,11 @@ public class User implements Serializable {
         profession = prof;
     }
 
-    @Exclude
     public String getuID() { return this.uID; }
+
+    public void setuID(String key) {
+        this.uID = key;
+    }
 
     public String fullName(){
         return firstName + " " + lastName;

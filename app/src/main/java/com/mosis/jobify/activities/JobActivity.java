@@ -99,7 +99,7 @@ public class JobActivity extends AppCompatActivity {
                 tvAlreadyApplied.setVisibility(View.VISIBLE);
                 tvAlreadyApplied.setText("Finished job");
                 return;
-            } else if (job.getAppliedBy().compareTo(new Date()) > 0) {
+            } else if (job.getAppliedBy().compareTo(new Date()) < 0) {
                 btnApply.setVisibility(View.INVISIBLE);
                 tvAlreadyApplied.setText("Date for applying has passed");
                 return;

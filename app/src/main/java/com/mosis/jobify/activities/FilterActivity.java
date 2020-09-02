@@ -2,38 +2,40 @@ package com.mosis.jobify.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.slider.RangeSlider;
 import com.mosis.jobify.R;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class FilterActivity extends AppCompatActivity {
     RangeSlider rsDistance;
     RangeSlider rsPay;
     Button btnReset, btnSet;
     Switch swJobs, swConnections;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+        toolbar = findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Filter");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         rsDistance=findViewById(R.id.rsDistance);
         rsPay=findViewById(R.id.rsPay);
         btnReset=findViewById(R.id.btnReset);

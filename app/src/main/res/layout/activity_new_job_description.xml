@@ -1,46 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_light"
-    android:gravity="center"
-    android:orientation="vertical"
+    android:gravity="bottom|center"
     tools:context=".activities.NewJobDescriptionActivity">
 
-    <TextView
-        android:id="@+id/tvJobDescription"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:text="Job description"
-        app:layout_constraintStart_toStartOf="@+id/etJobDescription"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/etJobDescription"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/edittext_border"
-        android:inputType="textMultiLine"
-        android:maxLength="300"
-        android:minHeight="300dp"
-        android:paddingHorizontal="15dp"
-        android:scrollHorizontally="false"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvJobDescription" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back" />
 
-    <Button
-        android:id="@+id/btnFinish"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="13dp"
-        android:text="Finish"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etJobDescription" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvJobDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Job description" />
+
+        <EditText
+            android:id="@+id/etJobDescription"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edittext_border"
+            android:inputType="textMultiLine"
+            android:gravity="top|left"
+            android:maxLength="300"
+            android:minHeight="300dp"
+            android:padding="15dp"
+            android:scrollHorizontally="false" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:text="Cancel" />
+            <Button
+                android:id="@+id/btnFinish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:text="Finish" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

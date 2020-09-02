@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -95,9 +96,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if (extras != null) {
             user = (User) extras.get("user");
-            swService.setVisibility(View.INVISIBLE);
         } else {
             user = UsersData.getInstance().getCurrentUser();
+        }
+        if (!user.uID.equals(UsersData.getInstance().getCurrentUser().getuID())) {
+            swService.setVisibility(View.INVISIBLE);
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) findViewById(R.id.scrollView2).getLayoutParams();
+            layoutParams.setMargins(0,0,0,0);
+        } else {
+            swService.setVisibility(View.VISIBLE);
         }
         float mark = JobsData.getInstance().getAverageNoteForUser(user.getuID());
         ratingBar.setRating(mark);
