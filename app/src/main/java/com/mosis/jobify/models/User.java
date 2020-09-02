@@ -92,7 +92,6 @@ public class User implements Serializable {
         profession = prof;
     }
 
-    @Exclude
     public String getuID() { return this.uID; }
 
     public void setuID(String key) {

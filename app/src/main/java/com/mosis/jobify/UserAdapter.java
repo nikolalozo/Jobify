@@ -52,14 +52,14 @@ public class UserAdapter extends ArrayAdapter<User> {
         }
 
         myTitle.setText(getItem(position).fullName());
-//        st.child("users").child(getItem(position).getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-//            @Override
-//            public void onSuccess(byte[] bytes) {
-//                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                Bitmap scaledBmp = bitmap.createScaledBitmap(bitmap, 50, 50, false);
-//                image.setImageBitmap(scaledBmp);
-//            }
-//        });
+        st.child("users").child(getItem(position).getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap scaledBmp = bitmap.createScaledBitmap(bitmap, 50, 50, false);
+                image.setImageBitmap(scaledBmp);
+            }
+        });
 
         return row;
     }

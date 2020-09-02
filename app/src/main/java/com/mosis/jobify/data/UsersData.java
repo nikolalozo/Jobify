@@ -65,6 +65,7 @@ public class UsersData {
                 usersPosted.clear();
                 for(DataSnapshot snap : snapshot.getChildren()) {
                     User user1 = snap.getValue(User.class);
+                    user1.setuID(snap.getKey());
                     usersPosted.add(0, user1);
                 }
 
