@@ -18,33 +18,216 @@
         app:headerLayout="@layout/header_profile_menu"
         app:menu="@menu/profile_menu"
         android:layout_gravity="start">
-
     </com.google.android.material.navigation.NavigationView>
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.ProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        tools:context=".activities.ProfileActivity"
-        android:background="@drawable/bg_red" >
+        tools:context=".activities.ProfileActivity" >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#00008577"
+            android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_dehaze" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarProfile">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/bg_red" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_picture"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_marginTop="70dp"
+                    android:src="@drawable/default_profile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:textSize="27dp"
+                    android:textColor="@color/colorPrimary"
+                    android:text=""
+                    app:layout_constraintTop_toBottomOf="@+id/profile_picture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvYears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="19dp"
+                    android:textColor="@color/colorLightGray"
+                    android:text=""
+                    android:layout_margin="7dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/ratingBarStyleIndicator"
+                    android:id="@+id/rating_bar"
+                    android:layout_marginTop="17dp"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:progressTint="@color/colorGolden"
+                    android:progressBackgroundTint="@color/colorLightGray"
+                    app:layout_constraintTop_toBottomOf="@+id/tvYears"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"></RatingBar>
+
+                <TextView
+                    android:id="@+id/tvMark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="17dp"
+                    android:textColor="@color/colorLightGray"
+                    android:text=""
+                    app:layout_constraintTop_toBottomOf="@+id/rating_bar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/layoutProfileInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/job_border"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMark" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:paddingVertical="7dp" >
+
+                        <TextView
+                            android:id="@+id/tvNumConnections"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp"
+                            android:textColor="@color/colorLightProfile"
+                            android:textSize="20dp"
+                            android:text="Connections"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/numConnections"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp"
+                            android:textSize="25dp"
+                            android:textColor="@color/colorPrimary"
+                            android:text=""
+                            />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.4dp"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:background="@color/colorLightGray" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:paddingVertical="7dp" >
+
+                        <TextView
+                            android:id="@+id/tvNumDoneJobs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp"
+                            android:textSize="20dp"
+                            android:textColor="@color/colorLightProfile"
+                            android:text="Done jobs"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/numDoneJobs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="20dp"
+                            android:textSize="25dp"
+                            android:textColor="@color/colorPrimary"
+                            android:text=""
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutProfileInfo" >
+
+                    <TextView
+                        android:id="@+id/tvProfession"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:layout_marginVertical="17dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorLightGray"
+                        android:text=""
+                        />
+
+                    <Switch
+                        android:id="@+id/swService"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginVertical="17dp"
+                        android:text="Send my location"
+                        android:layout_marginHorizontal="20dp" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -62,182 +245,6 @@
             app:layout_constraintVertical_bias="1.0"
             app:menu="@menu/menu_navigation" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_picture"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/default_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvFullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:textSize="27dp"
-            android:textColor="@color/colorPrimary"
-            android:text="Djurdja Vidakovic"
-            app:layout_constraintTop_toBottomOf="@+id/profile_picture"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rating_bar"
-            android:layout_marginTop="20dp"
-            android:numStars="5"
-            android:stepSize="0.5"
-            android:progressTint="@color/colorGolden"
-            android:progressBackgroundTint="@color/colorLightGray"
-            app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"></RatingBar>
-
-        <TextView
-            android:id="@+id/tvMark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/colorLightGray"
-            android:text=""
-            app:layout_constraintTop_toBottomOf="@+id/rating_bar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <LinearLayout
-            android:id="@+id/layoutProfileInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/job_border"
-            app:layout_constraintTop_toBottomOf="@+id/tvMark" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:paddingVertical="7dp" >
-
-                <TextView
-                    android:id="@+id/tvNumConnections"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    android:textColor="@color/colorLightProfile"
-                    android:textSize="20dp"
-                    android:text="Connections"
-                    />
-
-
-                <TextView
-                    android:id="@+id/numConnections"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    android:textSize="25dp"
-                    android:textColor="@color/colorPrimary"
-                    android:text=""
-                    />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="0.4dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:background="@color/colorLightGray" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:paddingVertical="7dp" >
-
-                <TextView
-                    android:id="@+id/tvNumDoneJobs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/colorLightProfile"
-                    android:text="Done jobs"
-                    />
-
-
-                <TextView
-                    android:id="@+id/numDoneJobs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="20dp"
-                    android:textSize="25dp"
-                    android:textColor="@color/colorPrimary"
-                    android:text=""
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/layoutProfileInfo" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:paddingVertical="7dp" >
-
-                <TextView
-                    android:id="@+id/tvProfession"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20dp"
-                    android:textColor="@color/colorLightGray"
-                    android:text=""
-                    />
-
-                <TextView
-                    android:id="@+id/tvYears"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20dp"
-                    android:textColor="@color/colorLightGray"
-                    android:text=""
-                    />
-            </LinearLayout>
-
-            <Switch
-                android:id="@+id/swService"
-                android:layout_width="wrap_content"
-                android:layout_height="51dp"
-                android:text="Send my location"
-                android:layout_margin="20dp"
-                />
-
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
 </androidx.drawerlayout.widget.DrawerLayout>
