@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_light"
     android:gravity="bottom|center"
-    android:orientation="vertical"
     tools:context=".activities.NewJobActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
+        android:layout_height="450dp"
         android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
 
         <TextView
@@ -28,13 +31,12 @@
         <EditText
             android:id="@+id/etJobTitle"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/edittext_border"
-            android:hint="Job title"
             android:inputType="textEmailAddress"
             android:maxLength="64"
-            android:paddingHorizontal="15dp"
+            android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvJobTitle" />
@@ -45,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="Max 64 characters"
-            android:textSize="8sp"
+            android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/etJobTitle"
             app:layout_constraintTop_toBottomOf="@+id/etJobTitle" />
 
@@ -53,7 +55,7 @@
             android:id="@+id/tvSelectDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="17dp"
             android:layout_marginRight="90dp"
             android:text="Job date"
             app:layout_constraintStart_toStartOf="@+id/tvJobTitle"
@@ -62,11 +64,11 @@
         <TextView
             android:id="@+id/tvSelectedDate"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/textview_border"
             android:hint="Select date"
-            android:paddingHorizontal="15dp"
+            android:paddingHorizontal="10dp"
             app:layout_constraintStart_toStartOf="@+id/tvJobTitle"
             app:layout_constraintTop_toBottomOf="@id/tvSelectDate" />
 
@@ -74,7 +76,7 @@
             android:id="@+id/tvStartsAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="17dp"
             android:layout_marginRight="90dp"
             android:text="Starts at"
             app:layout_constraintStart_toStartOf="@+id/tvJobTitle"
@@ -83,7 +85,7 @@
         <TextView
             android:id="@+id/tvStartedHour"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/textview_border"
             android:hint="Select hour"
@@ -95,9 +97,9 @@
             android:id="@+id/tvPay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="17dp"
             android:layout_marginRight="90dp"
-            android:text="Pay"
+            android:text="Pay(RSD)"
             app:layout_constraintStart_toStartOf="@+id/tvJobTitle"
             app:layout_constraintTop_toBottomOf="@id/tvStartedHour" />
 
@@ -105,10 +107,9 @@
         <EditText
             android:id="@+id/etPay"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/edittext_border"
-            android:hint="Enter pay"
             android:inputType="number"
             android:paddingHorizontal="15dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -119,7 +120,7 @@
             android:id="@+id/tvApplyBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="17dp"
             android:layout_marginRight="90dp"
             android:text="Apply by"
             app:layout_constraintStart_toStartOf="@+id/tvJobTitle"
@@ -128,7 +129,7 @@
         <TextView
             android:id="@+id/tvApplyByDate"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/textview_border"
             android:hint="Select date"
@@ -141,26 +142,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="75dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:text="Next" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="100dp">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        app:itemBackground="@color/colorPrimaryDark"
+        app:itemIconTint="@drawable/selector"
+        app:itemTextColor="@drawable/selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_navigation" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            app:itemBackground="@color/colorPrimaryDark"
-            app:itemIconTint="@drawable/selector"
-            app:itemTextColor="@drawable/selector"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/menu_navigation" />
-</LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

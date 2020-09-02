@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,8 +28,11 @@ import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
 import com.mosis.jobify.models.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class NewJobActivity extends AppCompatActivity {
     private TextView mDisplayDate;
@@ -39,6 +45,8 @@ public class NewJobActivity extends AppCompatActivity {
     Button btnNext;
     EditText etJobTitle, etJobPay;
     Job job;
+    String jobTitle, pay;
+    int jobPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +59,61 @@ public class NewJobActivity extends AppCompatActivity {
         etJobPay = findViewById(R.id.etPay);
         btnNext = findViewById(R.id.btnNext);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
+
         job = new Job();
         User currentUser = UsersData.getInstance().getCurrentUser();
         job.setLatitude(currentUser.getLat());
         job.setLongitude(currentUser.getLng());
         job.setIdPosted(currentUser.getuID());
+        btnNext.setEnabled(false);
+        etJobPay.setText(String.valueOf(job.getWage()));
+        pay = etJobPay.getText().toString();
+        etJobTitle.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count)  {
+                if (charSequence.length() > 0) {
+                    btnNext.setEnabled(true);
+                    jobTitle = charSequence.toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    btnNext.setEnabled(true);
+                    jobTitle = editable.toString();
+                } else {
+                    btnNext.setEnabled(false);
+                }
+            }
+        });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                String jobTitle = etJobTitle.getText().toString();
-                String pay = etJobPay.getText().toString();
                 job.setTitle(jobTitle);
                 int jobPay = Integer.parseInt(pay);
                 job.setWage(jobPay);
                 if (jobTitle.isEmpty()) {
                     etJobTitle.setError("Please enter job title.");
-                    return;
-                } else if (jobPay == 0) {
-                    etJobPay.setError("Please enter pay.");
-                    return;
+                    Toast.makeText(NewJobActivity.this, "Please enter job title.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent i = new Intent(NewJobActivity.this, NewJobDescriptionActivity.class);
+                    i.putExtra("job", job);
+                    startActivity(i);
                 }
-                Intent i = new Intent(NewJobActivity.this, NewJobDescriptionActivity.class);
-                i.putExtra("job", job);
-                startActivity(i);
             }
         });
         mDisplayDate = (TextView) findViewById(R.id.tvSelectedDate);
+        mDisplayDate.setText(dateFormat.format(job.getDate()));
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +139,7 @@ public class NewJobActivity extends AppCompatActivity {
         };
 
         mDisplayHour = (TextView) findViewById(R.id.tvStartedHour);
+        mDisplayHour.setText(timeFormat.format(job.getDate()));
         mDisplayHour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +168,7 @@ public class NewJobActivity extends AppCompatActivity {
         };
 
         mDisplayApplyByDate = (TextView) findViewById(R.id.tvApplyByDate);
+        mDisplayApplyByDate.setText(dateFormat.format(job.getAppliedBy()));
         mDisplayApplyByDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
