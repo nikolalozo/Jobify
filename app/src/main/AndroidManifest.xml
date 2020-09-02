@@ -68,7 +68,17 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <service android:name=".activities.TrackingService" />
+        <receiver
+            android:name="Restarter"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartservice" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".activities.TrackingService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.mosis.jobify.activities;
 
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -260,7 +262,7 @@ public class TrackingService extends Service {
         for(int i=0; i<userConnections.size(); i++) {
             User con = userConnections.get(i);
             double distanceCon = MapActivity.pointsDistance(currentUser.lat, currentUser.lng, con.lat, con.lng);
-            if(distanceCon<= 1000) {
+            if(distanceCon<= 100) {
                 Intent resultIntent = new Intent(TrackingService.this , MapActivity.class);
                 resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -453,6 +455,7 @@ public class TrackingService extends Service {
                     }
                     mLocationManager.removeUpdates(mLocationListeners[i]);
                     tracking=false;
+                    Toast.makeText(this, "Service stopped.", Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {
                     Log.i(TAG, "fail to remove location listener, ignore", ex);
                 }
@@ -462,6 +465,7 @@ public class TrackingService extends Service {
             broadcastIntent.setAction("restartservice");
             broadcastIntent.setClass(this, Restarter.class);
             this.sendBroadcast(broadcastIntent);
+
     }
 
     private void initializeLocationManager() {
