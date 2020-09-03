@@ -147,6 +147,7 @@ public class CurrentJobListAdapter extends ArrayAdapter<Job> {
         });
 
         double distance = mapActivity.pointsDistance(currentUser.getLat(), currentUser.getLng(), userJobTaken.getLat(), userJobTaken.getLng());
+        Job job = getItem(position);
         if (distance > 100) {
             mainViewholder.button.setVisibility(View.INVISIBLE);
             mainViewholder.acceptButton.setVisibility(View.INVISIBLE);
@@ -156,6 +157,8 @@ public class CurrentJobListAdapter extends ArrayAdapter<Job> {
                 mainViewholder.acceptButton.setVisibility(View.INVISIBLE);
                 mainViewholder.declineButton.setVisibility(View.INVISIBLE);
             }
+            mainViewholder.acceptButton.setVisibility(View.VISIBLE);
+            mainViewholder.declineButton.setVisibility(View.VISIBLE);
             mainViewholder.button.setVisibility(View.INVISIBLE);
         } else {
             mainViewholder.acceptButton.setVisibility(View.INVISIBLE);

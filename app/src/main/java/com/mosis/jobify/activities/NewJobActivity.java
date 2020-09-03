@@ -78,14 +78,14 @@ public class NewJobActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count)  {
-                if (charSequence.length() > 0 && Integer.valueOf(pay) > 0) {
+                if (charSequence.length() > 0 && Integer.valueOf(etJobPay.getText().toString()) > 0) {
                     btnNext.setEnabled(true);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0 && Integer.valueOf(pay) > 0) {
+                if (editable.length() > 0 && Integer.valueOf(etJobPay.getText().toString()) > 0) {
                     btnNext.setEnabled(true);
                 } else {
                     btnNext.setEnabled(false);
