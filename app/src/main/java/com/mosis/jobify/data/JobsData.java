@@ -123,6 +123,17 @@ public class JobsData {
         return postedJobsForId;
     }
 
+    public ArrayList<Job> getPostedJobs() {
+        ArrayList<Job> postedJobs = new ArrayList<Job>();
+
+        for (int i = 0; i < jobs.size(); i++) {
+            if (jobs.get(i).getStatus() == StatusEnum.POSTED) {
+                postedJobs.add(jobs.get(i));
+            }
+        }
+        return postedJobs;
+    }
+
     public Job getJob(int i) {
         return this.jobs.get(i);
     }

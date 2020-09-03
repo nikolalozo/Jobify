@@ -29,14 +29,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
-                    android:textSize="15sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/tvDoneJobTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
-                    android:textSize="23sp"
+                    android:textSize="17sp"
                     android:textColor="@color/colorPrimaryDark" />
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="7dp"
-                    android:textSize="15sp"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

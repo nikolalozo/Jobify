@@ -99,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         } else {
             user = UsersData.getInstance().getCurrentUser();
         }
-        if (!user.uID.equals(UsersData.getInstance().getCurrentUser().getuID())) {
+        if (!user.getuID().equals(UsersData.getInstance().getCurrentUser().getuID())) {
             swService.setVisibility(View.INVISIBLE);
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) findViewById(R.id.scrollView2).getLayoutParams();
             layoutParams.setMargins(0,0,0,0);
@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         }
         float mark = JobsData.getInstance().getAverageNoteForUser(user.getuID());
         ratingBar.setRating(mark);
-        tvMark.setText(mark + "/5");
+        tvMark.setText(String.format("%.2f", mark) + "/5");
 
         st.child("users").child(user.getuID()).child("picture").getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override

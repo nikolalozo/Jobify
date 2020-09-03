@@ -97,7 +97,7 @@ public class CurrentJobListAdapter extends ArrayAdapter<Job> {
                     userUpdates = new HashMap<>();
                     userUpdates.put("connections", userJobTaken.getConnections());
                     usersRef.updateChildren(userUpdates);
-                    customInfoDialog.setMessage("Congratulations! You finished the job and become friend with" + userJobPosted.fullName());
+                    customInfoDialog.setMessage("Congratulations! You finished the job and become friend with " + userJobPosted.fullName());
                     customInfoDialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "custom info dialog");
                 } else {
                     customInfoDialog.setMessage("Congratulations! You finished the job");

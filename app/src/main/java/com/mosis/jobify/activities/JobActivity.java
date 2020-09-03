@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,6 +66,8 @@ public class JobActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) findViewById(R.id.scrollView2).getLayoutParams();
+        layoutParams.setMargins(0,0,0,0);
 
         final ImageView imageView = (CircleImageView) findViewById(R.id.user_picture);
 

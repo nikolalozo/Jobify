@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/media_card_view"
         android:layout_width="match_parent"
-        android:layout_height="145dp"
+        android:layout_height="180dp"
         card_view:cardBackgroundColor="@android:color/white"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
@@ -20,8 +20,9 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:layout_weight="1"
                 android:layout_marginVertical="7dp" >
                 <TextView
                     android:layout_width="wrap_content"
@@ -29,7 +30,7 @@
                     android:id="@+id/tvJobName"
                     android:layout_marginHorizontal="20dp"
                     android:paddingTop="10dp"
-                    android:text=""
+                    android:text="Animator na slavlju"
                     android:textSize="20dp"
                     android:textStyle="bold">
                 </TextView>
@@ -40,6 +41,7 @@
                     android:id="@+id/tvUserJobTaken"
                     android:layout_marginHorizontal="20dp"
                     android:paddingTop="5dp"
+                    android:text="Marija Jovanovic"
                     android:textSize="16dp">
                 </TextView>
 
@@ -54,49 +56,47 @@
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Accept"
+                        android:textSize="11dp"
+                        android:id="@+id/btnAcceptJob"/>
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Decline"
+                        android:textSize="11dp"
+                        android:id="@+id/btnDeclineJob"
+                        android:layout_marginLeft="7dp" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center"
                 android:layout_weight="1"
                 android:layout_marginVertical="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" >
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Accept"
-                        android:id="@+id/btnAcceptJob"
-                        android:layout_alignParentRight="true"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Decline"
-                        android:id="@+id/btnDeclineJob"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_alignParentRight="true"/>
-
-                </LinearLayout>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Confirm"
                     android:id="@+id/btnConfirmJob"
+                    android:textSize="11dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_alignParentRight="true"/>
 
             </LinearLayout>
