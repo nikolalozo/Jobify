@@ -1,7 +1,6 @@
 package com.mosis.jobify.activities;
 
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,7 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,7 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mosis.jobify.R;
-import com.mosis.jobify.Restarter;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.Job;
@@ -44,8 +41,6 @@ import com.mosis.jobify.models.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
-import java.util.Random;
 
 import static com.mosis.jobify.StatusEnum.POSTED;
 import static com.mosis.jobify.StatusEnum.REJECTED;
@@ -171,7 +166,7 @@ public class TrackingService extends Service {
                     }
                 };
                 Handler handler = new android.os.Handler();
-                handler.postDelayed(runnable, 10000);
+                handler.postDelayed(runnable, 2000);
             }
 
             @Override
@@ -487,7 +482,6 @@ public class TrackingService extends Service {
                     }
                     mLocationManager.removeUpdates(mLocationListeners[i]);
                     tracking=false;
-                    Toast.makeText(this, "Service stopped.", Toast.LENGTH_SHORT).show();
                 } catch (Exception ex) {
                     Log.i(TAG, "fail to remove location listener, ignore", ex);
                 }
