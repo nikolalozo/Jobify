@@ -80,7 +80,6 @@ public class NewJobActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int start, int before, int count)  {
                 if (charSequence.length() > 0 && Integer.valueOf(pay) > 0) {
                     btnNext.setEnabled(true);
-                    jobTitle = charSequence.toString();
                 }
             }
 
@@ -88,7 +87,6 @@ public class NewJobActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (editable.length() > 0 && Integer.valueOf(pay) > 0) {
                     btnNext.setEnabled(true);
-                    jobTitle = editable.toString();
                 } else {
                     btnNext.setEnabled(false);
                 }
@@ -123,7 +121,7 @@ public class NewJobActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                job.setTitle(jobTitle);
+                job.setTitle(etJobTitle.getText().toString());
                 job.setWage(jobPay);
                 if (etJobTitle.getText().toString().isEmpty()) {
                     etJobTitle.setError("Please enter job title.");
