@@ -156,10 +156,12 @@ public class CurrentJobListAdapter extends ArrayAdapter<Job> {
             if (getItem(position).getConfirmedBy().contains(currentUser.getuID())) {
                 mainViewholder.acceptButton.setVisibility(View.INVISIBLE);
                 mainViewholder.declineButton.setVisibility(View.INVISIBLE);
+                mainViewholder.button.setVisibility(View.INVISIBLE);
+            } else {
+                mainViewholder.acceptButton.setVisibility(View.VISIBLE);
+                mainViewholder.declineButton.setVisibility(View.VISIBLE);
+                mainViewholder.button.setVisibility(View.INVISIBLE);
             }
-            mainViewholder.acceptButton.setVisibility(View.VISIBLE);
-            mainViewholder.declineButton.setVisibility(View.VISIBLE);
-            mainViewholder.button.setVisibility(View.INVISIBLE);
         } else {
             mainViewholder.acceptButton.setVisibility(View.INVISIBLE);
             mainViewholder.declineButton.setVisibility(View.INVISIBLE);
