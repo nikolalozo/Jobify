@@ -163,6 +163,7 @@ public class CurrentJobListAdapter extends ArrayAdapter<Job> {
         } else {
             mainViewholder.acceptButton.setVisibility(View.INVISIBLE);
             mainViewholder.declineButton.setVisibility(View.INVISIBLE);
+            mainViewholder.button.setVisibility(View.VISIBLE);
         }
 
         mainViewholder.title.setText(getItem(position).getTitle());
