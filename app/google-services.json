@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "321843984282",
-    "firebase_url": "https://jobify-adc5b.firebaseio.com",
-    "project_id": "jobify-adc5b",
-    "storage_bucket": "jobify-adc5b.appspot.com"
+    "project_number": "1060766013073",
+    "firebase_url": "https://jobify-7849a.firebaseio.com",
+    "project_id": "jobify-7849a",
+    "storage_bucket": "jobify-7849a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:321843984282:android:3b0c3cbf4fe88321b46c23",
+        "mobilesdk_app_id": "1:1060766013073:android:e9975a6ddde65e8cea9130",
         "android_client_info": {
           "package_name": "com.mosis.jobify"
         }
       },
       "oauth_client": [
         {
-          "client_id": "321843984282-uv5sgfqp898nd8brproaagkilp6odkb8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mosis.jobify",
-            "certificate_hash": "eab761becafdbbd9eeb623e4824d508262a450e2"
-          }
-        },
-        {
-          "client_id": "321843984282-mtumkg2urcf44ochnlj9vrinug2hqlaf.apps.googleusercontent.com",
+          "client_id": "1060766013073-mg2gsf02drq1tr3l75f6vcq4al54la37.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCnfC71waB-e4bUIwVF1k-Bo_sPNAO7O5o"
+          "current_key": "AIzaSyCy4nacVDiMTvQ096N9VDEtyGreyVk8g2o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "321843984282-mtumkg2urcf44ochnlj9vrinug2hqlaf.apps.googleusercontent.com",
+              "client_id": "1060766013073-mg2gsf02drq1tr3l75f6vcq4al54la37.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

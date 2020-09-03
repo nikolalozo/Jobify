@@ -15,9 +15,6 @@ import com.mosis.jobify.JobRequestsFragment;
 import com.mosis.jobify.PendingJobsFragment;
 import com.mosis.jobify.R;
 import com.mosis.jobify.SectionsPagerAdapter;
-import com.mosis.jobify.activities.MapActivity;
-import com.mosis.jobify.activities.ProfileActivity;
-import com.mosis.jobify.activities.RankingActivity;
 
 public class JobsActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPageAdapter;

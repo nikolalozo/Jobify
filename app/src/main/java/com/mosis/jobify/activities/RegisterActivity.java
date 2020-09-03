@@ -39,8 +39,6 @@ import com.mosis.jobify.R;
 import com.mosis.jobify.data.JobsData;
 import com.mosis.jobify.data.UsersData;
 import com.mosis.jobify.models.User;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
