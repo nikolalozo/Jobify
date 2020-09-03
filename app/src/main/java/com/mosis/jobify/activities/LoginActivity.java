@@ -145,16 +145,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        //stopService(mServiceIntent);
-        /*Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("restartservice");
-        broadcastIntent.setClass(this, Restarter.class);
-        this.sendBroadcast(broadcastIntent);
-         */
-        super.onDestroy();
+    public void onBackPressed() {
+        //do nothing
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

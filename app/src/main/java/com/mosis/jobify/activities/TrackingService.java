@@ -48,6 +48,7 @@ import java.util.Map;
 import java.util.Random;
 
 import static com.mosis.jobify.StatusEnum.POSTED;
+import static com.mosis.jobify.StatusEnum.REJECTED;
 import static com.mosis.jobify.StatusEnum.TAKEN;
 
 
@@ -231,7 +232,6 @@ public class TrackingService extends Service {
                     mBuilder = new NotificationCompat.Builder(TrackingService.this);
                     mBuilder.setContentTitle("You've got work to do!")
                             .setContentText("See the list of jobs!")
-
                             .setAutoCancel(true)
                             .setSmallIcon(R.drawable.ic_work_black_24dp)
                             .setContentIntent(resultPendingIntent);
@@ -251,6 +251,38 @@ public class TrackingService extends Service {
                     }
                     assert mNotificationManager != null;
                     mNotificationManager.notify(66 /* Request Code */, mBuilder.build());
+                }
+                if(job.idTaken.equals(currentUser.uID) && job.status==REJECTED)
+                {
+                    Intent resultIntent = new Intent(TrackingService.this, JobsActivity.class);
+                    resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    PendingIntent resultPendingIntent = PendingIntent.getActivity(TrackingService.this,
+                            0 /* Request code */, resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    mBuilder = new NotificationCompat.Builder(TrackingService.this);
+                    mBuilder.setContentTitle("Your job confirmation has been rejected.")
+                            .setContentText("Your employer wasn't happy with you.")
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.drawable.ic_work_black_24dp)
+                            .setContentIntent(resultPendingIntent);
+
+                    mNotificationManager = (NotificationManager) TrackingService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+                        notificationChannel.enableLights(true);
+                        notificationChannel.setLightColor(Color.RED);
+                        notificationChannel.enableVibration(true);
+                        notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                        assert mNotificationManager != null;
+                        mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                        mNotificationManager.createNotificationChannel(notificationChannel);
+                    }
+                    assert mNotificationManager != null;
+                    mNotificationManager.notify(88 /* Request Code */, mBuilder.build());
                 }
             }
         }
@@ -461,11 +493,6 @@ public class TrackingService extends Service {
                 }
             }
         }
-            /*Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction("restartservice");
-            broadcastIntent.setClass(this, Restarter.class);
-            this.sendBroadcast(broadcastIntent);*/
-
     }
 
     private void initializeLocationManager() {

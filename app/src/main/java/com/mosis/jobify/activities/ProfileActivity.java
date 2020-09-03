@@ -207,9 +207,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+                stopService(new Intent(ProfileActivity.this, TrackingService.class));
                 i = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(i);
-                stopService(new Intent(ProfileActivity.this, TrackingService.class));
+                finishAffinity();
+                android.os.Process.killProcess(android.os.Process.myPid());
                 break;
 
         }
