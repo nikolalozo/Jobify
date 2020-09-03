@@ -68,10 +68,9 @@ public class NewJobActivity extends AppCompatActivity {
         job.setLongitude(currentUser.getLng());
         job.setIdPosted(currentUser.getuID());
         btnNext.setEnabled(false);
-        etJobPay.setText(String.valueOf(job.getWage()));
+        etJobPay.setText(Integer.toString(job.getWage()));
         pay = etJobPay.getText().toString();
         etJobTitle.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
@@ -79,17 +78,40 @@ public class NewJobActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count)  {
-                if (charSequence.length() > 0) {
+                if (charSequence.length() > 0 && Integer.valueOf(pay) > 0) {
                     btnNext.setEnabled(true);
-                    jobTitle = charSequence.toString();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
+                if (editable.length() > 0 && Integer.valueOf(pay) > 0) {
                     btnNext.setEnabled(true);
-                    jobTitle = editable.toString();
+                } else {
+                    btnNext.setEnabled(false);
+                }
+            }
+        });
+
+        etJobPay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count)  {
+                if (charSequence.length() > 0 && !etJobTitle.getText().toString().isEmpty()) {
+                    btnNext.setEnabled(true);
+                    jobPay = Integer.parseInt(charSequence.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0 && !etJobTitle.getText().toString().isEmpty()) {
+                    btnNext.setEnabled(true);
+                    jobPay = Integer.parseInt(editable.toString());
                 } else {
                     btnNext.setEnabled(false);
                 }
@@ -99,10 +121,9 @@ public class NewJobActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                job.setTitle(jobTitle);
-                int jobPay = Integer.parseInt(pay);
+                job.setTitle(etJobTitle.getText().toString());
                 job.setWage(jobPay);
-                if (jobTitle.isEmpty()) {
+                if (etJobTitle.getText().toString().isEmpty()) {
                     etJobTitle.setError("Please enter job title.");
                     Toast.makeText(NewJobActivity.this, "Please enter job title.", Toast.LENGTH_SHORT).show();
                 } else {
@@ -133,7 +154,7 @@ public class NewJobActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 String date = month + "/" + dayOfMonth + "/" + year;
-                job.setDate(new Date(year - 1900, month-1, dayOfMonth));
+                job.setDate(new Date(year - 1900, month - 1, dayOfMonth));
                 mDisplayDate.setText(date);
             }
         };
@@ -188,7 +209,7 @@ public class NewJobActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 String date = month + "/" + dayOfMonth + "/" + year;
-                job.setAppliedBy(new Date(year - 1900, month-1, dayOfMonth));
+                job.setAppliedBy(new Date(year - 1900, month - 1, dayOfMonth));
                 mDisplayApplyByDate.setText(date);
             }
         };
