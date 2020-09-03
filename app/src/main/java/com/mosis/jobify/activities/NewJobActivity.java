@@ -133,7 +133,7 @@ public class NewJobActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 String date = month + "/" + dayOfMonth + "/" + year;
-                job.setDate(new Date(year - 1900, month, dayOfMonth));
+                job.setDate(new Date(year - 1900, month-1, dayOfMonth));
                 mDisplayDate.setText(date);
             }
         };
@@ -188,7 +188,7 @@ public class NewJobActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 String date = month + "/" + dayOfMonth + "/" + year;
-                job.setAppliedBy(new Date(year - 1900, month, dayOfMonth));
+                job.setAppliedBy(new Date(year - 1900, month-1, dayOfMonth));
                 mDisplayApplyByDate.setText(date);
             }
         };

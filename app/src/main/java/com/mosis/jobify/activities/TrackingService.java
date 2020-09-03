@@ -461,10 +461,10 @@ public class TrackingService extends Service {
                 }
             }
         }
-            Intent broadcastIntent = new Intent();
+            /*Intent broadcastIntent = new Intent();
             broadcastIntent.setAction("restartservice");
             broadcastIntent.setClass(this, Restarter.class);
-            this.sendBroadcast(broadcastIntent);
+            this.sendBroadcast(broadcastIntent);*/
 
     }
 

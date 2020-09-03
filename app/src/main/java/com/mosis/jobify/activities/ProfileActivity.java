@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         tvFullName.setText(user.fullName());
         tvDoneJobs.setText(String.valueOf(user.getJobsDone()));
         if (user.getYears() > 0) {
-            tvYears.setText(String.valueOf(user.getYears()) + " years");
+            tvYears.setText(String.valueOf(user.getYears()) + " years old");
         }
         if (user.getProfession() != null) {
             tvProfession.setText(user.getProfession());
