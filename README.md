@@ -17,7 +17,7 @@ You can also publish jobs, for which other users can apply and work for you.
 - When a user applies for a job offer you have posted, you have to confirm their request. After that, in order for the job to be marked as done, you and the worker have to be less than 100 meters away from each other. If that condition is fulfilled, both of you have to confirm in the _Jobs_ section that the job has been done. If this was the first time for you two to do business, you will become each other's connection. 
 
 ## Demo:
-![](https://github.com/nikolalozo/Jobify/blob/master/docs/appGif.gif)
+![](https://github.com/nikolalozo/Jobify/blob/master/docs/demo.gif)
 
 
 # Support 
