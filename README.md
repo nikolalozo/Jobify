@@ -15,7 +15,10 @@ You can also publish jobs, for which other users can apply and work for you.
 - In the _Ranking_ section, you can see which users have done and posted the most jobs.
 - Creating a new job offer is as simple as going to the _New Job_ section and filling in the required data. The job will be marked on the map on your current location.
 - When a user applies for a job offer you have posted, you have to confirm their request. After that, in order for the job to be marked as done, you and the worker have to be less than 100 meters away from each other. If that condition is fulfilled, both of you have to confirm in the _Jobs_ section that the job has been done. If this was the first time for you two to do business, you will become each other's connection. 
-![gif](https://github.com/nikolalozo/Jobify/blob/master/docs/appGif.jpg)
+
+## Demo:
+![](https://github.com/nikolalozo/Jobify/blob/master/docs/appGif.gif)
+
 
 # Support 
 You can always [open an issue](https://github.com/nikolalozo/Joberty/issues) to report a bug, or even [open a pull request](https://github.com/nikolalozo/Joberty/pulls).
